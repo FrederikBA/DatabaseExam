@@ -9,4 +9,4 @@ sys.path.insert(0, parentdir)
 from database import db_connector
 
 def get_data():
-    return db_connector.get_database()
+    return db_connector.get_sql_db()

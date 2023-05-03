@@ -16,7 +16,7 @@ client/.pnp.js
 server/__pycache__
 server/services/__pycache__
 server/models/__pycache__
-
+server/database/__pycache__
 
 #misc
 .DS_Store
