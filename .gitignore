@@ -17,6 +17,7 @@ server/__pycache__
 server/services/__pycache__
 server/models/__pycache__
 server/database/__pycache__
+server/.env
 
 #misc
 .DS_Store

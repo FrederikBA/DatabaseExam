@@ -1,4 +1,6 @@
 #Imports
+import os
+from dotenv import load_dotenv
 
 #MongoDB
 from pymongo.mongo_client import MongoClient
@@ -7,34 +9,32 @@ from pymongo.mongo_client import MongoClient
 import pymssql
 import pyodbc
 
-def get_mongo_db():
-   url = 'mongodb://localhost:27017/'
+# Load environment variables
+load_dotenv() 
 
-   # Create a new client and connect to the server
+def get_mongo_db(os):
+   url = 'mongodb://localhost:27017/'
    client = MongoClient(url)
 
    return client['school']
 
+def get_sql_mac(db):
+   server = os.getenv("SQL_SERVER")
+   user = os.getenv("SQL_USERNAME")
+   password = os.getenv("SQL_PASSWORD")
+   conn = pymssql.connect(server, user, password, db)
+   return conn
 
-def get_sql_db(): 
+def get_sql_windows(db):
+   server = os.getenv("SQL_SERVER")
+   user = os.getenv("SQL_USERNAME")
+   password = os.getenv("SQL_PASSWORD")
+   conn = pyodbc.connect('DRIVER={SQL SERVER};SERVER='+server+';DATABASE='+db+';ENCRYPT=yes;UID='+user+';PWD='+ password)
+   return conn
 
-   server = r'localhost'
-   user = "sa"
-   password = "thisIsSuperStrong1234"
-   conn = pymssql.connect(server, user, password, "Library")
-   c1 = conn.cursor()
-   c1.execute('SELECT * FROM Book')
-   data = c1.fetchall()
-   print(data)
-   conn.close()
-   return data
-
-def windows_mssql_con():
-   conn = pyodbc.connect('DRIVER={SQL Server};SERVER=ROOT\SQLEXPRESS;DATABASE=Libary;UID=sa;PWD=thisIsSuperStrong1234')
-   fruits = ['banna', 'apple', 'coke']
-   c1 = conn.cursor()
-   c1.execute('SELECT * FROM Book')
-   data = c1.fetchall()
-   print(type(data))
-   conn.close()
-   return fruits
+def get_sql_db(db):
+   if(os.getenv("OS") == "mac"):
+      return get_sql_mac(db)
+   
+   if(os.getenv("OS") == "windows"):
+      return get_sql_windows(db)
