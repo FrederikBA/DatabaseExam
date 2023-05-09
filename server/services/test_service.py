@@ -1,17 +1,17 @@
+from database import db_connector
 import os
 import sys
 import inspect
 
-currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+currentdir = os.path.dirname(os.path.abspath(
+    inspect.getfile(inspect.currentframe())))
 parentdir = os.path.dirname(currentdir)
-sys.path.insert(0, parentdir) 
+sys.path.insert(0, parentdir)
 
-from database import db_connector
 
 def get_data():
-    #Create connection with chosen database, "Library"
-    conn = db_connector.get_sql_db("Librarytest")
-
+    # Create connection with chosen database, "Library"
+    conn = db_connector.get_sql_db("Library")
 
     c1 = conn.cursor()
     c1.execute('SELECT * FROM Book')
@@ -22,7 +22,7 @@ def get_data():
     for book in data:
         titles.append(book[1])
 
-    #Close connection
+    # Close connection
     conn.close()
 
-    return titles 
+    return titles
