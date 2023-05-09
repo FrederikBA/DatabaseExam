@@ -29,12 +29,16 @@ def get_sql_windows(db):
    server = os.getenv("SQL_SERVER")
    user = os.getenv("SQL_USERNAME")
    password = os.getenv("SQL_PASSWORD")
-   conn = pyodbc.connect('DRIVER={SQL SERVER};SERVER='+server+';DATABASE='+db+';ENCRYPT=yes;UID='+user+';PWD='+ password)
+   win = os.getenv("OS")
+   print(f'{server} + {db} + {user} + {password} + {win}')
+   conn = pyodbc.connect('DRIVER={SQL Server};SERVER='+server+';DATABASE='+db+';UID='+user+';PWD='+ password)
+   # conn = pyodbc.connect('DRIVER={SQL Server};SERVER=ROOT\SQLEXPRESS;DATABASE=Libary;UID=sa;PWD=thisIsSuperStrong1234')
    return conn
 
 def get_sql_db(db):
+   if(os.getenv("OPERATING_SYSTEM") == "windows"):
+      return get_sql_windows(db)
+   
    if(os.getenv("OS") == "mac"):
       return get_sql_mac(db)
    
-   if(os.getenv("OS") == "windows"):
-      return get_sql_windows(db)
