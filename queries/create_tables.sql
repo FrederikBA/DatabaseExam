@@ -1,7 +1,8 @@
+USE BockBluster;
+
 CREATE TABLE movie (
-  movie_id INT PRIMARY KEY,
+  movie_id VARCHAR(255) PRIMARY KEY,
   title VARCHAR(255),
-  isan VARCHAR(255),
   release_date DATE,
 );
 
@@ -20,16 +21,8 @@ CREATE TABLE publisher (
   name VARCHAR(255)
 );
 
-CREATE TABLE movie_author (
-  movie_id INT,
-  director_id INT,
-  PRIMARY KEY (movie_id, director_id),
-  FOREIGN KEY (movie_id) REFERENCES movie (movie_id),
-  FOREIGN KEY (director_id) REFERENCES director (director_id)
-);
-
 CREATE TABLE movie_actor (
-  movie_id INT,
+  movie_id VARCHAR(255),
   actor_id INT,
   PRIMARY KEY (movie_id, actor_id),
   FOREIGN KEY (movie_id) REFERENCES movie (movie_id),
@@ -42,7 +35,7 @@ CREATE TABLE genre (
 );
 
 CREATE TABLE movie_genre (
-  movie_id INT,
+  movie_id VARCHAR(255),
   genre_id INT,
   PRIMARY KEY (movie_id, genre_id),
   FOREIGN KEY (movie_id) REFERENCES movie (movie_id),
@@ -67,8 +60,8 @@ CREATE TABLE user_login (
 );
 
 CREATE TABLE loan (
-  loan_movie_id INT PRIMARY KEY,
-  movie_id INT,
+  loan_id INT PRIMARY KEY,
+  movie_id VARCHAR(255),
   member_id INT,
   loan_date DATE,
   return_date DATE,
@@ -77,24 +70,15 @@ CREATE TABLE loan (
 );
 
 CREATE TABLE movie_publishers (
-  movie_id INT,
+  movie_id VARCHAR(255),
   publisher_id INT,
   PRIMARY KEY (movie_id, publisher_id),
   FOREIGN KEY (movie_id) REFERENCES movie (movie_id),
   FOREIGN KEY (publisher_id) REFERENCES publisher (publisher_id)
 );
 
-ALTER TABLE movie ADD CONSTRAINT FK_movie_publisher
-  FOREIGN KEY (publisher_id) REFERENCES publisher (publisher_id);
-
 ALTER TABLE user_login ADD CONSTRAINT FK_user_login_member
   FOREIGN KEY (member_id) REFERENCES member (member_id);
-
-ALTER TABLE movie_author ADD CONSTRAINT FK_movie_author_movie
-  FOREIGN KEY (movie_id) REFERENCES movie (movie_id);
-
-ALTER TABLE movie_author ADD CONSTRAINT FK_movie_author_director
-  FOREIGN KEY (director_id) REFERENCES director (director_id);
 
 ALTER TABLE movie_actor ADD CONSTRAINT FK_movie_actor_movie
   FOREIGN KEY (movie_id) REFERENCES movie (movie_id);
