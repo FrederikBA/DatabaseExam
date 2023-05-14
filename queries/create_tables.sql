@@ -3,7 +3,7 @@ USE BockBluster;
 CREATE TABLE movie (
   movie_id VARCHAR(255) PRIMARY KEY,
   title VARCHAR(255),
-  release_date DATE,
+  release_year INT,
 );
 
 CREATE TABLE actor (
@@ -27,6 +27,14 @@ CREATE TABLE movie_actor (
   PRIMARY KEY (movie_id, actor_id),
   FOREIGN KEY (movie_id) REFERENCES movie (movie_id),
   FOREIGN KEY (actor_id) REFERENCES actor (actor_id)
+);
+
+CREATE TABLE movie_director (
+  movie_id VARCHAR(255),
+  director_id INT,
+  PRIMARY KEY (movie_id, director_id),
+  FOREIGN KEY (movie_id) REFERENCES movie (movie_id),
+  FOREIGN KEY (director_id) REFERENCES director (director_id)
 );
 
 CREATE TABLE genre (
@@ -85,6 +93,12 @@ ALTER TABLE movie_actor ADD CONSTRAINT FK_movie_actor_movie
 
 ALTER TABLE movie_actor ADD CONSTRAINT FK_movie_actor_actor
   FOREIGN KEY (actor_id) REFERENCES actor (actor_id);
+
+ALTER TABLE movie_director ADD CONSTRAINT FK_movie_director_movie
+  FOREIGN KEY (movie_id) REFERENCES movie (movie_id);
+
+ALTER TABLE movie_director ADD CONSTRAINT FK_movie_director_director
+  FOREIGN KEY (director_id) REFERENCES director (director_id);
 
 ALTER TABLE movie_genre ADD CONSTRAINT FK_movie_genre_movie
   FOREIGN KEY (movie_id) REFERENCES movie (movie_id);
