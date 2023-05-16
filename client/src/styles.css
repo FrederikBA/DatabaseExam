@@ -13,15 +13,17 @@ code {
 }
 
 .header a.active {
-  background-color: #4CAF50;
+  background-color: #ffe13f;
+  color: black;
 }
 
 ul.header {
   list-style-type: none;
+  font-weight: bold;
   margin: 0;
   padding: 0;
   overflow: hidden;
-  background-color: #26292c;
+  background-color: #090922;
 }
 
 ul.header li {
@@ -37,7 +39,8 @@ ul.header li a {
 }
 
 ul.header li a:hover:not(.active) {
-  background-color: #0b0b0b;
+  background-color: #ffe13f;
+  color: black;
 }
 
 .center {
@@ -48,3 +51,23 @@ ul.header li a:hover:not(.active) {
   align-items: center;
 }
 
+.bockbluster-logo {
+  font-family: 'Impact';
+  font-size: 48px;
+  font-weight: bold;
+  text-align: center;
+  color: #ffe13f;
+  cursor: pointer;
+  /* Yellow */
+}
+
+.bockbluster-letter {
+  display: inline-block;
+  margin: 0 2px;
+  text-transform: uppercase;
+}
+
+.registered-trademark {
+  font-size: 16px;
+  vertical-align: super;
+}

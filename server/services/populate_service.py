@@ -5,6 +5,7 @@ import inspect
 import pandas as pd
 from datetime import datetime
 from ast import literal_eval
+from py2neo import Graph, Node, Relationship
 
 currentdir = os.path.dirname(os.path.abspath(
     inspect.getfile(inspect.currentframe())))
@@ -12,7 +13,7 @@ parentdir = os.path.dirname(currentdir)
 sys.path.insert(0, parentdir)
 
 def get_fresh_df():
-    df = pd.read_csv('../data/movies_new.csv')
+    df = pd.read_csv('../data/movies.csv')
     return df
 
 def get_unique_strings(list_of_lists):
@@ -29,12 +30,14 @@ def populate_sql():
 
     movies = []
 
+    movies = []
+
     for i in range(len(df['release year'])):
         df.at[i, 'release year'] = ''.join(filter(str.isdigit, str(df.at[i, 'release year'])))
 
     for index, row in df.iterrows():
         year_date = datetime.strptime(row['release year'], '%Y').year
-        movie = {"id": row['id'], 'title': row['title'], 'release_year': year_date}
+        movie = {"id": row['id'], 'title': row['title'], 'release_year': year_date, 'rating': float(row['rating'])}
         movies.append(movie)
 
     connection = db_connector.get_sql_db("BockBluster")
@@ -332,4 +335,41 @@ def populate_sql():
     connection.commit()
     connection.close()
     
+    return "Database populate successful!"
+
+
+def populate_graphdb():
+    df = get_fresh_df()
+
+    #Prepare data
+    df['reviews'] = df['reviews'].apply(literal_eval)
+    df['review_user'] = df['review_user'].apply(literal_eval)
+    df['review_score'] = df['review_score'].apply(literal_eval)
+
+    review_dict_list = []
+    for reviews, scores in zip(df['reviews'], df['review_score']):
+        for review, rating in zip(reviews, scores):
+            review_dict_list.append({'review': review, 'rating': rating})
+
+    #Create graph
+    graph = db_connector.get_graph_db()
+    for index, row in df.iterrows():
+        # Create a movie node
+        movie_node = Node("Movie", title=row['title'])
+        graph.create(movie_node)
+
+        # Create review nodes and relationships
+        for review, rating, user in zip(row['reviews'], row['review_score'], row['review_user']):
+            review_node = Node("Review", content=review, rating=rating)
+            graph.create(review_node)
+
+            relationship = Relationship(review_node, "FOR", movie_node)
+            graph.create(relationship)
+
+            user_node = Node("User", name=user)
+            graph.create(user_node)
+
+            relationship = Relationship(user_node, "WROTE", review_node)
+            graph.create(relationship)
+
     return "Database populate successful!"

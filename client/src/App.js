@@ -7,6 +7,9 @@ import Two from './views/Two';
 import MovieDetails from "./components/MovieDetails";
 import Cart from "./components/Cart";
 import SearchFilter from "./components/SearchFilter";
+import Movies from './views/Movies';
+import Rent from './views/Rent';
+
 
 const App = () => {
 
@@ -21,6 +24,8 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/searchfilter" element={<SearchFilter />} />
+        <Route path="/" element={<Movies />} />
+        <Route path="/rent" element={<Rent />} />
       </Routes>
     </BrowserRouter>
   );
