@@ -4,7 +4,8 @@ CREATE TABLE movie (
   movie_id VARCHAR(255) PRIMARY KEY,
   title VARCHAR(255),
   release_year INT,
-  rating FLOAT
+  rating FLOAT,
+  poster VARCHAR(255)
 );
 
 CREATE TABLE actor (

@@ -28,24 +28,24 @@ def populate_sql():
     #Movies
     df = get_fresh_df()
 
-    movies = []
+    df = df[['id', 'title', 'release year', 'rating', 'Poster']]
 
     movies = []
 
     for i in range(len(df['release year'])):
         df.at[i, 'release year'] = ''.join(filter(str.isdigit, str(df.at[i, 'release year'])))
 
+
     for index, row in df.iterrows():
         year_date = datetime.strptime(row['release year'], '%Y').year
-        movie = {"id": row['id'], 'title': row['title'], 'release_year': year_date, 'rating': float(row['rating'])}
+        movie = {"id": row['id'], 'title': row['title'], 'release_year': year_date, 'rating': float(row['rating']), 'poster': row['Poster']}
         movies.append(movie)
 
     connection = db_connector.get_sql_db("BockBluster")
-    cursor = connection.cursor()
 
     cursor = connection.cursor()
     for dictionary in movies:
-        cursor.execute("INSERT INTO movie (movie_id, title, release_year) VALUES (%s, %s, %s)", (dictionary['id'], dictionary['title'], dictionary['release_year']))
+        cursor.execute("INSERT INTO movie (movie_id, title, release_year, rating, poster) VALUES (%s, %s, %s, %s, %s)", (dictionary['id'], dictionary['title'], dictionary['release_year'], dictionary['rating'], dictionary['poster']))
 
     connection.commit()
     connection.close()
