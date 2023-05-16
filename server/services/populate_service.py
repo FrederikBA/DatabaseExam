@@ -332,7 +332,7 @@ def populate_sql():
 
     cursor = connection.cursor()
     for dictionary in mapping:
-        cursor.execute("INSERT INTO movie_genre (movie_id, genre_id) VALUES (%s, %s)", (dictionary['movie_id'], dictionary['genre_id']))
+        cursor.execute(f"INSERT INTO movie_genre (movie_id, genre_id) VALUES ({sql_value}, {sql_value})", (dictionary['movie_id'], dictionary['genre_id']))
 
     connection.commit()
     connection.close()
