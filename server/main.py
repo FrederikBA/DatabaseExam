@@ -26,5 +26,9 @@ def read_root():
     return test_service.get_data()
 
 @app.post("/populatesql")
-def populate_sql_server():
+def populate_sql_db():
     return populate_service.populate_sql()
+
+@app.post("/populategraph")
+def populate_graph_db():
+    return populate_service.populate_graphdb()

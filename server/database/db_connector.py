@@ -9,6 +9,9 @@ from pymongo.mongo_client import MongoClient
 import pymssql
 import pyodbc
 
+# Neo4j
+from py2neo import Graph
+
 # Load environment variables
 load_dotenv()
 
@@ -43,3 +46,9 @@ def get_sql_db(db):
 
     if(os.getenv("OPERATING_SYSTEM") == "mac"):
         return get_sql_mac(db)
+
+def get_graph_db():
+    port = os.getenv("NEO4J_PORT")
+    password = os.getenv("NEO4J_PASSWORD")
+    graph = Graph(f"bolt://localhost:{port}", auth=("neo4j", password))
+    return graph
