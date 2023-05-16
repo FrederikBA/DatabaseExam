@@ -43,3 +43,8 @@ ul.header li a:hover:not(.active) {
 .center {
   text-align: center;
 }
+
+.input-group{
+  align-items: center;
+}
+

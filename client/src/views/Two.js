@@ -1,3 +1,6 @@
+import Login from "../components/Login"
+import MovieList from "../components/MovieList"
+
 const Two = () => {
     return (
         <div className="center">
