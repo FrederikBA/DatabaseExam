@@ -13,7 +13,7 @@ parentdir = os.path.dirname(currentdir)
 sys.path.insert(0, parentdir)
 
 def get_fresh_df():
-    df = pd.read_csv('../data/movies_new.csv')
+    df = pd.read_csv('../data/movies.csv')
     return df
 
 def get_unique_strings(list_of_lists):

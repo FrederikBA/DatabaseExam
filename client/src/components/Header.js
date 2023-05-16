@@ -1,13 +1,14 @@
 import { NavLink } from "react-router-dom";
-
+import Logo from './Logo';
 
 const Header = () => {
     return (
         <div>
             <nav>
                 <ul className='header'>
-                    <li><NavLink to='/'>One</NavLink></li>
-                    <li><NavLink to='/two'>Two</NavLink></li>
+                    <Logo />
+                    <li><NavLink to='/'>Film</NavLink></li>
+                    <li><NavLink to='/rent'>Lej en film</NavLink></li>
                 </ul>
             </nav>
         </div >
