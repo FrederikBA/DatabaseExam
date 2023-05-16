@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.encoders import jsonable_encoder
 
-from services import test_service
+from services import test_service, populate_service
 from models import dtos
 
 app = FastAPI()
@@ -24,3 +24,7 @@ app.add_middleware(
 @app.get("/")
 def read_root():
     return test_service.get_data()
+
+@app.post("/populatesql")
+def populate_sql_server():
+    return populate_service.populate_sql()
