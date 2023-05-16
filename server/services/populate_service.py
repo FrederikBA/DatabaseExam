@@ -12,6 +12,8 @@ currentdir = os.path.dirname(os.path.abspath(
 parentdir = os.path.dirname(currentdir)
 sys.path.insert(0, parentdir)
 
+sql_value = os.getenv("SQL_VALUE")
+
 def get_fresh_df():
     df = pd.read_csv('../data/movies.csv')
     return df
@@ -45,7 +47,7 @@ def populate_sql():
 
     cursor = connection.cursor()
     for dictionary in movies:
-        cursor.execute("INSERT INTO movie (movie_id, title, release_year, rating, poster) VALUES (%s, %s, %s, %s, %s)", (dictionary['id'], dictionary['title'], dictionary['release_year'], dictionary['rating'], dictionary['poster']))
+        cursor.execute(f"INSERT INTO movie (movie_id, title, release_year, rating, poster) VALUES ({sql_value}, {sql_value}, {sql_value}, {sql_value}, {sql_value})", (dictionary['id'], dictionary['title'], dictionary['release_year'], dictionary['rating'], dictionary['poster']))
 
     connection.commit()
     connection.close()
@@ -66,7 +68,7 @@ def populate_sql():
 
     cursor = connection.cursor()
     for dictionary in dict_list:
-        cursor.execute("INSERT INTO actor (actor_id, name) VALUES (%s, %s)", (dictionary['id'], dictionary['name']))
+        cursor.execute(f"INSERT INTO actor (actor_id, name) VALUES ({sql_value}, {sql_value})", (dictionary['id'], dictionary['name']))
 
     connection.commit()
     connection.close()
@@ -88,7 +90,7 @@ def populate_sql():
 
     cursor = connection.cursor()
     for dictionary in dict_list:
-        cursor.execute("INSERT INTO genre(genre_id, genre_name) VALUES (%s, %s)", (dictionary['id'], dictionary['name']))
+        cursor.execute(f"INSERT INTO genre(genre_id, genre_name) VALUES ({sql_value}, {sql_value})", (dictionary['id'], dictionary['name']))
 
     connection.commit()
     connection.close()
@@ -109,7 +111,7 @@ def populate_sql():
 
     cursor = connection.cursor()
     for dictionary in dict_list:
-        cursor.execute("INSERT INTO director (director_id, name) VALUES (%s, %s)", (dictionary['id'], dictionary['name']))
+        cursor.execute(f"INSERT INTO director (director_id, name) VALUES ({sql_value}, {sql_value})", (dictionary['id'], dictionary['name']))
 
     connection.commit()
     connection.close()
@@ -132,7 +134,7 @@ def populate_sql():
 
     cursor = connection.cursor()
     for dictionary in dict_list:
-        cursor.execute("INSERT INTO publisher (publisher_id, name) VALUES (%s, %s)", (dictionary['id'], dictionary['name']))
+        cursor.execute(f"INSERT INTO publisher (publisher_id, name) VALUES ({sql_value}, {sql_value})", (dictionary['id'], dictionary['name']))
 
     connection.commit()
     connection.close()
@@ -181,7 +183,7 @@ def populate_sql():
 
     cursor = connection.cursor()
     for dictionary in mapping:
-        cursor.execute("INSERT INTO movie_actor (movie_id, actor_id) VALUES (%s, %s)", (dictionary['movie_id'], dictionary['actor_id']))
+        cursor.execute(f"INSERT INTO movie_actor (movie_id, actor_id) VALUES ({sql_value}, {sql_value})", (dictionary['movie_id'], dictionary['actor_id']))
 
     connection.commit()
     connection.close()
@@ -229,7 +231,7 @@ def populate_sql():
     cursor = connection.cursor()
     cursor = connection.cursor()
     for dictionary in mapping:
-        cursor.execute("INSERT INTO movie_director (movie_id, director_id) VALUES (%s, %s)", (dictionary['movie_id'], dictionary['director_id']))
+        cursor.execute(f"INSERT INTO movie_director (movie_id, director_id) VALUES ({sql_value}, {sql_value})", (dictionary['movie_id'], dictionary['director_id']))
     connection.commit()
     connection.close()
 
@@ -278,7 +280,7 @@ def populate_sql():
 
     cursor = connection.cursor()
     for dictionary in mapping:
-        cursor.execute("INSERT INTO movie_publishers (movie_id, publisher_id) VALUES (%s, %s)", (dictionary['movie_id'], dictionary['publisher_id']))
+        cursor.execute(f"INSERT INTO movie_publishers (movie_id, publisher_id) VALUES ({sql_value}, {sql_value})", (dictionary['movie_id'], dictionary['publisher_id']))
 
     connection.commit()
     connection.close()
