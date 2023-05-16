@@ -30,12 +30,14 @@ def populate_sql():
 
     movies = []
 
+    movies = []
+
     for i in range(len(df['release year'])):
         df.at[i, 'release year'] = ''.join(filter(str.isdigit, str(df.at[i, 'release year'])))
 
     for index, row in df.iterrows():
         year_date = datetime.strptime(row['release year'], '%Y').year
-        movie = {"id": row['id'], 'title': row['title'], 'release_year': year_date}
+        movie = {"id": row['id'], 'title': row['title'], 'release_year': year_date, 'rating': float(row['rating'])}
         movies.append(movie)
 
     connection = db_connector.get_sql_db("BockBluster")
