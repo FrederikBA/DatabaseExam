@@ -1,18 +1,18 @@
 const Logo = () => {
     return (
-        <div class="bockbluster-logo">
-            <span class="blockbuster-letter">B</span>
-            <span class="blockbuster-letter">O</span>
-            <span class="blockbuster-letter">C</span>
-            <span class="blockbuster-letter">K</span>
-            <span class="blockbuster-letter">B</span>
-            <span class="blockbuster-letter">L</span>
-            <span class="blockbuster-letter">U</span>
-            <span class="blockbuster-letter">S</span>
-            <span class="blockbuster-letter">T</span>
-            <span class="blockbuster-letter">E</span>
-            <span class="blockbuster-letter">R</span>
-            <sup class="registered-trademark">®</sup>
+        <div className="bockbluster-logo">
+            <span className="blockbuster-letter">B</span>
+            <span className="blockbuster-letter">O</span>
+            <span className="blockbuster-letter">C</span>
+            <span className="blockbuster-letter">K</span>
+            <span className="blockbuster-letter">B</span>
+            <span className="blockbuster-letter">L</span>
+            <span className="blockbuster-letter">U</span>
+            <span className="blockbuster-letter">S</span>
+            <span className="blockbuster-letter">T</span>
+            <span className="blockbuster-letter">E</span>
+            <span className="blockbuster-letter">R</span>
+            <sup className="registered-trademark">®</sup>
         </div>
 
     )

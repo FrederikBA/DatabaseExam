@@ -5,14 +5,18 @@ from fastapi.encoders import jsonable_encoder
 from fastapi.security import OAuth2PasswordBearer
 
 #Classes
-from services import test_service, populate_service, login_service
+from services import movie_service, populate_service, login_service
 from models import dtos, entities
 
 #Misc
 from datetime import timedelta
+import os
+import sys
+import inspect
 
 app = FastAPI()
 
+#Cors
 origins = [
     "http://localhost",
     "http://localhost:8000",
@@ -26,11 +30,20 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+#Set correct path for folder structure
+currentdir = os.path.dirname(os.path.abspath(
+    inspect.getfile(inspect.currentframe())))
+parentdir = os.path.dirname(currentdir)
+sys.path.insert(0, parentdir)
 
+#Endpoints
 @app.get("/")
 def read_root():
-    return test_service.get_data()
+    return "Welcome to the database course exam API!"
 
+@app.get("/movies")
+def get_movies():
+    return movie_service.get_movie_catalog()
 @app.post("/populatesql")
 def populate_sql_db():
     return populate_service.populate_sql()

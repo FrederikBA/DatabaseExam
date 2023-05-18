@@ -1,16 +1,9 @@
-from jose import JWTError, jwt
+from jose import jwt
 from database import db_connector
 import os
-import sys
-import inspect
 from datetime import datetime, timedelta
 
 sql_value = os.getenv("SQL_VALUE")
-
-currentdir = os.path.dirname(os.path.abspath(
-    inspect.getfile(inspect.currentframe())))
-parentdir = os.path.dirname(currentdir)
-sys.path.insert(0, parentdir)
 
 def get_user(username: str):
     connection = db_connector.get_sql_db('BockBluster')

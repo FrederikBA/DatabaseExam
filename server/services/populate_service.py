@@ -6,7 +6,7 @@ import pandas as pd
 from datetime import datetime
 import uuid
 from ast import literal_eval
-from py2neo import Graph, Node, Relationship
+from py2neo import Node, Relationship
 
 currentdir = os.path.dirname(os.path.abspath(
     inspect.getfile(inspect.currentframe())))
