@@ -39,7 +39,7 @@ def populate_sql_db():
 def populate_graph_db():
     return populate_service.populate_graphdb()
 
-@app.post("/token")
+@app.post("/login")
 def login_for_access_token(user: entities.User):
     authenticated_user = login_service.authenticate_user(user.username, user.password)
     if not authenticated_user:

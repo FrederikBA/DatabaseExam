@@ -1,8 +1,5 @@
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -47,7 +44,7 @@ ul.header li a:hover:not(.active) {
   text-align: center;
 }
 
-.input-group{
+.input-group {
   align-items: center;
 }
 
@@ -70,4 +67,32 @@ ul.header li a:hover:not(.active) {
 .registered-trademark {
   font-size: 16px;
   vertical-align: super;
+}
+
+.align-right {
+  float: right !important;
+}
+
+.loginInput {
+  margin-top: 5px;
+  width: 50%;
+  padding: 6px 10px;
+  margin: 8px 0;
+  box-sizing: border-box;
+}
+
+.loginButton {
+  width: 20%;
+  margin: 10px;
+  background-color: #ffe13f;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.loginButton:hover {
+  transform: scale(1.0225);
 }
