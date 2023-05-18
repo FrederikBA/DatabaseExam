@@ -28,17 +28,19 @@ const Movies = () => {
     const currentMovies = movies.slice(indexOfFirstMovie, indexOfLastMovie);
 
     // Change page
-    const paginate = pageNumber => setCurrentPage(pageNumber);
-
+    const paginate = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    }
     return (
         <div className='container mt-5'>
-            <Posters movies={currentMovies} isLoading={isLoading} />
             <Pagination
                 moviesPerPage={moviesPerPage}
                 totalMovies={movies.length}
                 currentPage={currentPage}
                 paginate={paginate}
             />
+            <Posters movies={currentMovies} isLoading={isLoading} />
+
         </div>
     )
 }

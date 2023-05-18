@@ -20,40 +20,43 @@ const Pagination = ({ moviesPerPage, totalMovies, currentPage, paginate }) => {
             <nav>
                 <ul className="pagination">
                     {currentPage !== 1 && (
-                        <li className="page-item">
-                            <button onClick={() => paginate(currentPage - 1)} className="page-link">
-                                <span>&#8249;</span>
+                        <li>
+                            <button onClick={() => paginate(currentPage - 1)} className="left">
+                                <span></span>
                             </button>
                         </li>
                     )}
 
                     {startPage !== 1 && (
-                        <li className="page-item">
-                            <button onClick={() => paginate(1)} className="page-link">
+                        <li>
+                            <button onClick={() => paginate(1)} className="page-number">
                                 1
                             </button>
                         </li>
                     )}
 
                     {pageNumbers.map((number) => (
-                        <li key={number} className={`page-item ${number === currentPage ? 'active' : ''}`}>
-                            <button onClick={() => paginate(number)} className="page-link">
+                        <li key={number}>
+                            <button
+                                onClick={() => paginate(number)}
+                                className={`page-number ${number === currentPage ? 'current-page' : ''}`}
+                            >
                                 {number}
                             </button>
                         </li>
                     ))}
                     {endPage !== totalPages && (
-                        <li className="page-item">
-                            <button onClick={() => paginate(totalPages)} className="page-link">
+                        <li>
+                            <button onClick={() => paginate(totalPages)} className="page-number">
                                 {totalPages}
                             </button>
                         </li>
                     )}
 
                     {currentPage !== totalPages && (
-                        <li className="page-item">
-                            <button onClick={() => paginate(currentPage + 1)} className="page-link">
-                                <span>&#8250;</span>
+                        <li>
+                            <button onClick={() => paginate(currentPage + 1)} className="right">
+                                <span></span>
                             </button>
                         </li>
                     )}

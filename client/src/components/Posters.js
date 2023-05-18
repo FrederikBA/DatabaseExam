@@ -12,7 +12,7 @@ const Posters = ({ movies, isLoading }) => {
                     <div className="">
                         <img src={movie.poster} className="card-img-top" alt={movie.title} />
                         <div className="card-body center">
-                            <h8 className="card-title">{movie.title}</h8>
+                            <p className="card-title">{movie.title}</p>
                         </div>
                     </div>
                 </div>
