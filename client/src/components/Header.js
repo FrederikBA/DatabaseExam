@@ -8,9 +8,8 @@ const Header = () => {
         <div>
             <nav>
                 <ul className='header'>
-                    <Logo />
+                    <NavLink className="none" to="/"><Logo /></NavLink>
                     <li><NavLink to='/'>Film</NavLink></li>
-                    <li><NavLink to='/rent'>Lej en film</NavLink></li>
                     <li><NavLink to="/searchfilter">Søg Film</NavLink></li>
                     <li><NavLink to="/movielist">Film Liste</NavLink></li>
                     <li><NavLink to="/moviedetails">Film Detaljer</NavLink></li>

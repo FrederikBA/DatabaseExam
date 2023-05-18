@@ -35,6 +35,10 @@ ul.header li a {
   text-decoration: none;
 }
 
+ul.header span {
+  text-decoration: none;
+}
+
 ul.header li a:hover:not(.active) {
   background-color: #ffe13f;
   color: black;
@@ -55,7 +59,6 @@ ul.header li a:hover:not(.active) {
   text-align: center;
   color: #ffe13f;
   cursor: pointer;
-  /* Yellow */
 }
 
 .bockbluster-letter {
@@ -95,4 +98,15 @@ ul.header li a:hover:not(.active) {
 
 .loginButton:hover {
   transform: scale(1.0225);
+}
+
+.none {
+  text-decoration: none;
+}
+
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+
 }
