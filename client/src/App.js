@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Helmet, HelmetProvider } from 'react-helmet-async';
+import { useState } from "react";
 
 //Views
 import LandingPage from "./views/LandingPage";
@@ -16,14 +17,15 @@ import SearchFilter from "./components/SearchFilter";
 
 
 const App = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   return (
 
     <BrowserRouter>
-      <Header />
+      <Header isLoggedIn={isLoggedIn} onLogout={() => { localStorage.clear(); setIsLoggedIn(false) }} />
       <Routes>
         <Route path="/" element={<Frontpage />} />
-        <Route path="/login" element={<Login />} />
+        <Route path="/login" element={<Login onLogin={() => setIsLoggedIn(true)} />} />
         <Route path="/landing-page" element={<LandingPage />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/searchfilter" element={<SearchFilter />} />

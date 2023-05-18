@@ -209,6 +209,18 @@ ul.header li a:hover:not(.active) {
   margin-top: 1px;
 }
 
+.poster {
+  cursor: pointer;
+}
+
+.poster img {
+  transition: transform 0.3s ease;
+}
+
+.poster:hover img {
+  opacity: 0.7;
+}
+
 .card-title {
   font-weight: bold;
 }
