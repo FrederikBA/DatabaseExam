@@ -200,3 +200,7 @@ ul.header li a:hover:not(.active) {
   margin-left: -20px;
   margin-top: 1px;
 }
+
+.card-title {
+  font-weight: bold;
+}
