@@ -76,6 +76,14 @@ ul.header li a:hover:not(.active) {
   float: right !important;
 }
 
+.login-nav {
+  padding-right: 10px;
+}
+
+.frontpage-nav {
+  padding-left: 10px;
+}
+
 .loginInput {
   margin-top: 5px;
   width: 50%;
