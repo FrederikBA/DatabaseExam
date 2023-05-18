@@ -4,6 +4,7 @@ import sys
 import inspect
 import pandas as pd
 from datetime import datetime
+import uuid
 from ast import literal_eval
 from py2neo import Graph, Node, Relationship
 
@@ -65,8 +66,6 @@ def populate_sql():
 
     connection = db_connector.get_sql_db("BockBluster")
     cursor = connection.cursor()
-
-    cursor = connection.cursor()
     for dictionary in dict_list:
         cursor.execute(f"INSERT INTO actor (actor_id, name) VALUES ({sql_value}, {sql_value})", (dictionary['id'], dictionary['name']))
 
@@ -87,8 +86,6 @@ def populate_sql():
 
     connection = db_connector.get_sql_db("BockBluster")
     cursor = connection.cursor()
-
-    cursor = connection.cursor()
     for dictionary in dict_list:
         cursor.execute(f"INSERT INTO genre(genre_id, genre_name) VALUES ({sql_value}, {sql_value})", (dictionary['id'], dictionary['name']))
 
@@ -107,8 +104,6 @@ def populate_sql():
         dict_list.append(dictionary)
 
     connection = db_connector.get_sql_db("BockBluster")
-    cursor = connection.cursor()
-
     cursor = connection.cursor()
     for dictionary in dict_list:
         cursor.execute(f"INSERT INTO director (director_id, name) VALUES ({sql_value}, {sql_value})", (dictionary['id'], dictionary['name']))
@@ -129,8 +124,6 @@ def populate_sql():
 
 
     connection = db_connector.get_sql_db("BockBluster")
-
-    cursor = connection.cursor()
 
     cursor = connection.cursor()
     for dictionary in dict_list:
@@ -180,8 +173,6 @@ def populate_sql():
 
     connection = db_connector.get_sql_db("BockBluster")
     cursor = connection.cursor()
-
-    cursor = connection.cursor()
     for dictionary in mapping:
         cursor.execute(f"INSERT INTO movie_actor (movie_id, actor_id) VALUES ({sql_value}, {sql_value})", (dictionary['movie_id'], dictionary['actor_id']))
 
@@ -229,7 +220,6 @@ def populate_sql():
 
     connection = db_connector.get_sql_db("BockBluster")
     cursor = connection.cursor()
-    cursor = connection.cursor()
     for dictionary in mapping:
         cursor.execute(f"INSERT INTO movie_director (movie_id, director_id) VALUES ({sql_value}, {sql_value})", (dictionary['movie_id'], dictionary['director_id']))
     connection.commit()
@@ -276,8 +266,6 @@ def populate_sql():
                 break
     
     connection = db_connector.get_sql_db("BockBluster")
-    cursor = connection.cursor()
-
     cursor = connection.cursor()
     for dictionary in mapping:
         cursor.execute(f"INSERT INTO movie_publishers (movie_id, publisher_id) VALUES ({sql_value}, {sql_value})", (dictionary['movie_id'], dictionary['publisher_id']))
@@ -329,11 +317,88 @@ def populate_sql():
 
     connection = db_connector.get_sql_db("BockBluster")
     cursor = connection.cursor()
-
-    cursor = connection.cursor()
     for dictionary in mapping:
         cursor.execute(f"INSERT INTO movie_genre (movie_id, genre_id) VALUES ({sql_value}, {sql_value})", (dictionary['movie_id'], dictionary['genre_id']))
 
+    connection.commit()
+    connection.close()
+
+    #Members
+    current_datetime = datetime.now()
+
+    members = [{
+    "member_id": str(uuid.uuid4()),
+    "first_name": "John",
+    "last_name": "Doe",
+    "join_date": current_datetime
+    },
+    {
+    "member_id": str(uuid.uuid4()),
+    "first_name": "Jane",
+    "last_name": "Smith",
+    "join_date": current_datetime
+    },
+    {
+    "member_id": str(uuid.uuid4()),
+    "first_name": "Robert",
+    "last_name": "Johnson",
+    "join_date": current_datetime
+    }]
+
+    connection = db_connector.get_sql_db('BockBluster')
+
+    # Insert dictionaries into the table
+    cursor = connection.cursor()
+    for member in members:
+        cursor.execute("INSERT INTO member (member_id, first_name, last_name, join_date) VALUES (%s, %s, %s, %s)", (member['member_id'], member['first_name'], member['last_name'], member['join_date']))
+
+    # Commit the changes and close the connection
+    connection.commit()
+    connection.close()
+
+    #Users
+    connection = db_connector.get_sql_db('BockBluster')
+    cursor = connection.cursor()
+    query = "SELECT * FROM member"
+    cursor.execute(query)
+    rows = cursor.fetchall()
+    member_ids = []
+
+    for row in rows:
+        member_id = row[0]
+        member_ids.append(member_id)
+
+    cursor.close()
+    connection.close()
+
+    users = [{
+        "user_id": 1,
+        "member_id": member_ids[0],
+        "username": "user1",
+        "password": "123"
+    },
+    {
+        "user_id": 2,
+        "member_id": member_ids[1],
+        "username": "user2",
+        "password": "123"
+    },
+    {
+        "user_id": 3,
+        "member_id": member_ids[2],
+        "username": "user3",
+        "password": "123"
+    }]
+
+    connection = db_connector.get_sql_db('BockBluster')
+    cursor = connection.cursor()
+
+    # Insert dictionaries into the table
+    cursor = connection.cursor()
+    for user in users:
+        cursor.execute("INSERT INTO user_login (user_id, member_id, username, password) VALUES (%s, %s, %s, %s)", (user['user_id'], user['member_id'], user['username'], user['password']))
+
+    # Commit the changes and close the connection
     connection.commit()
     connection.close()
     

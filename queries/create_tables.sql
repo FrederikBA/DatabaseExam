@@ -53,17 +53,15 @@ CREATE TABLE movie_genre (
 );
 
 CREATE TABLE member (
-  member_id INT PRIMARY KEY,
+  member_id VARCHAR(255) PRIMARY KEY,
   first_name VARCHAR(255),
   last_name VARCHAR(255),
-  address VARCHAR(255),
-  phone_number VARCHAR(255),
   join_date DATE
 );
 
 CREATE TABLE user_login (
   user_id INT PRIMARY KEY,
-  member_id INT,
+  member_id VARCHAR(255),
   username VARCHAR(255),
   password VARCHAR(255),
   FOREIGN KEY (member_id) REFERENCES member (member_id)
@@ -72,7 +70,7 @@ CREATE TABLE user_login (
 CREATE TABLE loan (
   loan_id INT PRIMARY KEY,
   movie_id VARCHAR(255),
-  member_id INT,
+  member_id VARCHAR(255),
   loan_date DATE,
   return_date DATE,
   FOREIGN KEY (movie_id) REFERENCES movie (movie_id),

@@ -11,7 +11,7 @@ sys.path.insert(0, parentdir)
 
 def get_data():
     # Create connection with chosen database, "Library"
-    conn = db_connector.get_sql_db("Librarytest")
+    conn = db_connector.get_sql_db("Library")
 
     c1 = conn.cursor()
     c1.execute('SELECT * FROM Book')
