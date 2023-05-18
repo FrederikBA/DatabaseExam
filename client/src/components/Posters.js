@@ -1,4 +1,5 @@
 import React from 'react';
+import star from '../img/star.png'
 
 const Posters = ({ movies, isLoading }) => {
     if (isLoading) {
@@ -13,6 +14,7 @@ const Posters = ({ movies, isLoading }) => {
                         <img src={movie.poster} className="card-img-top" alt={movie.title} />
                         <div className="card-body center">
                             <p className="card-title">{movie.title}</p>
+                            <div><img className="star" src={star} alt="Rating Star" />{movie.rating}/10</div>
                         </div>
                     </div>
                 </div>

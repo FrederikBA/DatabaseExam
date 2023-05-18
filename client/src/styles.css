@@ -191,3 +191,12 @@ ul.header li a:hover:not(.active) {
   background-color: #ffe13f;
   color: black;
 }
+
+.star {
+  width: 20px;
+  height: 20px;
+  padding: 2px;
+  position: absolute;
+  margin-left: -20px;
+  margin-top: 1px;
+}
