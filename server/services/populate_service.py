@@ -27,10 +27,31 @@ def get_unique_strings(list_of_lists):
                 unique_strings.add(item)
     return list(unique_strings)
 
-def populate_sql():
-    #Movies
-    df = get_fresh_df()
 
+def populate_prices_sql():
+    df = get_fresh_df()
+    prices = []
+    count = 0
+
+    for index, row in df.iterrows():
+        count += 1
+        price = {"price_id": count, 'price': row['price']}
+        prices.append(price)
+
+    #Get connection
+    connection = db_connector.get_sql_db('BockBluster')
+
+    # Insert dictionaries into the table
+    cursor = connection.cursor()
+    for price in prices:
+        cursor.execute(f"INSERT INTO price (price_id, price) VALUES ({sql_value}, {sql_value})", (price['price_id'], price['price']))
+
+    # Commit the changes and close the connection
+    connection.commit()
+    connection.close()
+
+def populate_movies_sql():
+    df = get_fresh_df()
     df = df[['id', 'title', 'release year', 'rating', 'Poster']]
 
     movies = []
@@ -38,292 +59,25 @@ def populate_sql():
     for i in range(len(df['release year'])):
         df.at[i, 'release year'] = ''.join(filter(str.isdigit, str(df.at[i, 'release year'])))
 
-
+    count = 0
     for index, row in df.iterrows():
+        count += 1
         year_date = datetime.strptime(row['release year'], '%Y').year
-        movie = {"id": row['id'], 'title': row['title'], 'release_year': year_date, 'rating': float(row['rating']), 'poster': row['Poster']}
+        movie = {"id": row['id'],'price_id': count, 'title': row['title'], 'release_year': year_date, 'rating': float(row['rating']), 'poster': row['Poster']}
         movies.append(movie)
 
     connection = db_connector.get_sql_db("BockBluster")
 
+    # Insert dictionaries into the table
     cursor = connection.cursor()
     for dictionary in movies:
-        cursor.execute(f"INSERT INTO movie (movie_id, title, release_year, rating, poster) VALUES ({sql_value}, {sql_value}, {sql_value}, {sql_value}, {sql_value})", (dictionary['id'], dictionary['title'], dictionary['release_year'], dictionary['rating'], dictionary['poster']))
+        cursor.execute(f"INSERT INTO movie (movie_id, price_id, title, release_year, rating, poster) VALUES ({sql_value}, {sql_value}, {sql_value}, {sql_value}, {sql_value}, {sql_value})", (dictionary['id'], dictionary['price_id'], dictionary['title'], dictionary['release_year'], dictionary['rating'], dictionary['poster']))
 
+    # Commit the changes and close the connection
     connection.commit()
     connection.close()
 
-    #Actors
-    df = get_fresh_df()
-    df['actors'] = df['actors'].apply(lambda x: x.split(', '))
-
-    strings = get_unique_strings(df['actors'])
-
-    dict_list = []
-    for i, string in enumerate(strings, start=1):
-        dictionary = {'id': i, 'name': string}
-        dict_list.append(dictionary)
-
-    connection = db_connector.get_sql_db("BockBluster")
-    cursor = connection.cursor()
-    for dictionary in dict_list:
-        cursor.execute(f"INSERT INTO actor (actor_id, name) VALUES ({sql_value}, {sql_value})", (dictionary['id'], dictionary['name']))
-
-    connection.commit()
-    connection.close()
-
-    #Genres
-    df = get_fresh_df()
-    df['genre'] = df['genre'].apply(lambda x: x.split(', '))
-
-    strings = get_unique_strings(df['genre'])
-
-    dict_list = []
-    for i, string in enumerate(strings, start=1):
-        dictionary = {'id': i, 'name': string}
-        dict_list.append(dictionary)
-    dict_list
-
-    connection = db_connector.get_sql_db("BockBluster")
-    cursor = connection.cursor()
-    for dictionary in dict_list:
-        cursor.execute(f"INSERT INTO genre(genre_id, genre_name) VALUES ({sql_value}, {sql_value})", (dictionary['id'], dictionary['name']))
-
-    connection.commit()
-    connection.close()
-
-    #Directors
-    df = get_fresh_df()
-    df['directors'] = df['directors'].apply(lambda x: x.split(', '))
-
-    strings = get_unique_strings(df['directors'])
-
-    dict_list = []
-    for i, string in enumerate(strings, start=1):
-        dictionary = {'id': i, 'name': string}
-        dict_list.append(dictionary)
-
-    connection = db_connector.get_sql_db("BockBluster")
-    cursor = connection.cursor()
-    for dictionary in dict_list:
-        cursor.execute(f"INSERT INTO director (director_id, name) VALUES ({sql_value}, {sql_value})", (dictionary['id'], dictionary['name']))
-
-    connection.commit()
-    connection.close()
-
-    #Publishers
-    df = get_fresh_df()
-    df['publishers'] = df['publishers'].apply(literal_eval)
-
-    strings = get_unique_strings(df['publishers'])
-
-    dict_list = []
-    for i, string in enumerate(strings, start=1):
-        dictionary = {'id': i, 'name': string}
-        dict_list.append(dictionary)
-
-
-    connection = db_connector.get_sql_db("BockBluster")
-
-    cursor = connection.cursor()
-    for dictionary in dict_list:
-        cursor.execute(f"INSERT INTO publisher (publisher_id, name) VALUES ({sql_value}, {sql_value})", (dictionary['id'], dictionary['name']))
-
-    connection.commit()
-    connection.close()
-    
-
-    #MovieActors link table
-    connection = db_connector.get_sql_db("BockBluster")
-    cursor = connection.cursor()
-
-    query = "SELECT * FROM actor"
-    cursor.execute(query)
-    rows = cursor.fetchall()
-    data_list = []
-    for row in rows:
-        value1 = row[0]
-        value2 = row[1]
-        dictionary = {'id': value1, 'name': value2}
-        data_list.append(dictionary)
-    cursor.close()
-    connection.close()
-
-    df = get_fresh_df()
-    df['actors'] = df['actors'].apply(lambda x: x.split(', '))
-
-    df['actors'] = df['actors'].apply(lambda x: list(set(x)))
-
-    df_new = df[['id', 'actors']]
-
-    df_new = df_new.explode('actors')
-
-    movies_list = df_new.to_dict(orient='records')
-
-    mapping = []
-    for movie in movies_list:
-        movie_id = movie['id']
-        actor_name = movie['actors']
-        for actor in data_list:
-            if actor['name'] == actor_name:
-                actor_id = actor['id']
-                new_movie = {'movie_id': movie_id, 'actor_id': actor_id}
-                mapping.append(new_movie)
-                break
-
-    connection = db_connector.get_sql_db("BockBluster")
-    cursor = connection.cursor()
-    for dictionary in mapping:
-        cursor.execute(f"INSERT INTO movie_actor (movie_id, actor_id) VALUES ({sql_value}, {sql_value})", (dictionary['movie_id'], dictionary['actor_id']))
-
-    connection.commit()
-    connection.close()
-
-    #MovieDirectors link table
-    connection = db_connector.get_sql_db("BockBluster")
-    cursor = connection.cursor()
-    query = "SELECT * FROM director"
-    cursor.execute(query)
-    rows = cursor.fetchall()
-
-    data_list = []
-    for row in rows:
-        value1 = row[0]
-        value2 = row[1]
-        dictionary = {'id': value1, 'name': value2}
-        data_list.append(dictionary)
-
-    cursor.close()
-    connection.close()
-
-    df = get_fresh_df()
-    df['directors'] = df['directors'].apply(lambda x: [x] if ',' not in x else x.split(','))
-
-    df['directors'] = df['directors'].apply(lambda x: list(set(x)))
-
-    df_new = df[['id', 'directors']]
-
-    df_new = df_new.explode('directors')
-
-    movies_list = df_new.to_dict(orient='records')
-
-    mapping = []
-    for movie in movies_list:
-        movie_id = movie['id']
-        director_name = movie['directors']
-        for director in data_list:
-            if director['name'] == director_name:
-                director_id = director['id']
-                new_movie = {'movie_id': movie_id, 'director_id': director_id}
-                mapping.append(new_movie)
-                break
-
-    connection = db_connector.get_sql_db("BockBluster")
-    cursor = connection.cursor()
-    for dictionary in mapping:
-        cursor.execute(f"INSERT INTO movie_director (movie_id, director_id) VALUES ({sql_value}, {sql_value})", (dictionary['movie_id'], dictionary['director_id']))
-    connection.commit()
-    connection.close()
-
-    #MoviePublishers link table
-    connection = db_connector.get_sql_db("BockBluster")
-    cursor = connection.cursor()
-
-    query = "SELECT * FROM publisher"
-    cursor.execute(query)
-    rows = cursor.fetchall()
-    data_list = []
-
-    for row in rows:
-        value1 = row[0]
-        value2 = row[1]
-        dictionary = {'id': value1, 'name': value2}
-        data_list.append(dictionary)
-
-    cursor.close()
-    connection.close()
-
-    df = get_fresh_df()
-    df['publishers'] = df['publishers'].apply(literal_eval)
-
-    df['publishers'] = df['publishers'].apply(lambda x: list(set(x)))
-
-    df_new = df[['id', 'publishers']]
-
-    df_new = df_new.explode('publishers')
-
-    movies_list = df_new.to_dict(orient='records')
-
-    mapping = []
-    for movie in movies_list:
-        movie_id = movie['id']
-        publisher_name = movie['publishers']
-        for publisher in data_list:
-            if publisher['name'] == publisher_name:
-                publisher_id = publisher['id']
-                new_movie = {'movie_id': movie_id, 'publisher_id': publisher_id}
-                mapping.append(new_movie)
-                break
-    
-    connection = db_connector.get_sql_db("BockBluster")
-    cursor = connection.cursor()
-    for dictionary in mapping:
-        cursor.execute(f"INSERT INTO movie_publishers (movie_id, publisher_id) VALUES ({sql_value}, {sql_value})", (dictionary['movie_id'], dictionary['publisher_id']))
-
-    connection.commit()
-    connection.close()
-
-    #MovieGenres link table
-    connection = db_connector.get_sql_db("BockBluster")
-    cursor = connection.cursor()
-
-    query = "SELECT * FROM genre"
-    cursor.execute(query)
-    rows = cursor.fetchall()
-    data_list = []
-
-    for row in rows:
-        value1 = row[0]
-        value2 = row[1]
-        dictionary = {'id': value1, 'name': value2}
-        data_list.append(dictionary)
-
-    cursor.close()
-    connection.close()
-
-    df = get_fresh_df()
-
-    df['genre'] = df['genre'].apply(lambda x: x.split(', '))
-
-    df['genre'] = df['genre'].apply(lambda x: list(set(x)))
-
-    df_new = df[['id', 'genre']]
-
-    df_new = df_new.explode('genre')
-
-    movies_list = df_new.to_dict(orient='records')
-
-
-    mapping = []
-    for movie in movies_list:
-        movie_id = movie['id']
-        genre_name = movie['genre']
-        for genre in data_list:
-            if genre['name'] == genre_name:
-                genre_id = genre['id']
-                new_movie = {'movie_id': movie_id, 'genre_id': genre_id}
-                mapping.append(new_movie)
-                break
-
-    connection = db_connector.get_sql_db("BockBluster")
-    cursor = connection.cursor()
-    for dictionary in mapping:
-        cursor.execute(f"INSERT INTO movie_genre (movie_id, genre_id) VALUES ({sql_value}, {sql_value})", (dictionary['movie_id'], dictionary['genre_id']))
-
-    connection.commit()
-    connection.close()
-
-    #Members
+def populate_members_sql():
     current_datetime = datetime.now()
 
     members = [{
@@ -356,7 +110,7 @@ def populate_sql():
     connection.commit()
     connection.close()
 
-    #Users
+def populate_users_sql():
     connection = db_connector.get_sql_db('BockBluster')
     cursor = connection.cursor()
     query = "SELECT * FROM member"
@@ -401,6 +155,23 @@ def populate_sql():
     # Commit the changes and close the connection
     connection.commit()
     connection.close()
+
+
+
+def populate_sql():
+
+    #Prices
+    populate_prices_sql()
+
+    #Movies
+    populate_movies_sql()
+
+    #Members
+    populate_members_sql()
+
+    #Users
+    populate_users_sql()
+
     
     return "Database populate successful!"
 
@@ -408,35 +179,102 @@ def populate_sql():
 def populate_graphdb():
     df = get_fresh_df()
 
-    #Prepare data
     df['reviews'] = df['reviews'].apply(literal_eval)
     df['review_user'] = df['review_user'].apply(literal_eval)
     df['review_score'] = df['review_score'].apply(literal_eval)
+    df['directors'] = df['directors'].apply(lambda x: x.split(', '))
+    df['genre'] = df['genre'].apply(lambda x: x.split(', '))
+    df['actors'] = df['actors'].apply(lambda x: x.split(', '))
+    df['publishers'] = df['publishers'].apply(literal_eval)
+
+
+    unique_directors = get_unique_strings(df['directors'])
+    unique_genres = get_unique_strings(df['genre'])
+    unique_actors = get_unique_strings(df['actors'])
+    unique_publishers = get_unique_strings(df['publishers'])
+
 
     review_dict_list = []
     for reviews, scores in zip(df['reviews'], df['review_score']):
         for review, rating in zip(reviews, scores):
             review_dict_list.append({'review': review, 'rating': rating})
 
-    #Create graph
+    # Connect to the Neo4j database
     graph = db_connector.get_graph_db()
+
+    #Create genre nodes
+    genre_nodes = {}
+    for genre in unique_genres:
+        genre_node = Node("Genre", Genre=genre)
+        graph.create(genre_node)
+        genre_nodes[genre] = genre_node
+        
+    # Create directors nodes
+    director_nodes = {}
+    for director in unique_directors:
+        director_node = Node("Director",Name=director)
+        graph.create(director_node)
+        director_nodes[director] = director_node
+        
+    # Create actors nodes
+    actor_nodes = {}
+    for actor in unique_actors:
+        actor_node = Node("Actor", Name=actor)
+        graph.create(actor_node)
+        actor_nodes[actor] = actor_node
+
+    # Create publishers nodes
+    publisher_nodes = {}
+    for publisher in unique_publishers:
+        publisher_node = Node("Publisher", Name=publisher)
+        graph.create(publisher_node)
+        publisher_nodes[publisher] = publisher_node
+        
+    # Create nodes for movies, reviews, and users
+    count = 0
     for index, row in df.iterrows():
+        count+=1
         # Create a movie node
-        movie_node = Node("Movie", title=row['title'])
+        movie_node = Node("Movie", Title=row['title'])
         graph.create(movie_node)
 
-        # Create review nodes and relationships
+        # Create review and user nodes and relationships
         for review, rating, user in zip(row['reviews'], row['review_score'], row['review_user']):
-            review_node = Node("Review", content=review, rating=rating)
+            review_node = Node("Review", Content=review, Rating=rating)
             graph.create(review_node)
 
             relationship = Relationship(review_node, "FOR", movie_node)
             graph.create(relationship)
 
-            user_node = Node("User", name=user)
+            user_node = Node("User", Username=user)
             graph.create(user_node)
 
             relationship = Relationship(user_node, "WROTE", review_node)
+            graph.create(relationship)
+            
+        # Create genre relationships
+        genres = row['genre']
+        for genre in genres:
+            relationship = Relationship(movie_node, "HAS", genre_node)
+            graph.create(relationship)
+                                        
+                
+        # Create director relationships
+        directors = row['directors']
+        for director in directors:
+            relationship = Relationship(director_node, "INSTRUCTED", movie_node)
+            graph.create(relationship)
+            
+        # Create actor relationships
+        actors = row['actors']
+        for actor in actors:
+            relationship = Relationship(actor_node, "STARRED IN", movie_node)
+            graph.create(relationship)
+            
+        # Create publisher relationships
+        publishers = row['publishers']
+        for publisher in publishers:
+            relationship = Relationship(publisher_node, "PUBLISHED", movie_node)
             graph.create(relationship)
 
     return "Database populate successful!"
