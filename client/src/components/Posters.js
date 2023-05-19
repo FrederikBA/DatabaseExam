@@ -15,6 +15,7 @@ const Posters = ({ movies, isLoading }) => {
                         <div className="card-body center">
                             <p className="card-title">{movie.title}</p>
                             <div><img className="star" src={star} alt="Rating Star" />{movie.rating} / 10</div>
+                            <div>{movie.price}.- DKK</div>
                         </div>
                     </div>
                 </div>
