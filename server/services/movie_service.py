@@ -10,7 +10,7 @@ def get_movie_catalog():
     movies = []
 
     for m in data:
-        movie = {"movie_id": m[0], "title": m[1], 'release_year': m[2], 'rating': m[3], 'poster': m[4]}
+        movie = {"movie_id": m[0],"price_id": m[1], "title": m[2], 'release_year': m[3], 'rating': m[4], 'poster': m[5]}
         movies.append(movie)
 
     # Close connection
