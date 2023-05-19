@@ -76,6 +76,14 @@ ul.header li a:hover:not(.active) {
   float: right !important;
 }
 
+.login-nav {
+  padding-right: 10px;
+}
+
+.frontpage-nav {
+  padding-left: 10px;
+}
+
 .loginInput {
   margin-top: 5px;
   width: 50%;
@@ -190,4 +198,29 @@ ul.header li a:hover:not(.active) {
 .page-number.current-page {
   background-color: #ffe13f;
   color: black;
+}
+
+.star {
+  width: 20px;
+  height: 20px;
+  padding: 2px;
+  position: absolute;
+  margin-left: -20px;
+  margin-top: 1px;
+}
+
+.poster {
+  cursor: pointer;
+}
+
+.poster img {
+  transition: transform 0.3s ease;
+}
+
+.poster:hover img {
+  opacity: 0.7;
+}
+
+.card-title {
+  font-weight: bold;
 }
