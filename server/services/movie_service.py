@@ -1,4 +1,5 @@
 from database import db_connector
+from models import entities
 
 def get_movie_catalog():
     conn = db_connector.get_sql_db("BockBluster")
@@ -24,5 +25,54 @@ def get_movie_catalog():
 
     return movies
 
-from database import db_connector
+
+# Define a model for movie details
+
+
+
+
+
+
+# def fetch_movie_data(movie_id):
+#         conn = db_connector.get_graph_db("BockBluster")
+
+#         # Create a session from the connection
+#         session = conn.session()
+
+#         # Execute the Cypher query
+#         cypher_query = """
+#             MATCH (m:Movie {id: $movieId})
+#             RETURN m.title AS title, m.release_year AS releaseYear, m.rating AS rating
+#             """
+#         result = session.run(cypher_query, movieId=movie_id)
+#         movie_data = result.single()
+
+#         if movie_data:
+#             return entities.Movie(
+#                 title=movie_data["title"],
+#                 release_year=movie_data["releaseYear"],
+#                 rating=movie_data["rating"]
+#             )
+
+#         return None
+
+def fetch_movie_data(movie_id):
+    conn = db_connector.get_graph_db()
+
+    # Execute the Cypher query
+    cypher_query = """
+        MATCH (m:Movie {Id: $movieId})
+        RETURN m.Title AS Title, m.Id AS movieId
+    """
+
+    result = conn.run(cypher_query, movieId=movie_id)
+
+    # Iterate over the cursor and retrieve the movie data
+    for record in result:
+        return entities.Movie(
+            title=record["Title"],
+            movieId=record["movieId"]
+        )
+
+    return None
 

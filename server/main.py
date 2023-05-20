@@ -63,3 +63,14 @@ def login_for_access_token(user: entities.User):
     )
     return {"access_token": access_token, "token_type": "bearer"}
 
+@app.get("/movies/{movie_id}")
+def get_movie(movie_id: str):
+    # Call the fetch_movie_data function to retrieve the movie data
+    movie_data = movie_service.fetch_movie_data(movie_id)
+
+    if movie_data:
+        # Return the movie data as JSON
+        return movie_data.dict()
+    else:
+        # Return a 404 Not Found response if the movie data is not found
+        return {"error": "Movie not found"}
