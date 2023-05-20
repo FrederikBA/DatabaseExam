@@ -104,7 +104,7 @@ def populate_members_sql():
     # Insert dictionaries into the table
     cursor = connection.cursor()
     for member in members:
-        cursor.execute("INSERT INTO member (member_id, first_name, last_name, join_date) VALUES (%s, %s, %s, %s)", (member['member_id'], member['first_name'], member['last_name'], member['join_date']))
+        cursor.execute(f"INSERT INTO member (member_id, first_name, last_name, join_date) VALUES ({sql_value},{sql_value},{sql_value},{sql_value})", (member['member_id'], member['first_name'], member['last_name'], member['join_date']))
 
     # Commit the changes and close the connection
     connection.commit()
@@ -150,7 +150,7 @@ def populate_users_sql():
     # Insert dictionaries into the table
     cursor = connection.cursor()
     for user in users:
-        cursor.execute("INSERT INTO user_login (user_id, member_id, username, password) VALUES (%s, %s, %s, %s)", (user['user_id'], user['member_id'], user['username'], user['password']))
+        cursor.execute(f"INSERT INTO user_login (user_id, member_id, username, password) VALUES ({sql_value},{sql_value},{sql_value},{sql_value})", (user['user_id'], user['member_id'], user['username'], user['password']))
 
     # Commit the changes and close the connection
     connection.commit()

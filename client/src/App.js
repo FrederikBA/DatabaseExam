@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useHistory } from "react-router-dom";
 import { Helmet, HelmetProvider } from 'react-helmet-async';
 import { useState } from "react";
 
@@ -13,7 +13,7 @@ import MovieList from "./components/MovieList";
 import MovieDetails from "./components/MovieDetails";
 import Cart from "./components/Cart";
 import SearchFilter from "./components/SearchFilter";
-
+import Posters from "./components/Posters";
 
 
 const App = () => {
@@ -31,6 +31,8 @@ const App = () => {
         <Route path="/searchfilter" element={<SearchFilter />} />
         <Route path="/moviedetails" element={<MovieDetails />} />
         <Route path="/movielist" element={<MovieList />} />
+        <Route path="/" element={<Posters />} />
+        <Route path="/movies/:movieId" element={<MovieDetails />} />
       </Routes>
       <HelmetProvider>
         <Helmet
