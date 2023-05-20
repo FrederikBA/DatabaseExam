@@ -24,5 +24,3 @@ def get_movie_catalog():
 
     return movies
 
-from database import db_connector
-
