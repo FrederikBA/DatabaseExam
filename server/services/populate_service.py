@@ -199,41 +199,13 @@ def populate_graphdb():
         for review, rating in zip(reviews, scores):
             review_dict_list.append({'review': review, 'rating': rating})
 
-    # Connect to the Neo4j database
+            # Connect to the Neo4j database
     graph = db_connector.get_graph_db()
 
-    #Create genre nodes
-    genre_nodes = {}
-    for genre in unique_genres:
-        genre_node = Node("Genre", Genre=genre)
-        graph.create(genre_node)
-        genre_nodes[genre] = genre_node
-        
-    # Create directors nodes
-    director_nodes = {}
-    for director in unique_directors:
-        director_node = Node("Director",Name=director)
-        graph.create(director_node)
-        director_nodes[director] = director_node
-        
-    # Create actors nodes
-    actor_nodes = {}
-    for actor in unique_actors:
-        actor_node = Node("Actor", Name=actor)
-        graph.create(actor_node)
-        actor_nodes[actor] = actor_node
-
-    # Create publishers nodes
-    publisher_nodes = {}
-    for publisher in unique_publishers:
-        publisher_node = Node("Publisher", Name=publisher)
-        graph.create(publisher_node)
-        publisher_nodes[publisher] = publisher_node
-        
     # Create nodes for movies, reviews, and users
     count = 0
     for index, row in df.iterrows():
-        count+=1
+        count += 1
         # Create a movie node
         movie_node = Node("Movie", Id=row['id'], Title=row['title'], Rating=row['rating'], Summary=row['summary'])
         graph.create(movie_node)
@@ -251,30 +223,51 @@ def populate_graphdb():
 
             relationship = Relationship(user_node, "WROTE", review_node)
             graph.create(relationship)
-            
-        # Create genre relationships
+
+        # Create genre nodes and relationships
         genres = row['genre']
+        genre_nodes = {}
         for genre in genres:
+            genre_node = Node("Genre", Genre=genre)
+            graph.create(genre_node)
+            genre_nodes[genre] = genre_node
+
             relationship = Relationship(movie_node, "HAS", genre_node)
             graph.create(relationship)
-                                        
-                
-        # Create director relationships
+
+        # Create director nodes and relationships
         directors = row['directors']
+        director_nodes = {}
         for director in directors:
+            director_node = Node("Director", Name=director)
+            graph.create(director_node)
+            director_nodes[director] = director_node
+
             relationship = Relationship(director_node, "INSTRUCTED", movie_node)
             graph.create(relationship)
-            
-        # Create actor relationships
+
+        # Create actor nodes and relationships
         actors = row['actors']
+        actor_nodes = {}
         for actor in actors:
+            actor_node = Node("Actor", Name=actor)
+            graph.create(actor_node)
+            actor_nodes[actor] = actor_node
+
             relationship = Relationship(actor_node, "STARRED_IN", movie_node)
             graph.create(relationship)
-            
-        # Create publisher relationships
+
+        # Create publisher nodes and relationships
         publishers = row['publishers']
+        publisher_nodes = {}
         for publisher in publishers:
+            publisher_node = Node("Publisher", Name=publisher)
+            graph.create(publisher_node)
+            publisher_nodes[publisher] = publisher_node
+
             relationship = Relationship(publisher_node, "PUBLISHED", movie_node)
             graph.create(relationship)
+
+
 
     return "Database populate successful!"
