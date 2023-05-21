@@ -32,9 +32,15 @@ def fetch_movie_data(movie_id):
 
     # Execute the Cypher query
     cypher_query = """
-        MATCH (m:Movie {Id: $movieId})
-        RETURN m.Title AS Title, m.Id AS movieId
-    """
+        MATCH (m:Movie {Id: 'tt0499549'})
+OPTIONAL MATCH (m)<-[r:`STARRED IN`]-(actor:Actor)
+OPTIONAL MATCH (m)<-[:INSTRUCTED]-(director:Director)
+OPTIONAL MATCH (m)-[:HAS]->(genre:Genre)
+OPTIONAL MATCH (m)<-[:PUBLISHED]-(publisher:Publisher)
+RETURN m.Title AS Title, m.Id AS movieId, m.Rating AS Rating, m.Summary AS Summary,
+COLLECT(DISTINCT actor.Name) AS Actors, COLLECT(DISTINCT director.Name) AS Directors,
+COLLECT(DISTINCT genre.Genre) AS Genres, COLLECT(DISTINCT publisher.Name) AS Publishers
+"""
 
     result = conn.run(cypher_query, movieId=movie_id)
 
