@@ -26,35 +26,6 @@ def get_movie_catalog():
     return movies
 
 
-# Define a model for movie details
-
-
-
-
-
-
-# def fetch_movie_data(movie_id):
-#         conn = db_connector.get_graph_db("BockBluster")
-
-#         # Create a session from the connection
-#         session = conn.session()
-
-#         # Execute the Cypher query
-#         cypher_query = """
-#             MATCH (m:Movie {id: $movieId})
-#             RETURN m.title AS title, m.release_year AS releaseYear, m.rating AS rating
-#             """
-#         result = session.run(cypher_query, movieId=movie_id)
-#         movie_data = result.single()
-
-#         if movie_data:
-#             return entities.Movie(
-#                 title=movie_data["title"],
-#                 release_year=movie_data["releaseYear"],
-#                 rating=movie_data["rating"]
-#             )
-
-#         return None
 
 def fetch_movie_data(movie_id):
     conn = db_connector.get_graph_db()
@@ -75,4 +46,3 @@ def fetch_movie_data(movie_id):
         )
 
     return None
-

@@ -1,32 +1,49 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import apiUtils from '../utils/apiUtils'; // Import apiUtils
 
 const Cart = () => {
-  const cartItems = [
-    {
-      id: 1,
-      title: 'Movie 1',
-      duration: 7,
-      price: 9.99,
-    },
-    {
-      id: 2,
-      title: 'Movie 2',
-      duration: 3,
-      price: 4.99,
-    },
-    // Add more cart items as needed
-  ];
+  const [cartItems, setCartItems] = useState([]);
 
-  const handleRemove = (itemId) => {
-    // Logic to remove the item from the cart
+
+
+
+  const fetchCartItems = async () => {
+    const userId = 1; // This we need to get from the browsers storage.
+    const response = await apiUtils.getAxios().get(`${apiUtils.getUrl()}/get_cart?user_id=${userId}`);
+    const cartItemsObject = response.data.cartItems;
+    const cartItemsArray = Object.keys(cartItemsObject).map((key) => {
+      return { id: key, duration: cartItemsObject[key] };
+    });
+    console.log(cartItemsArray);
+    setCartItems(cartItemsArray || []);
+
   };
 
-  const handleDurationChange = (itemId, duration) => {
-    // Logic to update the rental duration for the item
+  useEffect(() => {
+    fetchCartItems();
+  }, []);
+
+  const handleRemove = async (itemId) => {
+    const userId = 1; // This we need to get from the browsers storage.
+    await apiUtils.getAxios().post(`${apiUtils.getUrl()}/removefromcart`, {
+      user_id: userId,
+      movie_id: itemId,
+    });
+    fetchCartItems(); // updating the state with the new cart
+  };
+  
+  const handleDurationChange = async (itemId, duration) => {
+    const userId = 1; // This we need to get from the browsers storage.
+    await apiUtils.getAxios().post(`${apiUtils.getUrl()}/addtocart`, {
+      user_id: userId,
+      movie_id: itemId,
+      duration: parseInt(duration, 10),
+    });
+    fetchCartItems(); // updating the state with the new cart
   };
 
   return (
-    <div >
+    <div>
       <h1>Cart</h1>
       {cartItems.length === 0 ? (
         <p>No items in the cart</p>

@@ -5,11 +5,12 @@ from fastapi.encoders import jsonable_encoder
 from fastapi.security import OAuth2PasswordBearer
 
 #Classes
-from services import movie_service, populate_service, login_service
+from services import movie_service, populate_service, login_service, cart_service
 from models import dtos, entities
 
 #Misc
 from datetime import timedelta
+from pydantic import BaseModel
 import os
 import sys
 import inspect
@@ -44,6 +45,7 @@ def read_root():
 @app.get("/movies")
 def get_movies():
     return movie_service.get_movie_catalog()
+
 @app.post("/populatesql")
 def populate_sql_db():
     return populate_service.populate_sql()
@@ -74,3 +76,22 @@ def get_movie(movie_id: str):
     else:
         # Return a 404 Not Found response if the movie data is not found
         return {"error": "Movie not found"}
+### This below is for the cart service ###
+
+class Item(BaseModel):
+    user_id: int
+    movie_id: str
+    #duration: int
+
+@app.post("/addtocart")
+def add_to_cart(item: Item):
+    return cart_service.add_to_cart(item)
+
+@app.post("/removefromcart")
+def remove_from_cart(item: Item):
+    return cart_service.remove_from_cart(item)
+
+@app.get("/get_cart")
+async def get_cart(user_id: int):
+    cart = cart_service.get_cart(user_id)
+    return {"cartItems": cart}
