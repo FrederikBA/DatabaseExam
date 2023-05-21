@@ -224,3 +224,39 @@ ul.header li a:hover:not(.active) {
 .card-title {
   font-weight: bold;
 }
+
+
+
+
+
+
+.poster-container {
+  position: relative;
+}
+
+.hover-buttons {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  pointer-events: none;
+}
+
+.poster-container:hover .hover-buttons button {
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.hover-buttons button {
+  color: #fff;
+  background-color: transparent;
+  border: none;
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 8px;
+  cursor: pointer;
+}
