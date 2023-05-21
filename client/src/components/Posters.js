@@ -47,35 +47,39 @@ const Posters = ({ movies, isLoading }) => {
       {movies.map((movie) => (
         <div
           key={movie.movie_id}
-          className="col mb-4 poster"
+          className="col mb-4 poster-container"
           onMouseEnter={() => handleMouseEnter(movie.movie_id)}
           onMouseLeave={handleMouseLeave}
         >
-          <div className="">
-            <img src={movie.poster} className="card-img-top" alt={movie.title} />
-            <div className="card-body center">
-              <p className="card-title">{movie.title}</p>
-              <div>
-                <img className="star" src={star} alt="Rating Star" />
-                {movie.rating} / 10
-              </div>
-              <div>{movie.price}.- DKK</div>
-              {hoveredMovieId === movie.movie_id ? (
-                <div>
-                  <button onClick={(e) => { e.stopPropagation(); addToCart(movie.movie_id, movie.price); }}>
-                    Rent
-                  </button>
-                  <button onClick={() => handleMovieClick(movie.movie_id)}>
-                    Movie Details
-                  </button>
-                </div>
-              ) : null}
+          <div className="hover-buttons">
+            {hoveredMovieId === movie.movie_id ? (
+              <>
+                <button onClick={(e) => { e.stopPropagation(); addToCart(movie.movie_id, movie.price); }}>
+                  Rent
+                </button>
+                <button onClick={() => handleMovieClick(movie.movie_id)}>
+                  Movie Details
+                </button>
+              </>
+            ) : null}
+          </div>
+          <img src={movie.poster} className="card-img-top" alt={movie.title} />
+          <div className="card-body center">
+            <p className="card-title">{movie.title}</p>
+            <div>
+              <img className="star" src={star} alt="Rating Star" />
+              {movie.rating} / 10
             </div>
+            <div>{movie.price}.- DKK</div>
           </div>
         </div>
       ))}
     </div>
   );
+  
+
+
+
 };
 
 export default Posters;
