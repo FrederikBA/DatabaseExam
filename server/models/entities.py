@@ -19,3 +19,7 @@ class Movie(BaseModel):
     directors: list[str]
     actors: list[str]
     review: list[str]
+
+
+class MovieSearchRequest(BaseModel):
+    query: str

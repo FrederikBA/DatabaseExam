@@ -3,6 +3,7 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.encoders import jsonable_encoder
 from fastapi.security import OAuth2PasswordBearer
+from typing import List
 
 #Classes
 from services import movie_service, populate_service, login_service, cart_service
@@ -95,3 +96,13 @@ def remove_from_cart(item: Item):
 async def get_cart(user_id: int):
     cart = cart_service.get_cart(user_id)
     return {"cartItems": cart}
+
+
+@app.get('/movies/title/{title}')
+def search_movie(title: str):
+    movie_titles = movie_service.search_filter(title)
+
+    if movie_titles:
+        return movie_titles
+    else:
+        return {'error': 'Movie not found'}

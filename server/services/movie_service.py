@@ -26,11 +26,9 @@ def get_movie_catalog():
     return movies
 
 
-
+#Function to retrieve data for a movie details webpage.
 def fetch_movie_data(movie_id):
     conn = db_connector.get_graph_db()
-
-    # Execute the Cypher query
     cypher_query = """
 MATCH (m:Movie {Id: $movieId})
 OPTIONAL MATCH (m)<-[r:`STARRED_IN`]-(actor:Actor)
@@ -44,8 +42,6 @@ COLLECT(DISTINCT actor.Name) AS Actors, COLLECT(DISTINCT director.Name) AS Direc
 COLLECT(DISTINCT genre.Genre) AS Genres, COLLECT(DISTINCT publisher.Name) AS Publishers,
 COLLECT(DISTINCT review.Content) AS Reviews
 """
-
-
 
     result = conn.run(cypher_query, movieId=movie_id)
 
@@ -68,4 +64,18 @@ COLLECT(DISTINCT review.Content) AS Reviews
         )
 
     return None
+
+
+def search_filter(title: str):
+    conn = db_connector.get_sql_db("BockBluster")
+
+    c1 = conn.cursor()
+    c1.execute("SELECT title FROM movie WHERE title LIKE ?", f"%{title}%")
+    data = c1.fetchall()
+
+    # Fetch all movie titles
+    movie_titles = [record[0] for record in data]
+
+    return movie_titles
+
 
