@@ -207,7 +207,7 @@ def populate_graphdb():
     for index, row in df.iterrows():
         count += 1
         # Create a movie node
-        movie_node = Node("Movie", Id=row['id'], Title=row['title'], Rating=row['rating'], Summary=row['summary'], Release_year=row['release year'], Runtime=row['runtime'], Certificate=row['certificate'])
+        movie_node = Node("Movie", Id=row['id'], Title=row['title'], Rating=row['rating'], Summary=row['summary'], Release_year=row['release year'], Runtime=row['runtime'], Certificate=row['certificate'], Poster=row['Poster'])
         graph.create(movie_node)
 
         # Create review and user nodes and relationships

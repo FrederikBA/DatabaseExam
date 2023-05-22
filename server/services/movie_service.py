@@ -33,7 +33,7 @@ def fetch_movie_data(movie_id):
     # Execute the Cypher query
     cypher_query = """
         MATCH (m:Movie {Id: $movieId})
-        OPTIONAL MATCH (m)<-[r:`STARRED IN`]-(actor:Actor)
+        OPTIONAL MATCH (m)<-[r:`STARRED_IN`]-(actor:Actor)
         OPTIONAL MATCH (m)<-[:INSTRUCTED]-(director:Director)
         OPTIONAL MATCH (m)-[:HAS]->(genre:Genre)
         OPTIONAL MATCH (m)<-[:PUBLISHED]-(publisher:Publisher)
