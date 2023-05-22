@@ -32,29 +32,39 @@ def fetch_movie_data(movie_id):
 
     # Execute the Cypher query
     cypher_query = """
-        MATCH (m:Movie {Id: $movieId})
-        OPTIONAL MATCH (m)<-[r:`STARRED_IN`]-(actor:Actor)
-        OPTIONAL MATCH (m)<-[:INSTRUCTED]-(director:Director)
-        OPTIONAL MATCH (m)-[:HAS]->(genre:Genre)
-        OPTIONAL MATCH (m)<-[:PUBLISHED]-(publisher:Publisher)
-        RETURN m.Title AS Title, m.Id AS movieId, m.Rating AS Rating, m.Summary AS Summary,
-        COLLECT(DISTINCT actor.Name) AS Actors, COLLECT(DISTINCT director.Name) AS Directors,
-        COLLECT(DISTINCT genre.Genre) AS Genres, COLLECT(DISTINCT publisher.Name) AS Publishers
-    """
+MATCH (m:Movie {Id: $movieId})
+OPTIONAL MATCH (m)<-[r:`STARRED_IN`]-(actor:Actor)
+OPTIONAL MATCH (m)<-[:INSTRUCTED]-(director:Director)
+OPTIONAL MATCH (m)-[:HAS]->(genre:Genre)
+OPTIONAL MATCH (m)<-[:PUBLISHED]-(publisher:Publisher)
+OPTIONAL MATCH (m)<-[:FOR]-(review:Review)
+RETURN m.Title AS Title, m.Id AS movieId, m.Rating AS Rating, m.Summary AS Summary,
+m.Release_year AS ReleaseYear, m.Runtime AS Runtime, m.Certificate AS Certificate, m.Poster AS Poster,
+COLLECT(DISTINCT actor.Name) AS Actors, COLLECT(DISTINCT director.Name) AS Directors,
+COLLECT(DISTINCT genre.Genre) AS Genres, COLLECT(DISTINCT publisher.Name) AS Publishers,
+COLLECT(DISTINCT review.Content) AS Reviews
+"""
+
+
 
     result = conn.run(cypher_query, movieId=movie_id)
 
     # Iterate over the cursor and retrieve the movie data
     for record in result:
         return entities.Movie(
-            title=record["Title"],
             movieId=record["movieId"],
+            title=record["Title"],
             rating=record["Rating"],
             summary=record["Summary"],
             actors=record["Actors"],
             directors=record["Directors"],
             genres=record["Genres"],
-            publishers=record["Publishers"]
+            publishers=record["Publishers"],
+            release_year=record["ReleaseYear"],
+            certificate=record["Certificate"],
+            runtime=record["Runtime"],
+            review=record["Reviews"],
+            poster=record["Poster"]
         )
 
     return None
