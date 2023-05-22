@@ -20,7 +20,6 @@ const Header = ({ isLoggedIn, onLogout }) => {
                     <li className="frontpage-nav"><NavLink to='/'>Film</NavLink></li>
                     <li><NavLink to="/searchfilter">Søg Film</NavLink></li>
                     <li><NavLink to="/movielist">Film Liste</NavLink></li>
-                    <li><NavLink to="/moviedetails">Film Detaljer</NavLink></li>
                     <li><NavLink to="/cart">Indkøbskurv</NavLink></li>
                     {!isLoggedIn && <li className="align-right login-nav"><NavLink to="/login">Log ind</NavLink></li>}
                     {isLoggedIn && <li onClick={onClick} className='align-right login-nav'><NavLink to="/">Log ud</NavLink></li>}

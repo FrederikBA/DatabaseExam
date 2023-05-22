@@ -53,6 +53,7 @@ COLLECT(DISTINCT review.Content) AS Reviews
     for record in result:
         return entities.Movie(
             movieId=record["movieId"],
+            poster=record["Poster"],
             title=record["Title"],
             rating=record["Rating"],
             summary=record["Summary"],
@@ -64,7 +65,6 @@ COLLECT(DISTINCT review.Content) AS Reviews
             certificate=record["Certificate"],
             runtime=record["Runtime"],
             review=record["Reviews"],
-            poster=record["Poster"]
         )
 
     return None

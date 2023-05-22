@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import apiUtils from '../utils/apiUtils';
+import star from '../img/star.png';
 import '../MovieDetails.css'; // Import the CSS file for styling
 
 
@@ -31,12 +32,17 @@ const MovieDetails = () => {
   return (
     <div className="movie-details-container">
       <h2 className="movie-title">{movie.title}</h2>
+      <div className="movie-poster">
+  <img src={movie.poster} alt="Movie Poster" />
+</div>
       <div className="movie-info">
         <div>
           <h3>Rating:</h3>
+          <img className="star" src={star} alt="Rating Star" />
           <p>{movie.rating}</p>
         </div>
-        <div>
+        {/* Add styling class and modify the layout */}
+        <div className="movie-summary">
           <h3>Summary:</h3>
           <p>{movie.summary}</p>
         </div>
@@ -48,7 +54,8 @@ const MovieDetails = () => {
             ))}
           </ul>
         </div>
-        <div>
+        {/* Add styling class */}
+        <div className="movie-directors">
           <h3>Directors:</h3>
           <ul>
             {movie.directors.map((director) => (
@@ -56,7 +63,8 @@ const MovieDetails = () => {
             ))}
           </ul>
         </div>
-        <div>
+        {/* Add styling class */}
+        <div className="movie-genres">
           <h3>Genres:</h3>
           <ul>
             {movie.genres.map((genre) => (
@@ -64,7 +72,8 @@ const MovieDetails = () => {
             ))}
           </ul>
         </div>
-        <div>
+        {/* Add styling class */}
+        <div className="movie-publishers">
           <h3>Publishers:</h3>
           <ul>
             {movie.publishers.map((publisher) => (
@@ -73,9 +82,9 @@ const MovieDetails = () => {
           </ul>
         </div>
       </div>
-      {/* Render other movie details */}
     </div>
   );
+  
 };
 
 export default MovieDetails;

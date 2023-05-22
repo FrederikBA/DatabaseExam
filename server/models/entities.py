@@ -6,16 +6,16 @@ class User(BaseModel):
     
 
 class Movie(BaseModel):
+    poster: str
     movieId: str
     title: str
-    rating: float
     summary: str
-    actors: list[str]
-    directors: list[str]
-    genres: list[str]
-    publishers: list[str]
+    runtime: str
     release_year: int
     certificate: str
-    runtime: str
+    rating: float
+    genres: list[str]
+    publishers: list[str]
+    directors: list[str]
+    actors: list[str]
     review: list[str]
-    poster: str
