@@ -82,7 +82,7 @@ def get_movie(movie_id: str):
 class Item(BaseModel):
     user_id: int
     movie_id: str
-    #duration: int
+    duration: int
 
 @app.post("/addtocart")
 def add_to_cart(item: Item):

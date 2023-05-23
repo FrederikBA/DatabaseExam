@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import star from '../img/star.png';
 import apiUtils from '../utils/apiUtils';
 
-const Posters = ({ movies, isLoading }) => {
+const Posters = ({ movies, isLoading, rentNotifySuccess, rentNotifyError }) => {
   const navigate = useNavigate();
   const [hoveredMovieId, setHoveredMovieId] = useState(null);
 
@@ -20,9 +20,9 @@ const Posters = ({ movies, isLoading }) => {
         price: price,
       });
 
-      alert('Movie added to cart!');
+      rentNotifySuccess()
     } catch (error) {
-      alert('There was an error adding the movie to the cart.');
+      rentNotifyError()
     }
   };
 
@@ -50,8 +50,8 @@ const Posters = ({ movies, isLoading }) => {
           <img src={movie.poster} className="card-img-top" alt={movie.title} />
           {hoveredMovieId === movie.movie_id ? (
             <>
-              <button onClick={() => handleMovieClick(movie.movie_id)} class="btn show-more">Vis mere</button>
-              <button class="btn rent">Læg i kurv</button>
+              <button onClick={() => handleMovieClick(movie.movie_id)} className="btn show-more">Vis mere</button>
+              <button onClick={(e) => { e.stopPropagation(); addToCart(movie.movie_id, movie.price); }} id="rent-button" className="btn rent">Læg i kurv</button>
             </>
           ) : null}
 

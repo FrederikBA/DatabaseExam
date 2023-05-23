@@ -4,6 +4,9 @@ import apiUtils from '../utils/apiUtils';
 import Posters from '../components/Posters';
 import Pagination from '../components/Pagination';
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const Movies = () => {
     const [movies, setMovies] = useState([]);
@@ -23,6 +26,16 @@ const Movies = () => {
         getMovies()
     }, [URL]);
 
+    // Toast
+    //Toast
+    const rentNotifySuccess = () => {
+        toast.success('Movie added to cart!', { position: toast.POSITION.BOTTOM_RIGHT });
+    };
+
+    const rentNotifyError = () => {
+        toast.error('There was an error adding the movie to cart', { position: toast.POSITION.BOTTOM_RIGHT });
+    };
+
     // Get current movies
     const indexOfLastMovie = currentPage * moviesPerPage;
     const indexOfFirstMovie = indexOfLastMovie - moviesPerPage;
@@ -40,8 +53,8 @@ const Movies = () => {
                 currentPage={currentPage}
                 paginate={paginate}
             />
-            <Posters movies={currentMovies} isLoading={isLoading} />
-
+            <Posters movies={currentMovies} isLoading={isLoading} rentNotifySuccess={rentNotifySuccess} rentNotifyError={rentNotifyError} />
+            <ToastContainer />
         </div>
     )
 }
