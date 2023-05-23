@@ -235,20 +235,6 @@ ul.header li a:hover:not(.active) {
   font-size: 10pt;
 }
 
-/* .poster-btn {
-  border-radius: 1px;
-  color: white !important;
-  box-shadow: 0 0 0 2px #fff;
-  margin: 8px 0;
-  width: 8em;
-}
-
-.poster-btn:hover {
-  background-color: white !important;
-  color: black !important;
-  opacity: 1;
-} */
-
 .poster {
   position: relative;
   cursor: pointer;
@@ -299,4 +285,87 @@ ul.header li a:hover:not(.active) {
 .poster:hover .card-img-top {
   transition: transform 0.3s ease;
   opacity: 0.2;
+}
+
+.modal-close-btn {
+  margin-bottom: -3px;
+}
+
+.cart-container {
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+  padding: 10px;
+}
+
+.cart-item {
+  background-color: #FFF;
+  color: black;
+  width: 900px !important;
+}
+
+.cart-col {
+  padding-left: 0 !important;
+}
+
+.cart-poster {
+  width: 150px;
+  height: auto;
+  float: left !important;
+  padding: 10px;
+}
+
+.cart-title {
+  float: left !important;
+  padding: 5px;
+  position: relative;
+}
+
+.cart-summary {
+  width: 300px;
+  opacity: 0.6;
+  font-size: 11pt;
+  margin-top: 55px;
+}
+
+.cart-loan {
+  padding-top: 175px;
+}
+
+.cart-date {
+  float: left !important;
+}
+
+.cart-remove {
+  cursor: pointer;
+  float: right;
+  clear: right;
+  padding-top: 10px;
+}
+
+.cart-remove:hover {
+  color: #090922;
+}
+
+.cart-price {
+  float: right;
+  clear: right;
+  padding-top: 130px;
+}
+
+.checkout-container {
+  max-width: 900px !important;
+}
+
+.checkout-button {
+  float: right;
+  width: 250px;
+  margin-right: 10px;
+  margin-bottom: 50px;
+}
+
+.checkout-total-price {
+  float: right;
+  clear: right;
+  margin-right: 10px;
 }

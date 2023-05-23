@@ -9,7 +9,6 @@ const Posters = ({ movies, isLoading, rentNotifySuccess, rentNotifyError, rentNo
 
 
   const addToCart = async (movieId, price) => {
-    const userId = 1; // This should be replaced with the actual user Id
 
     try {
       if (localStorage.getItem('jwtToken') !== null) {

@@ -33,8 +33,8 @@ const MovieDetails = () => {
     <div className="movie-details-container">
       <h2 className="movie-title">{movie.title}</h2>
       <div className="movie-poster">
-  <img src={movie.poster} alt="Movie Poster" />
-</div>
+        <img src={movie.poster} alt="Movie Poster" />
+      </div>
       <div className="movie-info">
         <div>
           <h3>Rating:</h3>
@@ -84,7 +84,7 @@ const MovieDetails = () => {
       </div>
     </div>
   );
-  
+
 };
 
 export default MovieDetails;

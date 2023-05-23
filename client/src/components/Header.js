@@ -1,7 +1,6 @@
 import { NavLink } from "react-router-dom";
 
 import Logo from './Logo';
-import CartModal from "./CartModal";
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUser, faSearch, faShoppingCart } from '@fortawesome/free-solid-svg-icons'
@@ -27,7 +26,7 @@ const Header = ({ isLoggedIn, onLogout }) => {
                         <div>
                             <li onClick={onClick} className='align-right login-nav'><NavLink to="/landing-page">Log ud</NavLink></li>
                             <li className="align-right"><span className="user-nav">{localStorage.getItem('user')} {userIcon}</span></li>
-                            <li className=""><NavLink to="/cart"><div className="cart-icon">{cartIcon}</div></NavLink></li>
+                            <li className="align-right"><NavLink to="/cart"><div className="cart-icon">{cartIcon}</div></NavLink></li>
                         </div>
                     }
                 </ul>

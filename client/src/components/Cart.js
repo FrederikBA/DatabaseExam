@@ -1,71 +1,75 @@
-import React, { useState, useEffect } from 'react';
-import apiUtils from '../utils/apiUtils'; // Import apiUtils
+import { useState, useEffect } from "react"
+import apiUtils from "../utils/apiUtils";
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faRemove } from '@fortawesome/free-solid-svg-icons'
 
 const Cart = () => {
-  const [cartItems, setCartItems] = useState([]);
+    const [cartItems, setCartItems] = useState([]);
+    const [totalPrice, setTotalPrice] = useState(0);
+
+    const trashIcon = <FontAwesomeIcon icon={faRemove} size="2x" />
+
+    const URL = apiUtils.getUrl()
+    const userId = localStorage.getItem('userId')
+
+    const getCart = async () => {
+        const response = await apiUtils.getAxios().get(URL + `/get_cart?user_id=${userId}`)
+        setCartItems(response.data.cartItems.movies);
+        setTotalPrice(response.data.cartItems.totalPrice)
+    }
+    useEffect(() => {
+        getCart();
+    }, []);
+
+    const handleRemove = async (itemId) => {
+        await apiUtils.getAxios().post(`${apiUtils.getUrl()}/removefromcart`, {
+            user_id: userId,
+            movie_id: itemId,
+        });
+        getCart();
+    };
 
 
+    // Date stuff
+    const currentDate = new Date();
+    currentDate.setDate(currentDate.getDate() + 7);
 
+    const monthNames = ["Januar", "Februar", "Marts", "April", "Maj", "Juni", "Juli", "August", "September", "Oktober", "November", "December"];
+    const month = monthNames[currentDate.getMonth()];
+    const day = currentDate.getDate();
+    const year = currentDate.getFullYear();
 
-  const fetchCartItems = async () => {
-    const userId = 1; // This we need to get from the browsers storage.
-    const response = await apiUtils.getAxios().get(`${apiUtils.getUrl()}/get_cart?user_id=${userId}`);
-    const cartItemsObject = response.data.cartItems;
-    const cartItemsArray = Object.keys(cartItemsObject).map((key) => {
-      return { id: key, duration: cartItemsObject[key] };
-    });
-    setCartItems(cartItemsArray || []);
+    const formattedDate = `${(day)} ${month}, ${year}`;
 
-  };
+    return (
+        <div className="container checkout-container">
+            {cartItems.map((item) => (
+                <div className="cart-container" key={item.movie_id}>
+                    <div className="cart-item container">
+                        <div className="row">
+                            <div className="col-2 cart-col">
+                                <img className="cart-poster" src={item.poster} alt="cart-poster"></img>
+                            </div>
+                            <div className="col cart-col">
+                                <h3 className="cart-title">{item.title}</h3>
+                                <div className="cart-loan"><span className="cart-date"><strong>Lejes til:</strong> {formattedDate}</span></div>
+                            </div>
+                            <div className="col cart-col">
+                                <div onClick={() => handleRemove(item.movie_id)} className="cart-remove cart-item-details">{trashIcon}</div>
+                                <div className="cart-price cart-item-details"><strong>{item.price} kr</strong></div>
+                            </div>
+                        </div>
+                    </div>
+                </div >
+            ))}
+            <div className="checkout-total-price">I alt: <strong>{totalPrice} kr</strong></div>
+            <br></br>
+            <br></br>
+            <button className="btn btn-primary checkout-button">Lej film</button>
+        </div>
 
-  useEffect(() => {
-    fetchCartItems();
-  }, []);
+    )
+}
 
-  const handleRemove = async (itemId) => {
-    const userId = 1; // This we need to get from the browsers storage.
-    await apiUtils.getAxios().post(`${apiUtils.getUrl()}/removefromcart`, {
-      user_id: userId,
-      movie_id: itemId,
-    });
-    fetchCartItems(); // updating the state with the new cart
-  };
-
-  const handleDurationChange = async (itemId, duration) => {
-    const userId = 1; // This we need to get from the browsers storage.
-    await apiUtils.getAxios().post(`${apiUtils.getUrl()}/addtocart`, {
-      user_id: userId,
-      movie_id: itemId,
-      duration: parseInt(duration, 10),
-    });
-    fetchCartItems(); // updating the state with the new cart
-  };
-
-  return (
-    <div>
-      <h1>Cart</h1>
-      {cartItems.length === 0 ? (
-        <p>No items in the cart</p>
-      ) : (
-        <ul>
-          {cartItems.map((item) => (
-            <li key={item.id}>
-              <h3>{item.title}</h3>
-              <p>Rental Duration: {item.duration} days</p>
-              <p>Price: ${item.price}</p>
-              <button onClick={() => handleRemove(item.id)}>Remove</button>
-              <input
-                type="number"
-                min="1"
-                value={item.duration}
-                onChange={(e) => handleDurationChange(item.id, e.target.value)}
-              />
-            </li>
-          ))}
-        </ul>
-      )}
-    </div>
-  );
-};
-
-export default Cart;
+export default Cart

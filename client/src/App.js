@@ -12,6 +12,7 @@ import Login from "./views/Login";
 import Header from './components/Header';
 import MovieDetails from "./components/MovieDetails";
 import Cart from "./components/Cart";
+import CartNew from "./components/Cart";
 import Posters from "./components/Posters";
 
 

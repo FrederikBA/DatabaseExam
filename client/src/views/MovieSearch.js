@@ -20,7 +20,6 @@ const MovieSearch = () => {
   const search = async () => {
     const response = await apiUtils.getAxios().get(URL + `/movies/title/${searchValue}`)
     setMovies(response.data);
-    console.log(movies);
     setIsLoading(false)
   }
 
