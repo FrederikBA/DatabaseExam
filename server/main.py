@@ -64,7 +64,7 @@ def login_for_access_token(user: entities.User):
     access_token = login_service.create_access_token(
         data={"sub": user.username}, expires_delta=access_token_expires
     )
-    return {"access_token": access_token, "token_type": "bearer"}
+    return {"access_token": access_token, "token_type": "bearer", "user_id": authenticated_user['id']}
 
 @app.get("/movies/{movie_id}")
 def get_movie(movie_id: str):
@@ -79,17 +79,12 @@ def get_movie(movie_id: str):
         return {"error": "Movie not found"}
 ### This below is for the cart service ###
 
-class Item(BaseModel):
-    user_id: int
-    movie_id: str
-    duration: int
-
 @app.post("/addtocart")
-def add_to_cart(item: Item):
+def add_to_cart(item: dtos.cartDTO):
     return cart_service.add_to_cart(item)
 
 @app.post("/removefromcart")
-def remove_from_cart(item: Item):
+def remove_from_cart(item: dtos.cartDTO):
     return cart_service.remove_from_cart(item)
 
 @app.get("/get_cart")

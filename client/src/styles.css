@@ -298,5 +298,5 @@ ul.header li a:hover:not(.active) {
 
 .poster:hover .card-img-top {
   transition: transform 0.3s ease;
-  opacity: 0.5;
+  opacity: 0.2;
 }

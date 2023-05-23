@@ -18,6 +18,7 @@ def get_user(username: str):
     # Check if user exists
     if user:
         user_dict = {
+            "id": user[0],
             "username": user[2],
             "password": user[3]
         }

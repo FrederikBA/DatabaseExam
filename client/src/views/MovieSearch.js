@@ -5,6 +5,8 @@ import Posters from '../components/Posters';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const MovieSearch = () => {
   const [searchValue, setSearchValue] = useState('');
@@ -28,6 +30,19 @@ const MovieSearch = () => {
     }
   };
 
+  // Toast
+  const rentNotifySuccess = () => {
+    toast.success('Din film er tilføjet til kurven', { position: toast.POSITION.BOTTOM_RIGHT });
+  };
+
+  const rentNotifyError = () => {
+    toast.error('Der opstod en fejl, din film blev ikke tilføjet', { position: toast.POSITION.BOTTOM_RIGHT });
+  };
+
+  const rentNotifyLogin = () => {
+    toast.error('Du skal logge ind for at leje en film', { position: toast.POSITION.BOTTOM_RIGHT });
+  };
+
   return (
     <div className='center'>
       <div className="text-area-div mt-2">
@@ -43,7 +58,8 @@ const MovieSearch = () => {
         </div>
       </div>
       <div className='container mt-5'>
-        <Posters movies={movies} isLoading={isLoading} />
+        <Posters movies={movies} isLoading={isLoading} rentNotifySuccess={rentNotifySuccess} rentNotifyError={rentNotifyError} rentNotifyLogin={rentNotifyLogin} />
+        <ToastContainer />
       </div>
 
     </div>

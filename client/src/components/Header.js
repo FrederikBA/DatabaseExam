@@ -1,13 +1,15 @@
 import { NavLink } from "react-router-dom";
 
 import Logo from './Logo';
+import CartModal from "./CartModal";
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faUser, faSearch } from '@fortawesome/free-solid-svg-icons'
+import { faUser, faSearch, faShoppingCart } from '@fortawesome/free-solid-svg-icons'
 
 const Header = ({ isLoggedIn, onLogout }) => {
     const userIcon = <FontAwesomeIcon icon={faUser} />
     const searchIcon = <FontAwesomeIcon icon={faSearch} />
+    const cartIcon = <FontAwesomeIcon icon={faShoppingCart} size="2x" />
 
     const onClick = () => {
         onLogout()
@@ -20,9 +22,14 @@ const Header = ({ isLoggedIn, onLogout }) => {
                     <NavLink className="none" to="/"><Logo /></NavLink>
                     <li className="frontpage-nav"><NavLink to='/'>Film</NavLink></li>
                     <li><NavLink to="/search">Søg {searchIcon}</NavLink></li>
-                    <li><NavLink to="/cart">Indkøbskurv</NavLink></li>
                     {!isLoggedIn && <li className="align-right login-nav"><NavLink to="/login">Log ind</NavLink></li>}
-                    {isLoggedIn && <div><li onClick={onClick} className='align-right login-nav'><NavLink to="/landing-page">Log ud</NavLink></li><li className="align-right"><span className="user-nav">{localStorage.getItem('user')} {userIcon}</span></li></div>}
+                    {isLoggedIn &&
+                        <div>
+                            <li onClick={onClick} className='align-right login-nav'><NavLink to="/landing-page">Log ud</NavLink></li>
+                            <li className="align-right"><span className="user-nav">{localStorage.getItem('user')} {userIcon}</span></li>
+                            <li className=""><NavLink to="/cart"><div className="cart-icon">{cartIcon}</div></NavLink></li>
+                        </div>
+                    }
                 </ul>
             </nav>
         </div >

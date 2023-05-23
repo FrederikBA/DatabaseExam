@@ -4,9 +4,10 @@ import redis
 r = redis.Redis(host='localhost', port=6379, db=0) # adjust to your Redis settings
 
 def add_to_cart(item):
+    rental_duration = 7 # Rental duration set to 7 days
     """ We are using Redis HSET for efficient storage and easy updates of cart items. """
     key = f"cart:{item.user_id}"
-    r.hset(key, item.movie_id, item.duration)
+    r.hset(key, item.movie_id, rental_duration)
     return {'message': 'Item added to cart'}
 
 

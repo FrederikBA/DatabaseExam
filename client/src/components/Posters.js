@@ -3,24 +3,26 @@ import { useNavigate } from 'react-router-dom';
 import star from '../img/star.png';
 import apiUtils from '../utils/apiUtils';
 
-const Posters = ({ movies, isLoading, rentNotifySuccess, rentNotifyError }) => {
+const Posters = ({ movies, isLoading, rentNotifySuccess, rentNotifyError, rentNotifyLogin }) => {
   const navigate = useNavigate();
   const [hoveredMovieId, setHoveredMovieId] = useState(null);
 
 
   const addToCart = async (movieId, price) => {
     const userId = 1; // This should be replaced with the actual user Id
-    const duration = 7; // Set duration to 7 days as default
 
     try {
-      await apiUtils.getAxios().post(apiUtils.getUrl() + '/addtocart', {
-        user_id: userId,
-        movie_id: movieId,
-        duration: duration,
-        price: price,
-      });
+      if (localStorage.getItem('jwtToken') !== null) {
+        await apiUtils.getAxios().post(apiUtils.getUrl() + '/addtocart', {
+          user_id: localStorage.getItem('userId'),
+          movie_id: movieId,
+          price: price,
+        });
+        rentNotifySuccess()
+      } else {
+        rentNotifyLogin()
+      }
 
-      rentNotifySuccess()
     } catch (error) {
       rentNotifyError()
     }

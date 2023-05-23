@@ -27,13 +27,16 @@ const Movies = () => {
     }, [URL]);
 
     // Toast
-    //Toast
     const rentNotifySuccess = () => {
-        toast.success('Movie added to cart!', { position: toast.POSITION.BOTTOM_RIGHT });
+        toast.success('Din film er tilføjet til kurven', { position: toast.POSITION.BOTTOM_RIGHT });
     };
 
     const rentNotifyError = () => {
-        toast.error('There was an error adding the movie to cart', { position: toast.POSITION.BOTTOM_RIGHT });
+        toast.error('Der opstod en fejl, din film blev ikke tilføjet', { position: toast.POSITION.BOTTOM_RIGHT });
+    };
+
+    const rentNotifyLogin = () => {
+        toast.error('Du skal logge ind for at leje en film', { position: toast.POSITION.BOTTOM_RIGHT });
     };
 
     // Get current movies
@@ -53,7 +56,7 @@ const Movies = () => {
                 currentPage={currentPage}
                 paginate={paginate}
             />
-            <Posters movies={currentMovies} isLoading={isLoading} rentNotifySuccess={rentNotifySuccess} rentNotifyError={rentNotifyError} />
+            <Posters movies={currentMovies} isLoading={isLoading} rentNotifySuccess={rentNotifySuccess} rentNotifyError={rentNotifyError} rentNotifyLogin={rentNotifyLogin} />
             <ToastContainer />
         </div>
     )

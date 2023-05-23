@@ -1,4 +1,5 @@
 from pydantic import BaseModel
 
-class testDTO(BaseModel):
-    name: str
+class cartDTO(BaseModel):
+    user_id: int
+    movie_id: str
