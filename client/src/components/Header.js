@@ -19,7 +19,7 @@ const Header = ({ isLoggedIn, onLogout }) => {
                 <ul className='header'>
                     <NavLink className="none" to="/"><Logo /></NavLink>
                     <li className="frontpage-nav"><NavLink to='/'>Film</NavLink></li>
-                    <li><NavLink to="/searchfilter">Søg {searchIcon}</NavLink></li>
+                    <li><NavLink to="/search">Søg {searchIcon}</NavLink></li>
                     <li><NavLink to="/cart">Indkøbskurv</NavLink></li>
                     {!isLoggedIn && <li className="align-right login-nav"><NavLink to="/login">Log ind</NavLink></li>}
                     {isLoggedIn && <div><li onClick={onClick} className='align-right login-nav'><NavLink to="/landing-page">Log ud</NavLink></li><li className="align-right"><span className="user-nav">{localStorage.getItem('user')} {userIcon}</span></li></div>}

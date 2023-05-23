@@ -7,9 +7,6 @@ const Posters = ({ movies, isLoading }) => {
   const navigate = useNavigate();
   const [hoveredMovieId, setHoveredMovieId] = useState(null);
 
-  const handleMovieClick = (movieId) => {
-    navigate(`/movies/${movieId}`);
-  };
 
   const addToCart = async (movieId, price) => {
     const userId = 1; // This should be replaced with the actual user Id
@@ -29,6 +26,10 @@ const Posters = ({ movies, isLoading }) => {
     }
   };
 
+  const handleMovieClick = (movieId) => {
+    navigate(`/movies/${movieId}`);
+  };
+
   const handleMouseEnter = (movieId) => {
     setHoveredMovieId(movieId);
   };
@@ -38,38 +39,26 @@ const Posters = ({ movies, isLoading }) => {
   };
 
   if (isLoading) {
-    return <h2>Loading...</h2>;
+    return <br></br>;
   }
 
   return (
     <div className="row row-cols-5">
       {movies.map((movie) => (
-        <div
-          key={movie.movie_id}
-          className="col mb-4 poster-container"
-          onMouseEnter={() => handleMouseEnter(movie.movie_id)}
-          onMouseLeave={handleMouseLeave}
-        >
-          <div className="hover-buttons">
-            {hoveredMovieId === movie.movie_id ? (
-              <>
-                <button onClick={(e) => { e.stopPropagation(); addToCart(movie.movie_id, movie.price); }}>
-                  Rent
-                </button>
-                <button onClick={() => handleMovieClick(movie.movie_id)}>
-                  Movie Details
-                </button>
-              </>
-            ) : null}
-          </div>
+        <div key={movie.movie_id} className="col mb-4 poster" onMouseEnter={() => handleMouseEnter(movie.movie_id)}
+          onMouseLeave={handleMouseLeave}>
           <img src={movie.poster} className="card-img-top" alt={movie.title} />
+          {hoveredMovieId === movie.movie_id ? (
+            <>
+              <button onClick={() => handleMovieClick(movie.movie_id)} class="btn show-more">Vis mere</button>
+              <button class="btn rent">Læg i kurv</button>
+            </>
+          ) : null}
+
           <div className="card-body center">
             <p className="card-title">{movie.title}</p>
-            <div>
-              <img className="star" src={star} alt="Rating Star" />
-              {movie.rating} / 10
-            </div>
-            <div>{movie.price}.- DKK</div>
+            <div className="poster-text"><img className="star" src={star} alt="Rating Star" />{movie.rating} / 10</div>
+            <span className="poster-text">Lej for: {movie.price} kr.</span>
           </div>
         </div>
       ))}

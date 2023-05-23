@@ -1,6 +1,7 @@
 from database import db_connector
 from models import entities
 import os
+import spacy
 
 sql_value = os.getenv("SQL_VALUE")
 
@@ -73,12 +74,23 @@ def search_filter(title: str):
     conn = db_connector.get_sql_db("BockBluster")
 
     c1 = conn.cursor()
-    c1.execute(f"SELECT title FROM movie WHERE title LIKE {sql_value}", f"%{title}%")
+    c1.execute(f"SELECT m.movie_id, m.price_id, m.title, m.release_year, m.rating, m.poster, p.price FROM movie m JOIN price p ON m.price_id = p.price_id WHERE title LIKE {sql_value}", f"%{title}%")
     data = c1.fetchall()
 
     # Fetch all movie titles
-    movie_titles = [record[0] for record in data]
+    movies = []
+    for m in data:
+        movie = {
+        "movie_id": m[0],
+        "price_id": m[1],
+        "title": m[2],
+        "release_year": m[3],
+        "rating": m[4],
+        "poster": m[5],
+        "price": m[6]
+        }
+        movies.append(movie)
 
-    return movie_titles
+    return movies
 
 

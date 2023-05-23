@@ -9,7 +9,8 @@ const Movies = () => {
     const [movies, setMovies] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
-    const [moviesPerPage, setMoviesPerPage] = useState(50);
+
+    const moviesPerPage = 50
 
     const URL = apiUtils.getUrl()
 

@@ -5,7 +5,7 @@ import { useState } from "react";
 //Views
 import Frontpage from './views/Frontpage';
 import LandingPage from "./views/LandingPage";
-import MovieSearch from "./components/MovieSearch";
+import MovieSearch from "./views/MovieSearch";
 import Login from "./views/Login";
 
 //Components
@@ -27,7 +27,7 @@ const App = () => {
         <Route path="/login" element={<Login onLogin={() => setIsLoggedIn(true)} />} />
         <Route path="/landing-page" element={<LandingPage />} />
         <Route path="/cart" element={<Cart />} />
-        <Route path="/searchfilter" element={<MovieSearch />} />
+        <Route path="/search" element={<MovieSearch />} />
         <Route path="/moviedetails" element={<MovieDetails />} />
         <Route path="/" element={<Posters />} />
         <Route path="/movies/:movieId" element={<MovieDetails />} />
