@@ -105,4 +105,4 @@ def search_movie(title: str):
     if movie_titles:
         return movie_titles
     else:
-        return {'error': 'Movie not found'}
+        return []
