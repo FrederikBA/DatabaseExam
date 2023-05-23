@@ -7,6 +7,7 @@ import { faRemove } from '@fortawesome/free-solid-svg-icons'
 const Cart = () => {
     const [cartItems, setCartItems] = useState([]);
     const [totalPrice, setTotalPrice] = useState(0);
+    const [isLoading, setIsLoading] = useState(true);
 
     const trashIcon = <FontAwesomeIcon icon={faRemove} size="2x" />
 
@@ -17,6 +18,7 @@ const Cart = () => {
         const response = await apiUtils.getAxios().get(URL + `/get_cart?user_id=${userId}`)
         setCartItems(response.data.cartItems.movies);
         setTotalPrice(response.data.cartItems.totalPrice)
+        setIsLoading(false)
     }
     useEffect(() => {
         getCart();
@@ -29,6 +31,14 @@ const Cart = () => {
         });
         getCart();
     };
+
+    const isEmpty = () => {
+        if (cartItems.length === 0 && isLoading === false) {
+            return true
+        } else {
+            return false
+        }
+    }
 
 
     // Date stuff
@@ -63,12 +73,14 @@ const Cart = () => {
                     </div>
                 </div >
             ))}
-            <div className="checkout-total-price">I alt: <strong>{totalPrice} kr</strong></div>
-            <br></br>
-            <br></br>
-            <button className="btn btn-primary checkout-button">Lej film</button>
+            {!isEmpty() ? <div>
+                <div className="checkout-total-price">I alt: <strong>{totalPrice} kr</strong></div>
+                <br></br>
+                <br></br>
+                <button className="btn btn-primary checkout-button">Lej film</button>
+            </div>
+                : <div className="center"><h1>Kurven er tom</h1></div>}
         </div>
-
     )
 }
 
