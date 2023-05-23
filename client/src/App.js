@@ -1,18 +1,17 @@
-import { BrowserRouter, Routes, Route, useHistory } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Helmet, HelmetProvider } from 'react-helmet-async';
 import { useState } from "react";
 
 //Views
-import LandingPage from "./views/LandingPage";
 import Frontpage from './views/Frontpage';
+import LandingPage from "./views/LandingPage";
+import MovieSearch from "./components/MovieSearch";
 import Login from "./views/Login";
 
 //Components
 import Header from './components/Header';
-import MovieList from "./components/MovieList";
 import MovieDetails from "./components/MovieDetails";
 import Cart from "./components/Cart";
-import SearchFilter from "./components/SearchFilter";
 import Posters from "./components/Posters";
 
 
@@ -28,9 +27,8 @@ const App = () => {
         <Route path="/login" element={<Login onLogin={() => setIsLoggedIn(true)} />} />
         <Route path="/landing-page" element={<LandingPage />} />
         <Route path="/cart" element={<Cart />} />
-        <Route path="/searchfilter" element={<SearchFilter />} />
+        <Route path="/searchfilter" element={<MovieSearch />} />
         <Route path="/moviedetails" element={<MovieDetails />} />
-        <Route path="/movielist" element={<MovieList />} />
         <Route path="/" element={<Posters />} />
         <Route path="/movies/:movieId" element={<MovieDetails />} />
       </Routes>

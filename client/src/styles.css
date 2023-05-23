@@ -35,6 +35,14 @@ ul.header li a {
   text-decoration: none;
 }
 
+ul.header li span {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
 ul.header span {
   text-decoration: none;
 }
@@ -74,9 +82,6 @@ ul.header li a:hover:not(.active) {
 
 .align-right {
   float: right !important;
-}
-
-.login-nav {
   padding-right: 10px;
 }
 
@@ -218,7 +223,7 @@ ul.header li a:hover:not(.active) {
 }
 
 .poster:hover img {
-  opacity: 0.7;
+  opacity: 0.7 !important;
 }
 
 .card-title {

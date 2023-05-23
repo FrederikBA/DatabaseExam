@@ -1,5 +1,8 @@
 from database import db_connector
 from models import entities
+import os
+
+sql_value = os.getenv("SQL_VALUE")
 
 def get_movie_catalog():
     conn = db_connector.get_sql_db("BockBluster")
@@ -70,7 +73,7 @@ def search_filter(title: str):
     conn = db_connector.get_sql_db("BockBluster")
 
     c1 = conn.cursor()
-    c1.execute("SELECT title FROM movie WHERE title LIKE ?", f"%{title}%")
+    c1.execute(f"SELECT title FROM movie WHERE title LIKE {sql_value}", f"%{title}%")
     data = c1.fetchall()
 
     # Fetch all movie titles

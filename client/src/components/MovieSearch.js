@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-const SearchFilter = () => {
+const MovieSearch = () => {
   const [searchValue, setSearchValue] = useState('');
   const [filterValue, setFilterValue] = useState('');
   const [movies, setMovies] = useState([]);
@@ -57,4 +57,4 @@ const SearchFilter = () => {
   );
 };
 
-export default SearchFilter;
+export default MovieSearch

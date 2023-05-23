@@ -25,7 +25,6 @@ const Posters = ({ movies, isLoading }) => {
 
       alert('Movie added to cart!');
     } catch (error) {
-      console.log(error);
       alert('There was an error adding the movie to the cart.');
     }
   };
@@ -76,7 +75,7 @@ const Posters = ({ movies, isLoading }) => {
       ))}
     </div>
   );
-  
+
 
 
 

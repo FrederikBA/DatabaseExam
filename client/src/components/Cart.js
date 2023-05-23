@@ -14,7 +14,6 @@ const Cart = () => {
     const cartItemsArray = Object.keys(cartItemsObject).map((key) => {
       return { id: key, duration: cartItemsObject[key] };
     });
-    console.log(cartItemsArray);
     setCartItems(cartItemsArray || []);
 
   };
@@ -31,7 +30,7 @@ const Cart = () => {
     });
     fetchCartItems(); // updating the state with the new cart
   };
-  
+
   const handleDurationChange = async (itemId, duration) => {
     const userId = 1; // This we need to get from the browsers storage.
     await apiUtils.getAxios().post(`${apiUtils.getUrl()}/addtocart`, {
