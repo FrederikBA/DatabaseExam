@@ -83,10 +83,14 @@ def add_to_cart(item: dtos.cartDTO):
 def remove_from_cart(item: dtos.cartDTO):
     return cart_service.remove_from_cart(item)
 
+@app.post("/clearcart")
+def clear_cart(user_id: int):
+    return cart_service.clear_cart(user_id)
+
+
 @app.get("/get_cart")
 async def get_cart(user_id: int):
-    cart = cart_service.get_cart(user_id)
-    return {"cartItems": cart}
+    return cart_service.get_cart(user_id)
 
 
 @app.get('/movies/title/{title}')
@@ -100,4 +104,4 @@ def search_movie(title: str):
     
 @app.post('/order')
 def create_order_test(order_dto: dtos.orderDTO):
-    return order_service.create_order_test(order_dto)
+    return order_service.create_order(order_dto)

@@ -27,9 +27,11 @@ def create_order(order_dto: dtos.orderDTO):
         '''
     
     for movie in order_dto.movies:
+        loan_date = datetime.now()
+        return_date = loan_date + timedelta(days=7)
         query += f'''
         INSERT INTO loan (loan_id, order_id, movie_id, loan_date, return_date)
-        VALUES ('{str(uuid.uuid4())}', @order_id, '{movie.movie_id}', GETDATE(), NULL);
+        VALUES ('{str(uuid.uuid4())}', @order_id, '{movie.movie_id}', '{loan_date}', '{return_date}');
         '''
     
     query += '''

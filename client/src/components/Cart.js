@@ -8,6 +8,7 @@ const Cart = () => {
     const [cartItems, setCartItems] = useState([]);
     const [totalPrice, setTotalPrice] = useState(0);
     const [isLoading, setIsLoading] = useState(true);
+    const [movies, setMovies] = useState([{}]);
 
     const trashIcon = <FontAwesomeIcon icon={faRemove} size="2x" />
 
@@ -16,8 +17,9 @@ const Cart = () => {
 
     const getCart = async () => {
         const response = await apiUtils.getAxios().get(URL + `/get_cart?user_id=${userId}`)
-        setCartItems(response.data.cartItems.movies);
-        setTotalPrice(response.data.cartItems.totalPrice)
+        setCartItems(response.data.movies);
+        setTotalPrice(response.data.totalPrice)
+        setMovies(response.data.movies)
         setIsLoading(false)
     }
     useEffect(() => {
@@ -39,6 +41,33 @@ const Cart = () => {
             return false
         }
     }
+
+    const items = cartItems.map((item) => ({
+        user_id: userId,
+        movie_id: item.movie_id
+    }));
+
+    console.log(items);
+
+
+    const clearCart = async () => {
+        await apiUtils.getAxios().post(`${URL}/clearcart?user_id=${userId}`)
+    }
+
+    const purchase = async () => {
+        try {
+            await apiUtils.getAxios().post(URL + '/order', {
+                "movies": movies,
+                "member_id": "020a60e8-d436-4c3e-8419-895638a721d2",
+                "total_price": totalPrice
+            })
+            //Clear cart
+            clearCart()
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
 
 
     // Date stuff
@@ -77,7 +106,7 @@ const Cart = () => {
                 <div className="checkout-total-price">I alt: <strong>{totalPrice} kr</strong></div>
                 <br></br>
                 <br></br>
-                <button className="btn btn-primary checkout-button">Lej film</button>
+                <button onClick={purchase} className="btn btn-primary checkout-button">Lej film</button>
             </div>
                 : <div className="center"><h1>Kurven er tom</h1></div>}
         </div>

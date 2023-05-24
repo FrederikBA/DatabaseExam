@@ -21,12 +21,24 @@ def remove_from_cart(item):
     r.hdel(key, item.movie_id)
     return {'message': 'Item removed from cart'}
 
+# def clear_cart(items):
+#     for item in items:
+#         remove_from_cart(item[1][0])
+#     return items
+
+def clear_cart(user_id):
+    """ Clears the entire cart for a given user. """
+    key = f"cart:{user_id}"
+    r.delete(key)
+    return {'message': 'Cart cleared'}
+
+
+
 
 def get_cart(user_id: int):
     """ Fetch all items from a specific cart in Redis using HGETALL. """
     key = f"cart:{user_id}"
     items = r.hgetall(key)
-    # Since the way Redis returns is in bytes, we needed to decode them in order to make it work.
     items = {k.decode(): v.decode() for k, v in items.items()}
 
     #Get movie data from cart items
