@@ -1,4 +1,5 @@
 USE BockBluster;
+DROP TABLE IF EXISTS orders;
 DROP TABLE IF EXISTS loan;
 DROP TABLE IF EXISTS user_login;
 DROP TABLE IF EXISTS member;

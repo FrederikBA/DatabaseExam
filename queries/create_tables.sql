@@ -32,12 +32,19 @@ CREATE TABLE user_login (
 CREATE TABLE loan (
   loan_id INT PRIMARY KEY,
   movie_id VARCHAR(255),
-  member_id VARCHAR(255),
   loan_date DATE,
   return_date DATE,
   FOREIGN KEY (movie_id) REFERENCES movie (movie_id),
-  FOREIGN KEY (member_id) REFERENCES member (member_id)
 );
+
+CREATE TABLE orders (
+  order_id INT PRIMARY KEY,
+  loan_id INT,
+  member_id VARCHAR(255),
+  total_price FLOAT,
+  FOREIGN KEY (loan_id) REFERENCES loan (loan_id),
+  FOREIGN KEY (member_id) REFERENCES member (member_id)
+)
 
 ALTER TABLE user_login ADD CONSTRAINT FK_user_login_member
   FOREIGN KEY (member_id) REFERENCES member (member_id);
@@ -48,5 +55,8 @@ ALTER TABLE movie ADD CONSTRAINT FK_movie_price
 ALTER TABLE loan ADD CONSTRAINT FK_loan_movie
   FOREIGN KEY (movie_id) REFERENCES movie (movie_id);
 
-ALTER TABLE loan ADD CONSTRAINT FK_loan_member
+ALTER TABLE orders ADD CONSTRAINT FK_orders_loan
+  FOREIGN KEY (loan_id) REFERENCES loan (loan_id);
+
+ALTER TABLE orders ADD CONSTRAINT FK_orders_member
   FOREIGN KEY (member_id) REFERENCES member (member_id);
