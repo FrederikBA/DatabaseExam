@@ -9,34 +9,45 @@ sql_value = os.getenv("SQL_VALUE")
 def create_order(order_dto: dtos.orderDTO):
     connection = db_connector.get_sql_db('BockBluster')
     cursor = connection.cursor()
-    try:
-        cursor.execute("BEGIN TRANSACTION")
 
-        # Insert into the orders table
-        order_id = str(uuid.uuid4())
-        member_id = order_dto.member_id
-        total_price = order_dto.total_price
-        cursor.execute(f"INSERT INTO orders (order_id, member_id, total_price) VALUES ({sql_value}, {sql_value}, {sql_value})",
-                       (order_id, member_id, total_price))
+    order_id = str(uuid.uuid4())
 
-        movie_ids = ['tt0029583', 'tt0031381']
-        # Insert into the loan table for each movie
-        for movie_id in movie_ids:
-            loan_id = str(uuid.uuid4())
-            loan_date = datetime.now()
-            return_date = loan_date + timedelta(days=7)
-            cursor.execute(f"INSERT INTO loan (loan_id, order_id, movie_id, loan_date, return_date) VALUES ({sql_value}, {sql_value}, {sql_value}, {sql_value}, {sql_value})",
-                            (loan_id, order_id, movie_id, loan_date, return_date))
-        print('Rowcount:', cursor.rowcount)
-        if cursor.rowcount >= 1:
-            cursor.execute("COMMIT")
-        else:
-            cursor.execute("ROLLBACK")
+    query = f'''    
+    BEGIN TRY
+        BEGIN TRANSACTION;
 
-    except Exception as e:
-        cursor.execute("ROLLBACK")
+        DECLARE @order_id VARCHAR(255);
+        DECLARE @loan_id VARCHAR(255);
 
-    finally:
-        cursor.close()
-        connection.close()
+        INSERT INTO orders (order_id, member_id, total_price)
+        VALUES ('{order_id}', '{order_dto.member_id}', {order_dto.total_price});
+
+        SELECT @order_id = '{order_id}';
+
+        '''
+    
+    for movie in order_dto.movies:
+        query += f'''
+        INSERT INTO loan (loan_id, order_id, movie_id, loan_date, return_date)
+        VALUES ('{str(uuid.uuid4())}', @order_id, '{movie.movie_id}', GETDATE(), NULL);
+        '''
+    
+    query += '''
+        COMMIT TRANSACTION;
+    END TRY
+    BEGIN CATCH
+        ROLLBACK TRANSACTION;
+    END CATCH;
+    '''
+    
+    cursor.execute(query)
+    connection.commit()
+
+    # Close the cursor and connection
+    cursor.close()
+    connection.close()
     return "Done"
+
+
+
+

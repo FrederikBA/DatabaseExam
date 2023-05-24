@@ -99,5 +99,5 @@ def search_movie(title: str):
         return []
     
 @app.post('/order')
-def create_order(order_dto: dtos.orderDTO):
-    return order_service.create_order(order_dto)
+def create_order_test(order_dto: dtos.orderDTO):
+    return order_service.create_order_test(order_dto)

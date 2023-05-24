@@ -1,6 +1,5 @@
 BEGIN TRANSACTION;
 
--- Declare variables
 DECLARE @order_id VARCHAR(255);
 DECLARE @loan_id VARCHAR(255);
 
