@@ -5,7 +5,7 @@ DECLARE @order_id VARCHAR(255);
 DECLARE @loan_id VARCHAR(255);
 
 INSERT INTO orders (order_id, member_id, total_price)
-VALUES ('12345', '5bf7a77c-d735-4932-8489-27ab16e6468d', 100.00);
+VALUES ('12345', '3010d419-c4f9-4c8a-8f8a-b10e5a97bb0e', 100.00);
 
 SELECT @order_id = '12345';
 

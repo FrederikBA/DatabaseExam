@@ -21,13 +21,13 @@ def create_order(order_dto: dtos.orderDTO):
 
         movie_ids = ['tt0029583', 'tt0031381']
         # Insert into the loan table for each movie
-        # for movie_id in movie_ids:
-        #     loan_id = str(uuid.uuid4())
-        #     loan_date = datetime.now()
-        #     return_date = loan_date + timedelta(days=7)
-        #     cursor.execute(f"INSERT INTO loan (loan_id, order_id, movie_id, loan_date, return_date) VALUES ({sql_value}, {sql_value}, {sql_value}, {sql_value}, {sql_value})",
-        #                     (loan_id, order_id, movie_id, loan_date, return_date))
-
+        for movie_id in movie_ids:
+            loan_id = str(uuid.uuid4())
+            loan_date = datetime.now()
+            return_date = loan_date + timedelta(days=7)
+            cursor.execute(f"INSERT INTO loan (loan_id, order_id, movie_id, loan_date, return_date) VALUES ({sql_value}, {sql_value}, {sql_value}, {sql_value}, {sql_value})",
+                            (loan_id, order_id, movie_id, loan_date, return_date))
+        print('Rowcount:', cursor.rowcount)
         if cursor.rowcount >= 1:
             cursor.execute("COMMIT")
         else:
