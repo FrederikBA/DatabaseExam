@@ -6,7 +6,7 @@ from fastapi.security import OAuth2PasswordBearer
 from typing import List
 
 #Classes
-from services import movie_service, populate_service, login_service, cart_service
+from services import movie_service, populate_service, login_service, cart_service, order_service
 from models import dtos, entities
 
 #Misc
@@ -68,16 +68,12 @@ def login_for_access_token(user: entities.User):
 
 @app.get("/movies/{movie_id}")
 def get_movie(movie_id: str):
-    # Call the fetch_movie_data function to retrieve the movie data
     movie_data = movie_service.fetch_movie_data(movie_id)
 
     if movie_data:
-        # Return the movie data as JSON
         return movie_data.dict()
     else:
-        # Return a 404 Not Found response if the movie data is not found
         return {"error": "Movie not found"}
-### This below is for the cart service ###
 
 @app.post("/addtocart")
 def add_to_cart(item: dtos.cartDTO):
@@ -101,3 +97,7 @@ def search_movie(title: str):
         return movie_titles
     else:
         return []
+    
+@app.post('/order')
+def create_order(order_dto: dtos.orderDTO):
+    return order_service.create_order(order_dto)
