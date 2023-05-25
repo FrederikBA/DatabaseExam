@@ -19,3 +19,8 @@ class Movie(BaseModel):
     directors: list[str]
     actors: list[str]
     review: list[str]
+
+
+class Movie(BaseModel):
+    title: str
+    price: float

@@ -92,4 +92,55 @@ def search_filter(title: str):
 
     return movies
 
+def get_movies_by_genre(genre):
+    conn = db_connector.get_graph_db()
+    cypher_query = f"""
+        MATCH (m:Movie)-[:HAS]->(g:Genre)
+        WHERE g.Genre = '{genre}'
+        RETURN m.Title, g.Genre AS genre
+        ORDER BY m.Title
+    """
+    results = conn.run(cypher_query)
+    movies = []
+    for record in results:
+        movie_title = record['m.Title']
+        movie_genre = record['genre']
+        movies.append({'title': movie_title, 'genre': movie_genre})
+    return movies
 
+
+def get_movies_by_rating():
+    conn = db_connector.get_graph_db()
+    cypher_query = """
+    MATCH (m:Movie)
+    RETURN m.Title, m.Rating
+    ORDER BY m.Rating DESC
+    """
+
+    results = conn.run(cypher_query)
+    movies = [(record["m.Title"], record["m.Rating"]) for record in results]
+
+    return movies
+
+def get_movies_by_price():
+    conn = db_connector.get_sql_db("BockBluster")
+
+    c1 = conn.cursor()
+    c1.execute("""
+        SELECT m.title, p.price
+        FROM movie m
+        JOIN price p ON m.price_id = p.price_id
+        ORDER BY p.price
+    """)
+    data = c1.fetchall()
+
+    # Fetch movie titles and prices
+    movies = []
+    for row in data:
+        movie = {
+            "title": row[0],
+            "price": row[1]
+        }
+        movies.append(movie)
+
+    return movies

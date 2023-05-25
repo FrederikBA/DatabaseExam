@@ -14,7 +14,7 @@ const MovieDetails = () => {
 
   useEffect(() => {
     const getMovieDetails = async () => {
-      const response = await apiUtils.getAxios().get(URL + `/movies/${movieId}`);
+      const response = await apiUtils.getAxios().get(URL + `/movies/id/${movieId}`);
       setMovie(response.data);
       setIsLoading(false);
     };

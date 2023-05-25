@@ -66,7 +66,7 @@ def login_for_access_token(user: entities.User):
     )
     return {"access_token": access_token, "token_type": "bearer", "user_id": authenticated_user['id']}
 
-@app.get("/movies/{movie_id}")
+@app.get("/movies/id/{movie_id}")
 def get_movie(movie_id: str):
     movie_data = movie_service.fetch_movie_data(movie_id)
 
@@ -105,3 +105,29 @@ def search_movie(title: str):
 @app.post('/order')
 def create_order_test(order_dto: dtos.orderDTO):
     return order_service.create_order(order_dto)
+
+
+@app.get('/movies/genre/{genre}')
+def get_movies_by_genre(genre: str):
+    movies = movie_service.get_movies_by_genre(genre)
+    if movies:
+        return movies
+    else:
+        return []
+    
+
+@app.get("/movies/rating")
+def get_movies_by_rating():
+    movies = movie_service.get_movies_by_rating()
+    return movies
+
+
+@app.get('/movies/sort/price', response_model=List[entities.Movie])
+def get_movies_sorted_by_price():
+    movies = movie_service.get_movies_by_price()
+
+    sorted_movies = []
+    for movie in movies:
+        sorted_movies.append(entities.Movie(title=movie['title'], price=movie['price']))
+
+    return sorted_movies
