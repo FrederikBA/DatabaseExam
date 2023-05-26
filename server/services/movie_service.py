@@ -99,13 +99,20 @@ def search_filter(title: str):
         movies.append(movie)
     return movies
 
-def get_movies_by_genre(genre):
+def filter_movies_by_genre(genre):
     conn = db_connector.get_graph_db()
     cypher_query = f"""
-        MATCH (m:Movie)-[:HAS]->(g:Genre)
-        WHERE g.Genre = '{genre}'
-        RETURN m.Title, g.Genre AS genre
-        ORDER BY m.Title
+    MATCH (m:Movie)-[:HAS]->(g:Genre)
+    WHERE g.Genre = '{genre}'
+    OPTIONAL MATCH (m)<-[r:`STARRED_IN`]-(actor:Actor)
+    OPTIONAL MATCH (m)<-[:INSTRUCTED]-(director:Director)
+    OPTIONAL MATCH (m)-[:HAS]->(genre:Genre)
+    OPTIONAL MATCH (m)<-[:PUBLISHED]-(publisher:Publisher)
+    RETURN m.Title AS Title, m.Id AS movieId, m.Rating AS Rating, m.Summary AS Summary,
+    m.Release_year AS ReleaseYear, m.Runtime AS Runtime, m.Certificate AS Certificate, m.Poster AS Poster, m.Price AS Price,
+    COLLECT(DISTINCT actor.Name) AS Actors, COLLECT(DISTINCT director.Name) AS Directors,
+    COLLECT(DISTINCT genre.Genre) AS Genres, COLLECT(DISTINCT publisher.Name) AS Publishers
+    ORDER BY m.Title
     """
     results = conn.run(cypher_query)
     movies = []
@@ -116,56 +123,32 @@ def get_movies_by_genre(genre):
     return movies
 
 
-def get_movies_by_rating(sort_order):
-    conn = db_connector.get_graph_db()
-    cypher_query = f"""
-    MATCH (m:Movie)
-    RETURN m.Title, m.Rating
-    ORDER BY m.Rating {sort_order}
-    """
-    results = conn.run(cypher_query)
-    movies = [(record["m.Title"], record["m.Rating"]) for record in results]
-    return movies
-
-def get_movies_by_price(sort_order):
-    conn = db_connector.get_graph_db()
-    cypher_query = f"""
-    MATCH (m:Movie)
-    RETURN m.Title AS Title, m.Price AS Price
-    ORDER BY Price {sort_order}
-    """
-    result = conn.run(cypher_query)
-    movies = [(record['Title'], record['Price']) for record in result]
-    return movies
-
-
-# Function to sort movies by release year
-def get_movies_sorted_by_release_year(sort_order):
+def get_movies_sorted(sort_value, sort_order):
     conn = db_connector.get_graph_db()
     cypher_query = f'''
-    MATCH (m:Movie)
-    RETURN m.Title, m.Release_year
-    ORDER BY m.Release_year {sort_order}
+    OPTIONAL MATCH (m)<-[r:`STARRED_IN`]-(actor:Actor)
+    OPTIONAL MATCH (m)<-[:INSTRUCTED]-(director:Director)
+    OPTIONAL MATCH (m)-[:HAS]->(genre:Genre)
+    OPTIONAL MATCH (m)<-[:PUBLISHED]-(publisher:Publisher)
+    RETURN m.Title AS Title, m.Id AS movieId, m.Rating AS Rating, m.Summary AS Summary,
+    m.Release_year AS ReleaseYear, m.Runtime AS Runtime, m.Certificate AS Certificate, m.Poster AS Poster, m.Price AS Price,
+    COLLECT(DISTINCT actor.Name) AS Actors, COLLECT(DISTINCT director.Name) AS Directors,
+    COLLECT(DISTINCT genre.Genre) AS Genres, COLLECT(DISTINCT publisher.Name) AS Publishers
+    ORDER BY {sort_value} {sort_order}
     '''
-    results = conn.run(cypher_query)
-    movies = [(record["m.Title"], record["m.Release_year"]) for record in results]
-    return movies
+    data = conn.run(cypher_query)
 
-   
-# Function to sort movies by runtime
-def get_movies_sorted_by_runtime(sort_order):
-    conn = db_connector.get_graph_db()
-    cypher_query = f'''
-    MATCH (m:Movie)
-    RETURN m.Title, m.Runtime
-    ORDER BY m.Runtime {sort_order}
-    '''
-    results = conn.run(cypher_query)
     movies = []
-    for record in results:
-        movie = {
-            'title': record['m.Title'],
-            'runtime': record['m.Runtime']
-        }
+
+    for m in data:
+        movie = {"title": m[0],
+        "movie_id": m[1],
+        "rating": m[2],
+        "release_year": m[4],
+        "runtime": m[5],
+        "price": m[8],
+        "poster": m[7],
+        "genre": m[11]}
         movies.append(movie)
+
     return movies
