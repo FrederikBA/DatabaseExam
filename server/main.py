@@ -92,7 +92,7 @@ def clear_cart(user_id: int):
 async def get_cart(user_id: int):
     return cart_service.get_cart(user_id)
 
-
+# Endpoint to retrieve movies sorted by title
 @app.get('/movies/title/{title}')
 def search_movie(title: str):
     movie_titles = movie_service.search_filter(title)
@@ -106,7 +106,7 @@ def search_movie(title: str):
 def create_order_test(order_dto: dtos.orderDTO):
     return order_service.create_order(order_dto)
 
-
+# Endpoint to retrieve movies sorted by genre
 @app.get('/movies/sort/genre/{genre}')
 def get_movies_by_genre(genre: str):
     movies = movie_service.get_movies_by_genre(genre)
@@ -116,17 +116,16 @@ def get_movies_by_genre(genre: str):
         return []
     
 
-
+# Endpoint to retrieve movies sorted by rating
 @app.get("/movies/sort/rating")
 def get_movies_by_rating():
-    movies = movie_service.get_movies_by_rating()
-    return movies
+    return movie_service.get_movies_by_rating()
 
-
+# Endpoint to retrieve movies sorted by price
 @app.get('/movies/sort/price')
 def get_movies_sorted_by_price():
-    movies = movie_service.get_movies_by_price()
-    return movies
+    return movie_service.get_movies_by_price()
+    
 
 
 # Endpoint to retrieve movies sorted by release year
@@ -137,7 +136,7 @@ def get_movies_sorted_by_release_year_endpoint(sort_order: str):
 # Endpoint to retrieve movies sorted by runtime
 @app.get('/movies/sort/runtime/{sort_order}')
 def get_movies_sorted_by_runtime_endpoint(sort_order: str):
-    movies = movie_service.get_movies_sorted_by_runtime(sort_order.upper())
-    return {'movies': movies}
+    return movie_service.get_movies_sorted_by_runtime(sort_order.upper())
+    
 
 
