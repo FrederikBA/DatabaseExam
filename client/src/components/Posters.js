@@ -28,7 +28,7 @@ const Posters = ({ movies, isLoading, rentNotifySuccess, rentNotifyError, rentNo
   };
 
   const handleMovieClick = (movieId) => {
-    navigate(`/movies/${movieId}`);
+    navigate(`/movies/id/${movieId}`);
   };
 
   const handleMouseEnter = (movieId) => {

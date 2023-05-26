@@ -144,3 +144,43 @@ def get_movies_by_price():
         movies.append(movie)
 
     return movies
+
+
+# Function to sort movies by release year
+def get_movies_sorted_by_release_year():
+    conn = db_connector.get_graph_db()
+
+    cypher_query = '''
+    MATCH (m:Movie)
+    RETURN m.Title, m.Release_year
+    ORDER BY m.Release_year DESC
+    '''
+
+    results = conn.run(cypher_query)
+
+    movies = [(record["m.Title"], record["m.Release_year"]) for record in results]
+
+    return movies
+
+   
+# Function to sort movies by runtime
+def get_movies_sorted_by_runtime():
+    conn = db_connector.get_graph_db()
+
+    cypher_query = '''
+    MATCH (m:Movie)
+    RETURN m.Title, m.Runtime
+    ORDER BY m.Runtime DESC
+    '''
+
+    results = conn.run(cypher_query)
+
+    movies = []
+    for record in results:
+        movie = {
+            'title': record['m.Title'],
+            'runtime': record['m.Runtime']
+        }
+        movies.append(movie)
+
+    return movies

@@ -21,6 +21,3 @@ class Movie(BaseModel):
     review: list[str]
 
 
-class Movie(BaseModel):
-    title: str
-    price: float

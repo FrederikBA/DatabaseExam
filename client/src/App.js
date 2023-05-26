@@ -33,7 +33,7 @@ const App = () => {
         <Route path="/search" element={<MovieSearch />} />
         <Route path="/moviedetails" element={<MovieDetails />} />
         <Route path="/" element={<Posters />} />
-        <Route path="/movies/:movieId" element={<MovieDetails />} />
+        <Route path="/movies/id/:movieId" element={<MovieDetails />} />
         <Route path="/moviegenre" element={<MovieList />} />
       </Routes>
       <HelmetProvider>

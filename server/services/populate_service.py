@@ -7,6 +7,7 @@ from datetime import datetime
 import uuid
 from ast import literal_eval
 from py2neo import Node, Relationship
+import re
 
 currentdir = os.path.dirname(os.path.abspath(
     inspect.getfile(inspect.currentframe())))
@@ -17,6 +18,7 @@ sql_value = os.getenv("SQL_VALUE")
 
 def get_fresh_df():
     df = pd.read_csv('../data/movies.csv')
+    
     return df
 
 def get_unique_strings(list_of_lists):
@@ -161,10 +163,10 @@ def populate_users_sql():
 def populate_sql():
 
     #Prices
-    populate_prices_sql()
+    #populate_prices_sql()
 
     #Movies
-    populate_movies_sql()
+    #populate_movies_sql()
 
     #Members
     populate_members_sql()
@@ -186,12 +188,9 @@ def populate_graphdb():
     df['genre'] = df['genre'].apply(lambda x: x.split(', '))
     df['actors'] = df['actors'].apply(lambda x: x.split(', '))
     df['publishers'] = df['publishers'].apply(literal_eval)
+    df['release year'] = df['release year'].apply(lambda x: re.sub(r'\D', '', x)).astype(int)
+    df['runtime'] = df['runtime'].apply(lambda x: re.sub(r'\D', '', x)).astype(int)
 
-
-    unique_directors = get_unique_strings(df['directors'])
-    unique_genres = get_unique_strings(df['genre'])
-    unique_actors = get_unique_strings(df['actors'])
-    unique_publishers = get_unique_strings(df['publishers'])
 
 
     review_dict_list = []
@@ -207,7 +206,7 @@ def populate_graphdb():
     for index, row in df.iterrows():
         count += 1
         # Create a movie node
-        movie_node = Node("Movie", Id=row['id'], Title=row['title'], Rating=row['rating'], Summary=row['summary'], Release_year=row['release year'], Runtime=row['runtime'], Certificate=row['certificate'], Poster=row['Poster'])
+        movie_node = Node("Movie", Id=row['id'], Title=row['title'], Rating=row['rating'], Summary=row['summary'], Release_year=row['release year'], Runtime=row['runtime'], Certificate=row['certificate'], Poster=row['Poster'], Price=row['price'])
         graph.create(movie_node)
 
         # Create review and user nodes and relationships
