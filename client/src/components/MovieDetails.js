@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import apiUtils from '../utils/apiUtils';
 import star from '../img/star.png';
-import '../MovieDetails.css'; // Import the CSS file for styling
-
+import '../MovieDetails.css';
 
 const MovieDetails = () => {
   const { movieId } = useParams();
@@ -31,51 +30,55 @@ const MovieDetails = () => {
 
   return (
     <div className="movie-details-container">
-      <h2 className="movie-title">{movie.title}</h2>
+      <h2 className="movie-title">{movie.title} ({movie.release_year})</h2>
       <div className="movie-poster">
         <img src={movie.poster} alt="Movie Poster" />
       </div>
       <div className="movie-info">
         <div>
-          <h3>Rating:</h3>
-          <img className="star" src={star} alt="Rating Star" />
-          <p>{movie.rating}</p>
+          <h3>Rating</h3>
+          <span className="details-rating">
+            <img className="star" src={star} alt="Rating Star" />
+            {movie.rating}
+          </span>
         </div>
-        {/* Add styling class and modify the layout */}
+        <div>
+          <h3>Runtime</h3>
+          <span className="details-rating">
+            {movie.runtime} minutes
+          </span>
+        </div>
         <div className="movie-summary">
-          <h3>Summary:</h3>
+          <h3>Summary</h3>
           <p>{movie.summary}</p>
         </div>
         <div>
-          <h3>Actors:</h3>
+          <h3>Actors</h3>
           <ul>
             {movie.actors.map((actor) => (
               <li key={actor}>{actor}</li>
             ))}
           </ul>
         </div>
-        {/* Add styling class */}
         <div className="movie-directors">
-          <h3>Directors:</h3>
+          <h3>Directors</h3>
           <ul>
             {movie.directors.map((director) => (
               <li key={director}>{director}</li>
             ))}
           </ul>
         </div>
-        {/* Add styling class */}
         <div className="movie-genres">
-          <h3>Genres:</h3>
+          <h3>Genres</h3>
           <ul>
             {movie.genres.map((genre) => (
               <li key={genre}>{genre}</li>
             ))}
           </ul>
         </div>
-        {/* Add styling class */}
         <div className="movie-publishers">
-          <h3>Publishers:</h3>
-          <ul>
+          <h3>Publishers</h3>
+          <ul className="details-list">
             {movie.publishers.map((publisher) => (
               <li key={publisher}>{publisher}</li>
             ))}

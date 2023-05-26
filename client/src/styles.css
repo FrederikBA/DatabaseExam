@@ -379,6 +379,10 @@ ul.header li a:hover:not(.active) {
   margin-right: 10px;
 }
 
+.sort-container {
+  padding-bottom: 10px;
+}
+
 .sort-item {
   font-family: Arial, Helvetica, sans-serif;
   font-weight: bold;

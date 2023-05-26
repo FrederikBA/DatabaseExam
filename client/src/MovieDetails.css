@@ -1,9 +1,7 @@
 .movie-details-container {
-  background-color: #090922;
   padding: 20px;
   margin: 20px;
   border-radius: 5px;
-  color: #333; /* Set the text color to a darker shade */
 }
 
 .movie-title {
@@ -11,7 +9,7 @@
   font-size: 24px;
   font-weight: bold;
   margin-bottom: 10px;
-  color: white; /* Set the text color to black */
+  color: white;
 }
 
 .movie-info {
@@ -27,14 +25,14 @@
 .movie-info h3 {
   font-size: 18px;
   margin-bottom: 5px;
-  color: white; /* Set the text color to black */
+  color: white;
 }
 
 .movie-info p,
 .movie-info li {
   font-size: 16px;
   margin-bottom: 5px;
-  color: white; /* Set the text color to a darker shade */
+  color: white;
 }
 
 .movie-info ul {
@@ -46,6 +44,15 @@
 }
 
 .movie-poster img {
-  max-width: 175px;
+  max-width: 250px;
   height: auto;
+}
+
+.details-rating {
+  padding-left: 15px;
+  color: white;
+}
+
+ul {
+  list-style: none;
 }
