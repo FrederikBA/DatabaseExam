@@ -116,23 +116,23 @@ def get_movies_by_genre(genre):
     return movies
 
 
-def get_movies_by_rating():
+def get_movies_by_rating(sort_order):
     conn = db_connector.get_graph_db()
-    cypher_query = """
+    cypher_query = f"""
     MATCH (m:Movie)
     RETURN m.Title, m.Rating
-    ORDER BY m.Rating DESC
+    ORDER BY m.Rating {sort_order}
     """
     results = conn.run(cypher_query)
     movies = [(record["m.Title"], record["m.Rating"]) for record in results]
     return movies
 
-def get_movies_by_price():
+def get_movies_by_price(sort_order):
     conn = db_connector.get_graph_db()
-    cypher_query = """
+    cypher_query = f"""
     MATCH (m:Movie)
     RETURN m.Title AS Title, m.Price AS Price
-    ORDER BY Price
+    ORDER BY Price {sort_order}
     """
     result = conn.run(cypher_query)
     movies = [(record['Title'], record['Price']) for record in result]
