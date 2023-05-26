@@ -1,14 +1,10 @@
 import redis
 from database import db_connector
-import os
 
-sql_value = os.getenv("SQL_VALUE")
-
-# Our redis connection string, might be a bit different when we need to connect to a redis cluster later.
-r = redis.Redis(host='localhost', port=6379, db=0) # adjust to your Redis settings
+r = redis.Redis(host='localhost', port=6379, db=0)
 
 def add_to_cart(item):
-    rental_duration = 7 # Rental duration set to 7 days
+    rental_duration = 7
     """ We are using Redis HSET for efficient storage and easy updates of cart items. """
     key = f"cart:{item.user_id}"
     r.hset(key, item.movie_id, rental_duration)
@@ -21,19 +17,11 @@ def remove_from_cart(item):
     r.hdel(key, item.movie_id)
     return {'message': 'Item removed from cart'}
 
-# def clear_cart(items):
-#     for item in items:
-#         remove_from_cart(item[1][0])
-#     return items
-
 def clear_cart(user_id):
     """ Clears the entire cart for a given user. """
     key = f"cart:{user_id}"
     r.delete(key)
     return {'message': 'Cart cleared'}
-
-
-
 
 def get_cart(user_id: int):
     """ Fetch all items from a specific cart in Redis using HGETALL. """
@@ -42,66 +30,48 @@ def get_cart(user_id: int):
     items = {k.decode(): v.decode() for k, v in items.items()}
 
     #Get movie data from cart items
+    conn = db_connector.get_graph_db()
+    movie_ids = list(items)
+
+    cypher_query = """
+    MATCH (m:Movie)
+    WHERE m.Id IN $movieIds
+    OPTIONAL MATCH (m)<-[r:`STARRED_IN`]-(actor:Actor)
+    OPTIONAL MATCH (m)<-[:INSTRUCTED]-(director:Director)
+    OPTIONAL MATCH (m)-[:HAS]->(genre:Genre)
+    OPTIONAL MATCH (m)<-[:PUBLISHED]-(publisher:Publisher)
+    OPTIONAL MATCH (m)<-[:FOR]-(review:Review)
+    RETURN m.Title AS Title, m.Id AS movieId, m.Rating AS Rating, m.Summary AS Summary,
+           m.Release_year AS ReleaseYear, m.Runtime AS Runtime, m.Certificate AS Certificate, m.Poster AS Poster, m.Price AS Price,
+           COLLECT(DISTINCT actor.Name) AS Actors, COLLECT(DISTINCT director.Name) AS Directors,
+           COLLECT(DISTINCT genre.Genre) AS Genres, COLLECT(DISTINCT publisher.Name) AS Publishers,
+           COLLECT(DISTINCT review.Content) AS Reviews
+    """
+
+    data = conn.run(cypher_query, movieIds=movie_ids)
+
     movies = []
-    totalPrice = 0
+    for m in data:
+        movie = {"title": m[0],
+            "movie_id": m[1],
+            "rating": m[2],
+            "release_year": m[4],
+            "runtime": m[5],
+            "price": m[8],
+            "poster": m[7],
+            "genre": m[11]}
+        movies.append(movie)
 
+    # Calculate total price
 
-    if(len(items) == 1):
-        connection = db_connector.get_sql_db('BockBluster')
-        cursor = connection.cursor()
-        print(items)
-        query = f"""
-            SELECT m.movie_id, m.price_id, m.title, m.release_year, m.rating, m.poster, p.price
-            FROM movie m
-            JOIN price p ON m.price_id = p.price_id
-            WHERE m.movie_id = '{list(items)[0]}'
-        """
+    cypher_query = """
+    MATCH (m:Movie)
+    WHERE m.Id IN $movieIds
+    RETURN SUM(m.Price) AS TotalPrice
+    """
 
-        cursor.execute(query)
-
-        rows = cursor.fetchall()
-
-
-        for m in rows:
-            movie = {"movie_id": m[0],
-                "price_id": m[1],
-                "title": m[2],
-                "release_year": m[3],
-                "rating": m[4],
-                "poster": m[5],
-                "price": m[6]}
-            totalPrice = totalPrice + m[6]
-            movies.append(movie)
-
-
-    if(len(items) > 1):
-        connection = db_connector.get_sql_db('BockBluster')
-        cursor = connection.cursor()
-
-        query = """
-        SELECT m.movie_id, m.price_id, m.title, m.release_year, m.rating, m.poster, p.price
-        FROM movie m
-        JOIN price p ON m.price_id = p.price_id
-        WHERE m.movie_id IN ({})
-    """.format(', '.join(f'{sql_value}' for _ in items))
-
-        cursor.execute(query, tuple(items))
-
-        rows = cursor.fetchall()
-
-        for m in rows:
-            movie = {"movie_id": m[0],
-                "price_id": m[1],
-                "title": m[2],
-                "release_year": m[3],
-                "rating": m[4],
-                "poster": m[5],
-                "price": m[6]}
-            totalPrice = totalPrice + m[6]
-            
-            movies.append(movie)
+    totalPrice = conn.run(cypher_query, movieIds=movie_ids).evaluate()
 
     viewModel = {"movies": movies, "totalPrice": totalPrice}
-
 
     return viewModel
