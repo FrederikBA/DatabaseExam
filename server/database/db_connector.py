@@ -2,9 +2,6 @@
 import os
 from dotenv import load_dotenv
 
-# MongoDB
-from pymongo.mongo_client import MongoClient
-
 # MSSQL
 import pymssql
 import pyodbc
@@ -14,13 +11,6 @@ from py2neo import Graph
 
 # Load environment variables
 load_dotenv()
-
-
-def get_mongo_db(os):
-    url = 'mongodb://localhost:27017/'
-    client = MongoClient(url)
-
-    return client['school']
 
 
 def get_sql_mac(db):

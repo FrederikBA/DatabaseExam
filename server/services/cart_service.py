@@ -83,7 +83,7 @@ def get_cart(user_id: int):
         FROM movie m
         JOIN price p ON m.price_id = p.price_id
         WHERE m.movie_id IN ({})
-    """.format(', '.join('%s' for _ in items))
+    """.format(', '.join(f'{sql_value}' for _ in items))
 
         cursor.execute(query, tuple(items))
 
