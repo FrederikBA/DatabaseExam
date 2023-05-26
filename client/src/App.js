@@ -7,15 +7,12 @@ import Frontpage from './views/Frontpage';
 import LandingPage from "./views/LandingPage";
 import MovieSearch from "./views/MovieSearch";
 import Login from "./views/Login";
-import MovieList from "./views/MovieList";
 
 //Components
 import Header from './components/Header';
 import MovieDetails from "./components/MovieDetails";
 import Cart from "./components/Cart";
-import CartNew from "./components/Cart";
 import Posters from "./components/Posters";
-import GenreDropdown from "./components/GenreDropdown";
 
 
 const App = () => {
@@ -31,10 +28,8 @@ const App = () => {
         <Route path="/landing-page" element={<LandingPage />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/search" element={<MovieSearch />} />
-        <Route path="/moviedetails" element={<MovieDetails />} />
         <Route path="/" element={<Posters />} />
         <Route path="/movies/id/:movieId" element={<MovieDetails />} />
-        <Route path="/moviegenre" element={<MovieList />} />
       </Routes>
       <HelmetProvider>
         <Helmet

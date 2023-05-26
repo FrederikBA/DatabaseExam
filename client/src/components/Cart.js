@@ -10,7 +10,7 @@ const Cart = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [movies, setMovies] = useState([{}]);
 
-    const trashIcon = <FontAwesomeIcon icon={faRemove} size="2x" />
+    const deleteIcon = <FontAwesomeIcon icon={faRemove} size="2x" />
 
     const URL = apiUtils.getUrl()
     const userId = localStorage.getItem('userId')
@@ -95,7 +95,7 @@ const Cart = () => {
                                 <div className="cart-loan"><span className="cart-date"><strong>Lejes til:</strong> {formattedDate}</span></div>
                             </div>
                             <div className="col cart-col">
-                                <div onClick={() => handleRemove(item.movie_id)} className="cart-remove cart-item-details">{trashIcon}</div>
+                                <div onClick={() => handleRemove(item.movie_id)} className="cart-remove cart-item-details">{deleteIcon}</div>
                                 <div className="cart-price cart-item-details"><strong>{item.price} kr</strong></div>
                             </div>
                         </div>

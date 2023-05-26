@@ -369,3 +369,32 @@ ul.header li a:hover:not(.active) {
   clear: right;
   margin-right: 10px;
 }
+
+.sort-container {
+  /* stuff */
+}
+
+.sort-item {
+  /* stuff */
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: bold;
+  font-size: 12pt;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.sort-arrow {
+  /* stuff */
+  padding: 1px !important;
+  color: #ffe13f !important;
+}
+
+.sort-arrow:hover {
+  opacity: 0.7;
+}
+
+.sort-title {
+  padding-right: 2px;
+}
