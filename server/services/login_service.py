@@ -10,21 +10,34 @@ def get_user(username: str):
     cursor = connection.cursor()
 
     # Fetch user based on username
-    cursor.execute(f"SELECT * FROM user_login WHERE username = {sql_value}", username)
+    cursor.execute(f"SELECT * FROM user_login WHERE username = {sql_value}", (username,))
     user = cursor.fetchone()
-    # Close the database connection
-    connection.close()
-
+    
     # Check if user exists
     if user:
+        # Extract the user ID
+        user_id = user[0]
+        
+        # Fetch member ID based on user ID
+        cursor.execute(f"SELECT member_id FROM user_login WHERE user_id = {sql_value}", (user_id,))
+        member_id = cursor.fetchone()[0]
+        
+        # Close the database connection
+        connection.close()
+
         user_dict = {
-            "id": user[0],
+            "id": user_id,
             "username": user[2],
-            "password": user[3]
+            "password": user[3],
+            "member_id": member_id
         }
         return user_dict
     else:
+        # Close the database connection
+        connection.close()
+        
         return None
+
 
 def authenticate_user(username: str, password: str):
     user = get_user(username)

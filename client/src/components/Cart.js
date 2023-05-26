@@ -95,7 +95,7 @@ const Cart = () => {
                                 <img className="cart-poster" src={item.poster} alt="cart-poster"></img>
                             </div>
                             <div className="col cart-col">
-                                <h3 className="cart-title">{item.title}</h3>
+                                <h3 className="cart-title">{item.title} ({item.release_year})</h3>
                                 <div className="cart-loan"><span className="cart-date"><strong>Lejes til:</strong> {formattedDate}</span></div>
                             </div>
                             <div className="col cart-col">

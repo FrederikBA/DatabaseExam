@@ -83,7 +83,7 @@ def search_filter(title: str):
 
     cypher_query = f"""
     MATCH (m:Movie)
-    WHERE m.Title CONTAINS "{title}"
+    WHERE m.Title =~ "(?i).*{title}.*"
     OPTIONAL MATCH (m)<-[r:`STARRED_IN`]-(actor:Actor)
     OPTIONAL MATCH (m)<-[:INSTRUCTED]-(director:Director)
     OPTIONAL MATCH (m)-[:HAS]->(genre:Genre)

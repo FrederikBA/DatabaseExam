@@ -28,7 +28,7 @@ const Movies = () => {
 
     //Sorting
     const sortMovies = async (sortVal, sortOrder) => {
-        const response = await apiUtils.getAxios().get('http://localhost:8000/movies/sort', {
+        const response = await apiUtils.getAxios().get(URL + '/movies/sort', {
             params: {
                 sort_value: sortVal,
                 sort_order: sortOrder,

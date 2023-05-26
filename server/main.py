@@ -3,10 +3,9 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.encoders import jsonable_encoder
 from fastapi.security import OAuth2PasswordBearer
-from typing import List
 
 #Classes
-from services import movie_service, populate_service, login_service, cart_service, order_service
+from services import movie_service, populate_service, login_service, cart_service, order_service, profile_service
 from models import dtos, entities
 
 #Misc
@@ -64,7 +63,7 @@ def login_for_access_token(user: entities.User):
     access_token = login_service.create_access_token(
         data={"sub": user.username}, expires_delta=access_token_expires
     )
-    return {"access_token": access_token, "token_type": "bearer", "user_id": authenticated_user['id']}
+    return {"access_token": access_token, "token_type": "bearer", "user_id": authenticated_user['id'], "member_id": authenticated_user['member_id'] }
 
 @app.get("/movies/id/{movie_id}")
 def get_movie(movie_id: str):
@@ -92,7 +91,6 @@ def clear_cart(user_id: int):
 async def get_cart(user_id: int):
     return cart_service.get_cart(user_id)
 
-# Endpoint to retrieve movies sorted by title
 @app.get('/movies/title/{title}')
 def search_movie(title: str):
     movie_titles = movie_service.search_filter(title)
@@ -106,20 +104,20 @@ def search_movie(title: str):
 def create_order_test(order_dto: dtos.orderDTO):
     return order_service.create_order(order_dto)
 
-@app.get('/movies/sort/genre/{genre}')
+@app.get('/movies/filter/genre/{genre}')
 def filter_movies_by_genre(genre: str):
-    movies = movie_service.get_movies_by_genre(genre)
-    if movies:
-        return movies
-    else:
-        return []
+    return movie_service.get_movies_by_genre(genre)
     
 @app.get('/movies/sort/')
-def get_movies_sorted(sort_value, sort_order):
+def get_movies_sorted(sort_value: str, sort_order: str):
     return movie_service.get_movies_sorted(sort_value, sort_order)
 
 @app.get("/member/{user_id}")
 def get_member_id(user_id: int):
     return login_service.get_member_id(user_id)
+
+@app.get("/loans/")
+def get_member_id(member_id: str):
+    return profile_service.get_user_loans(member_id)
     
 

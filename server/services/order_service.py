@@ -49,7 +49,3 @@ def create_order(order_dto: dtos.orderDTO):
     cursor.close()
     connection.close()
     return order_id
-
-
-
-

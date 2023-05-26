@@ -21,6 +21,7 @@ const Login = ({ onLogin }) => {
       localStorage.setItem('jwtToken', res.data.access_token)
       localStorage.setItem('user', loginCredentials.username)
       localStorage.setItem('userId', res.data.user_id)
+      localStorage.setItem('memberId', res.data.member_id)
       navigate('/landing-page')
       onLogin()
     } catch (error) {
