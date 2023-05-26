@@ -84,7 +84,6 @@ def search_filter(title: str):
     c1 = conn.cursor()
     c1.execute(f"SELECT m.movie_id, m.price_id, m.title, m.release_year, m.rating, m.poster, p.price FROM movie m JOIN price p ON m.price_id = p.price_id WHERE title LIKE {sql_value}", f"%{title}%")
     data = c1.fetchall()
-
     # Fetch all movie titles
     movies = []
     for m in data:
@@ -98,7 +97,6 @@ def search_filter(title: str):
         "price": m[6]
         }
         movies.append(movie)
-
     return movies
 
 def get_movies_by_genre(genre):
@@ -125,55 +123,44 @@ def get_movies_by_rating():
     RETURN m.Title, m.Rating
     ORDER BY m.Rating DESC
     """
-
     results = conn.run(cypher_query)
     movies = [(record["m.Title"], record["m.Rating"]) for record in results]
-
     return movies
 
 def get_movies_by_price():
     conn = db_connector.get_graph_db()
-
     cypher_query = """
-         MATCH (m:Movie)
-RETURN m.Title AS Title, m.Price AS Price
-ORDER BY Price
+    MATCH (m:Movie)
+    RETURN m.Title AS Title, m.Price AS Price
+    ORDER BY Price
     """
     result = conn.run(cypher_query)
     movies = [(record['Title'], record['Price']) for record in result]
-  
     return movies
 
 
 # Function to sort movies by release year
-def get_movies_sorted_by_release_year():
+def get_movies_sorted_by_release_year(sort_order):
     conn = db_connector.get_graph_db()
-
-    cypher_query = '''
+    cypher_query = f'''
     MATCH (m:Movie)
     RETURN m.Title, m.Release_year
-    ORDER BY m.Release_year DESC
+    ORDER BY m.Release_year {sort_order}
     '''
-
     results = conn.run(cypher_query)
-
     movies = [(record["m.Title"], record["m.Release_year"]) for record in results]
-
     return movies
 
    
 # Function to sort movies by runtime
-def get_movies_sorted_by_runtime():
+def get_movies_sorted_by_runtime(sort_order):
     conn = db_connector.get_graph_db()
-
-    cypher_query = '''
+    cypher_query = f'''
     MATCH (m:Movie)
     RETURN m.Title, m.Runtime
-    ORDER BY m.Runtime DESC
+    ORDER BY m.Runtime {sort_order}
     '''
-
     results = conn.run(cypher_query)
-
     movies = []
     for record in results:
         movie = {
@@ -181,5 +168,4 @@ def get_movies_sorted_by_runtime():
             'runtime': record['m.Runtime']
         }
         movies.append(movie)
-
     return movies

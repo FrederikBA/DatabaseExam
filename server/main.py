@@ -123,24 +123,21 @@ def get_movies_by_rating():
     return movies
 
 
-@app.get('/movies/sort/price', response_model=List[dtos.PriceDTO])
+@app.get('/movies/sort/price')
 def get_movies_sorted_by_price():
     movies = movie_service.get_movies_by_price()
-    sorted_movies = []
-    for movie in movies:
-        sorted_movies.append(dtos.PriceDTO(title=movie[0], price=movie[1]))
-        
-    return sorted_movies
+    return movies
 
 
 # Endpoint to retrieve movies sorted by release year
-@app.route('/movies/sort/releaseyear')
-def get_movies_sorted_by_release_year_endpoint():
-    movies = movie_service.get_movies_sorted_by_release_year()
-    return movies
+@app.get('/movies/sort/releaseyear/{sort_order}')
+def get_movies_sorted_by_release_year_endpoint(sort_order: str):
+    return movie_service.get_movies_sorted_by_release_year(sort_order.upper())
 
 # Endpoint to retrieve movies sorted by runtime
-@app.route('/movies/sort/runtime')
-def get_movies_sorted_by_runtime_endpoint():
-    movies = movie_service.get_movies_sorted_by_runtime()
+@app.get('/movies/sort/runtime/{sort_order}')
+def get_movies_sorted_by_runtime_endpoint(sort_order: str):
+    movies = movie_service.get_movies_sorted_by_runtime(sort_order.upper())
     return {'movies': movies}
+
+
