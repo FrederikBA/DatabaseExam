@@ -15,7 +15,6 @@ const Movies = () => {
     const [currentPage, setCurrentPage] = useState(1);
 
     const moviesPerPage = 50
-
     const URL = apiUtils.getUrl()
 
     useEffect(() => {
@@ -27,8 +26,7 @@ const Movies = () => {
         getMovies()
     }, [URL]);
 
-    // Sorting
-
+    //Sorting
     const sortMovies = async (sortVal, sortOrder) => {
         const response = await apiUtils.getAxios().get('http://localhost:8000/movies/sort', {
             params: {
@@ -39,7 +37,7 @@ const Movies = () => {
         setMovies(response.data)
     }
 
-    // Toast
+    //Toast
     const rentNotifySuccess = () => {
         toast.success('Din film er tilføjet til kurven', { position: toast.POSITION.BOTTOM_RIGHT });
     };
@@ -52,12 +50,12 @@ const Movies = () => {
         toast.error('Du skal logge ind for at leje en film', { position: toast.POSITION.BOTTOM_RIGHT });
     };
 
-    // Get current movies
+    //Get current movies
     const indexOfLastMovie = currentPage * moviesPerPage;
     const indexOfFirstMovie = indexOfLastMovie - moviesPerPage;
     const currentMovies = movies.slice(indexOfFirstMovie, indexOfLastMovie);
 
-    // Change page
+    //Change page
     const paginate = (pageNumber) => {
         setCurrentPage(pageNumber);
     }
