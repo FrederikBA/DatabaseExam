@@ -123,26 +123,16 @@ def get_movies_by_rating():
     return movies
 
 def get_movies_by_price():
-    conn = db_connector.get_sql_db("BockBluster")
+    conn = db_connector.get_graph_db()
 
-    c1 = conn.cursor()
-    c1.execute("""
-        SELECT m.title, p.price
-        FROM movie m
-        JOIN price p ON m.price_id = p.price_id
-        ORDER BY p.price
-    """)
-    data = c1.fetchall()
-
-    # Fetch movie titles and prices
-    movies = []
-    for row in data:
-        movie = {
-            "title": row[0],
-            "price": row[1]
-        }
-        movies.append(movie)
-
+    cypher_query = """
+         MATCH (m:Movie)
+RETURN m.Title AS Title, m.Price AS Price
+ORDER BY Price
+    """
+    result = conn.run(cypher_query)
+    movies = [(record['Title'], record['Price']) for record in result]
+  
     return movies
 
 

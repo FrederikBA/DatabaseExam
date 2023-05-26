@@ -123,14 +123,13 @@ def get_movies_by_rating():
     return movies
 
 
-@app.get('/movies/sort/price', response_model=List[dtos.priceDTO])
+@app.get('/movies/sort/price', response_model=List[dtos.PriceDTO])
 def get_movies_sorted_by_price():
     movies = movie_service.get_movies_by_price()
-
     sorted_movies = []
     for movie in movies:
-        sorted_movies.append(entities.Movie(title=movie['title'], price=movie['price']))
-
+        sorted_movies.append(dtos.PriceDTO(title=movie[0], price=movie[1]))
+        
     return sorted_movies
 
 
