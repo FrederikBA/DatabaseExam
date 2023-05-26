@@ -57,7 +57,7 @@ const Posters = ({ movies, isLoading, rentNotifySuccess, rentNotifyError, rentNo
           ) : null}
 
           <div className="card-body center">
-            <p className="card-title">{movie.title}</p>
+            <p className="card-title">{movie.title} ({movie.release_year})</p>
             <div className="poster-text"><img className="star" src={star} alt="Rating Star" />{movie.rating} / 10</div>
             <span className="poster-text">Lej for: {movie.price} kr.</span>
           </div>

@@ -58,7 +58,7 @@ const Cart = () => {
         try {
             await apiUtils.getAxios().post(URL + '/order', {
                 "movies": movies,
-                "member_id": "020a60e8-d436-4c3e-8419-895638a721d2",
+                "member_id": "79b727f3-dfe5-423c-acd3-f8a84135d392",
                 "total_price": totalPrice
             })
             //Clear cart

@@ -21,7 +21,6 @@ const Header = ({ isLoggedIn, onLogout }) => {
                     <NavLink className="none" to="/"><Logo /></NavLink>
                     <li className="frontpage-nav"><NavLink to='/'>Film</NavLink></li>
                     <li><NavLink to="/search">Søg {searchIcon}</NavLink></li>
-                    <li><NavLink to="/moviegenre">moviegenre </NavLink></li>
                     {!isLoggedIn && <li className="align-right login-nav"><NavLink to="/login">Log ind</NavLink></li>}
                     {isLoggedIn &&
                         <div>

@@ -4,7 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.encoders import jsonable_encoder
 from fastapi.security import OAuth2PasswordBearer
 from typing import List
-from flask import jsonify
+
 #Classes
 from services import movie_service, populate_service, login_service, cart_service, order_service
 from models import dtos, entities
@@ -68,7 +68,7 @@ def login_for_access_token(user: entities.User):
 
 @app.get("/movies/id/{movie_id}")
 def get_movie(movie_id: str):
-    movie_data = movie_service.fetch_movie_data(movie_id)
+    movie_data = movie_service.get_movie_details(movie_id)
 
     if movie_data:
         return movie_data.dict()
