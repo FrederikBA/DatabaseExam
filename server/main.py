@@ -117,17 +117,15 @@ def get_movies_by_genre(genre: str):
     
 
 # Endpoint to retrieve movies sorted by rating
-@app.get("/movies/sort/rating")
-def get_movies_by_rating():
-    return movie_service.get_movies_by_rating()
+@app.get("/movies/sort/rating/{sort_order}")
+def get_movies_by_rating(sort_order: str):
+    return movie_service.get_movies_by_rating(sort_order.upper())
 
 # Endpoint to retrieve movies sorted by price
-@app.get('/movies/sort/price')
-def get_movies_sorted_by_price():
-    return movie_service.get_movies_by_price()
+@app.get('/movies/sort/price/{sort_order}')
+def get_movies_sorted_by_price(sort_order: str):
+    return movie_service.get_movies_by_price(sort_order.upper())
     
-
-
 # Endpoint to retrieve movies sorted by release year
 @app.get('/movies/sort/releaseyear/{sort_order}')
 def get_movies_sorted_by_release_year_endpoint(sort_order: str):
