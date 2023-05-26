@@ -135,6 +135,9 @@ def get_movies_sorted_by_release_year_endpoint(sort_order: str):
 @app.get('/movies/sort/runtime/{sort_order}')
 def get_movies_sorted_by_runtime_endpoint(sort_order: str):
     return movie_service.get_movies_sorted_by_runtime(sort_order.upper())
-    
 
+@app.get("/member/{user_id}")
+def get_member_id(user_id: int):
+    return login_service.get_member_id(user_id)
+    
 

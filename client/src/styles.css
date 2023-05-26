@@ -52,6 +52,15 @@ ul.header li a:hover:not(.active) {
   color: black;
 }
 
+.user-nav {
+  cursor: pointer;
+}
+
+.user-nav:hover {
+  background-color: #ffe13f;
+  color: black;
+}
+
 .center {
   text-align: center;
 }

@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react"
+import { useNavigate } from "react-router-dom";
 import apiUtils from "../utils/apiUtils";
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -9,11 +10,13 @@ const Cart = () => {
     const [totalPrice, setTotalPrice] = useState(0);
     const [isLoading, setIsLoading] = useState(true);
     const [movies, setMovies] = useState([{}]);
+    const [memberId, setMemberId] = useState("");
 
-    const deleteIcon = <FontAwesomeIcon icon={faRemove} size="2x" />
-
+    const navigate = useNavigate();
     const URL = apiUtils.getUrl()
     const userId = localStorage.getItem('userId')
+
+    const deleteIcon = <FontAwesomeIcon icon={faRemove} size="2x" />
 
     const getCart = async () => {
         const response = await apiUtils.getAxios().get(URL + `/get_cart?user_id=${userId}`)
@@ -22,8 +25,16 @@ const Cart = () => {
         setMovies(response.data.movies)
         setIsLoading(false)
     }
+
+    const getMemberId = async () => {
+        const response = await apiUtils.getAxios().get(URL + `/member/${userId}`)
+        setMemberId(response.data)
+    }
+
     useEffect(() => {
         getCart();
+        getMemberId();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const handleRemove = async (itemId) => {
@@ -42,27 +53,20 @@ const Cart = () => {
         }
     }
 
-    const items = cartItems.map((item) => ({
-        user_id: userId,
-        movie_id: item.movie_id
-    }));
-
-    console.log(items);
-
-
     const clearCart = async () => {
         await apiUtils.getAxios().post(`${URL}/clearcart?user_id=${userId}`)
     }
 
     const purchase = async () => {
         try {
-            await apiUtils.getAxios().post(URL + '/order', {
+            const response = await apiUtils.getAxios().post(URL + '/order', {
                 "movies": movies,
-                "member_id": "79b727f3-dfe5-423c-acd3-f8a84135d392",
+                "member_id": memberId,
                 "total_price": totalPrice
             })
             //Clear cart
             clearCart()
+            navigate('/order/' + response.data)
         } catch (error) {
             console.log(error);
         }

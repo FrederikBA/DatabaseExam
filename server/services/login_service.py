@@ -38,3 +38,20 @@ def create_access_token(data: dict, expires_delta: timedelta):
     to_encode.update({"exp": expire})
     encoded_jwt = jwt.encode(to_encode, "SUPERSECRETKEY", algorithm="HS256")
     return encoded_jwt
+
+def get_member_id(user_id):
+    connection = db_connector.get_sql_db('BockBluster')
+    cursor = connection.cursor()
+    
+    query = f"SELECT m.member_id FROM member m JOIN user_login ul ON m.member_id = ul.member_id WHERE ul.user_id = {sql_value};"
+    cursor.execute(query, (user_id,))
+    result = cursor.fetchone()
+
+    cursor.close()
+    connection.close()
+
+    if result:
+        member_id = result[0]
+        return member_id
+    else:
+        return "User ID not found"

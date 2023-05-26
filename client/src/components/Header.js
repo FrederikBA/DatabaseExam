@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 import Logo from './Logo';
 
@@ -10,8 +10,14 @@ const Header = ({ isLoggedIn, onLogout }) => {
     const searchIcon = <FontAwesomeIcon icon={faSearch} />
     const cartIcon = <FontAwesomeIcon icon={faShoppingCart} size="2x" />
 
+    const navigate = useNavigate()
+
     const onClick = () => {
         onLogout()
+    }
+
+    const navigateProfile = () => {
+        navigate("profile/" + localStorage.getItem('userId'))
     }
 
     return (
@@ -25,7 +31,7 @@ const Header = ({ isLoggedIn, onLogout }) => {
                     {isLoggedIn &&
                         <div>
                             <li onClick={onClick} className='align-right login-nav'><NavLink to="/landing-page">Log ud</NavLink></li>
-                            <li className="align-right"><span className="user-nav">{localStorage.getItem('user')} {userIcon}</span></li>
+                            <li className="align-right"><span onClick={navigateProfile} className="user-nav">{localStorage.getItem('user')} {userIcon}</span></li>
                             <li className="align-right"><NavLink to="/cart"><div className="cart-icon">{cartIcon}</div></NavLink></li>
                         </div>
                     }

@@ -7,6 +7,8 @@ import Frontpage from './views/Frontpage';
 import LandingPage from "./views/LandingPage";
 import MovieSearch from "./views/MovieSearch";
 import Login from "./views/Login";
+import OrderConfirmation from "./views/OrderConfirmation";
+import Profile from "./views/Profile";
 
 //Components
 import Header from './components/Header';
@@ -30,6 +32,8 @@ const App = () => {
         <Route path="/search" element={<MovieSearch />} />
         <Route path="/" element={<Posters />} />
         <Route path="/movies/id/:movieId" element={<MovieDetails />} />
+        <Route path="/order/:orderId" element={<OrderConfirmation />} />
+        <Route path="/profile/:userId" element={<Profile />} />
       </Routes>
       <HelmetProvider>
         <Helmet

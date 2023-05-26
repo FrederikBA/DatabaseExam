@@ -48,7 +48,7 @@ def create_order(order_dto: dtos.orderDTO):
     # Close the cursor and connection
     cursor.close()
     connection.close()
-    return "Done"
+    return order_id
 
 
 
