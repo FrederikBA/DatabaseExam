@@ -79,23 +79,33 @@ def get_movie_details(movie_id):
 
 
 def search_filter(title: str):
-    conn = db_connector.get_sql_db("BockBluster")
+    connection = db_connector.get_graph_db()
 
-    c1 = conn.cursor()
-    c1.execute(f"SELECT m.movie_id, m.price_id, m.title, m.release_year, m.rating, m.poster, p.price FROM movie m JOIN price p ON m.price_id = p.price_id WHERE title LIKE {sql_value}", f"%{title}%")
-    data = c1.fetchall()
-    # Fetch all movie titles
+    cypher_query = f"""
+    MATCH (m:Movie)
+    WHERE m.Title CONTAINS "{title}"
+    OPTIONAL MATCH (m)<-[r:`STARRED_IN`]-(actor:Actor)
+    OPTIONAL MATCH (m)<-[:INSTRUCTED]-(director:Director)
+    OPTIONAL MATCH (m)-[:HAS]->(genre:Genre)
+    OPTIONAL MATCH (m)<-[:PUBLISHED]-(publisher:Publisher)
+    RETURN m.Title AS Title, m.Id AS movieId, m.Rating AS Rating, m.Summary AS Summary,
+    m.Release_year AS ReleaseYear, m.Runtime AS Runtime, m.Certificate AS Certificate, m.Poster AS Poster, m.Price AS Price,
+    COLLECT(DISTINCT actor.Name) AS Actors, COLLECT(DISTINCT director.Name) AS Directors,
+    COLLECT(DISTINCT genre.Genre) AS Genres, COLLECT(DISTINCT publisher.Name) AS Publishers
+    """
+   
+    data = connection.run(cypher_query)
+   
     movies = []
     for m in data:
-        movie = {
-        "movie_id": m[0],
-        "price_id": m[1],
-        "title": m[2],
-        "release_year": m[3],
-        "rating": m[4],
-        "poster": m[5],
-        "price": m[6]
-        }
+        movie = {"title": m[0],
+            "movie_id": m[1],
+            "rating": m[2],
+            "release_year": m[4],
+            "runtime": m[5],
+            "price": m[8],
+            "poster": m[7],
+            "genre": m[11]}
         movies.append(movie)
     return movies
 
