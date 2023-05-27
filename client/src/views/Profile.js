@@ -15,7 +15,13 @@ const Profile = () => {
                     member_id: localStorage.getItem('memberId')
                 }
             });
-            setMovies(response.data)
+            const sorted = response.data.sort((a, b) => {
+                const dateA = new Date(a.loan_date);
+                const dateB = new Date(b.loan_date);
+                return dateB - dateA;
+            });
+
+            setMovies(sorted);
         }
         getLoans()
     }, []);
