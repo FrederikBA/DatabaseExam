@@ -191,20 +191,51 @@ def populate_graphdb():
     df['release year'] = df['release year'].apply(lambda x: re.sub(r'\D', '', x)).astype(int)
     df['runtime'] = df['runtime'].apply(lambda x: re.sub(r'\D', '', x)).astype(int)
 
-
+    unique_directors = get_unique_strings(df['directors'])
+    unique_genres = get_unique_strings(df['genre'])
+    unique_actors = get_unique_strings(df['actors'])
+    unique_publishers = get_unique_strings(df['publishers'])
 
     review_dict_list = []
     for reviews, scores in zip(df['reviews'], df['review_score']):
         for review, rating in zip(reviews, scores):
             review_dict_list.append({'review': review, 'rating': rating})
 
-            # Connect to the Neo4j database
+    # Connect to the Neo4j database
     graph = db_connector.get_graph_db()
+
+    #Create genre nodes
+    genre_nodes = {}
+    for genre in unique_genres:
+        genre_node = Node("Genre", Genre=genre)
+        graph.create(genre_node)
+        genre_nodes[genre] = genre_node
+
+    # Create directors nodes
+    director_nodes = {}
+    for director in unique_directors:
+        director_node = Node("Director",Name=director)
+        graph.create(director_node)
+        director_nodes[director] = director_node
+        
+    # Create actors nodes
+    actor_nodes = {}
+    for actor in unique_actors:
+        actor_node = Node("Actor", Name=actor)
+        graph.create(actor_node)
+        actor_nodes[actor] = actor_node
+
+    # Create publishers nodes
+    publisher_nodes = {}
+    for publisher in unique_publishers:
+        publisher_node = Node("Publisher", Name=publisher)
+        graph.create(publisher_node)
+        publisher_nodes[publisher] = publisher_node
 
     # Create nodes for movies, reviews, and users
     count = 0
     for index, row in df.iterrows():
-        count += 1
+        count+=1
         # Create a movie node
         movie_node = Node("Movie", Id=row['id'], Title=row['title'], Rating=row['rating'], Summary=row['summary'], Release_year=row['release year'], Runtime=row['runtime'], Certificate=row['certificate'], Poster=row['Poster'], Price=row['price'])
         graph.create(movie_node)
@@ -225,47 +256,37 @@ def populate_graphdb():
 
         # Create genre nodes and relationships
         genres = row['genre']
-        genre_nodes = {}
         for genre in genres:
-            genre_node = Node("Genre", Genre=genre)
-            graph.create(genre_node)
-            genre_nodes[genre] = genre_node
-
-            relationship = Relationship(movie_node, "HAS", genre_node)
-            graph.create(relationship)
+            if genre in genre_nodes:
+                genre_node = genre_nodes[genre]
+                relationship = Relationship(movie_node, "HAS", genre_node)
+                graph.create(relationship)
 
         # Create director nodes and relationships
         directors = row['directors']
-        director_nodes = {}
         for director in directors:
-            director_node = Node("Director", Name=director)
-            graph.create(director_node)
-            director_nodes[director] = director_node
-
-            relationship = Relationship(director_node, "INSTRUCTED", movie_node)
-            graph.create(relationship)
+            if director in director_nodes:
+                director_node = director_nodes[director]
+                relationship = Relationship(director_node, "INSTRUCTED", movie_node)
+                graph.create(relationship)
 
         # Create actor nodes and relationships
         actors = row['actors']
-        actor_nodes = {}
         for actor in actors:
-            actor_node = Node("Actor", Name=actor)
-            graph.create(actor_node)
-            actor_nodes[actor] = actor_node
-
-            relationship = Relationship(actor_node, "STARRED_IN", movie_node)
-            graph.create(relationship)
+            if actor in actor_nodes:
+                actor_node = actor_nodes[actor]
+                relationship = Relationship(actor_node, "STARRED_IN", movie_node)
+                graph.create(relationship)
+                relationship = Relationship(movie_node, "FEATURES", actor_node)
+                graph.create(relationship)
 
         # Create publisher nodes and relationships
         publishers = row['publishers']
-        publisher_nodes = {}
         for publisher in publishers:
-            publisher_node = Node("Publisher", Name=publisher)
-            graph.create(publisher_node)
-            publisher_nodes[publisher] = publisher_node
-
-            relationship = Relationship(publisher_node, "PUBLISHED", movie_node)
-            graph.create(relationship)
+            if publisher in publisher_nodes:
+                publisher_node = publisher_nodes[publisher]
+                relationship = Relationship(publisher_node, "PUBLISHED", movie_node)
+                graph.create(relationship)
 
 
 
