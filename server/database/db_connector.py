@@ -9,6 +9,10 @@ import pyodbc
 # Neo4j
 from py2neo import Graph
 
+# Redis
+import redis
+from redis.cluster import RedisCluster
+
 # Load environment variables
 load_dotenv()
 
@@ -42,3 +46,18 @@ def get_graph_db():
     password = os.getenv("NEO4J_PASSWORD")
     graph = Graph(f"bolt://localhost:{port}", auth=("neo4j", password))
     return graph
+
+
+def get_redis_nonclustered_db():
+    return redis.Redis(host='localhost', port=6379, db=0)
+
+def get_redis_clustered_db():
+    return RedisCluster(host='localhost', port=7001)
+
+def get_redis_db():
+    if(os.getenv("REDIS_CLUSTERED") == "TRUE"):
+        return get_redis_clustered_db()
+
+    if(os.getenv("REDIS_CLUSTERED") == "FALSE"):
+        return get_redis_nonclustered_db()
+

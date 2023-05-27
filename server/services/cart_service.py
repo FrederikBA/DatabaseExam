@@ -1,7 +1,7 @@
 import redis
 from database import db_connector
 
-r = redis.Redis(host='localhost', port=6379, db=0)
+r = db_connector.get_redis_db()
 
 def add_to_cart(item):
     rental_duration = 7

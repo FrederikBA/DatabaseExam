@@ -7,6 +7,7 @@ from fastapi.security import OAuth2PasswordBearer
 #Classes
 from services import movie_service, populate_service, login_service, cart_service, order_service, profile_service
 from models import dtos, entities
+from database import db_connector
 
 #Misc
 from datetime import timedelta
@@ -119,5 +120,11 @@ def get_member_id(user_id: int):
 @app.get("/loans/")
 def get_member_id(member_id: str):
     return profile_service.get_user_loans(member_id)
+
+@app.get("/cluster")
+def get_redis_nodes():
+    rc = db_connector.get_redis_clustered_db()
+    print(rc.get_nodes())
+    return "fisk"
     
 
