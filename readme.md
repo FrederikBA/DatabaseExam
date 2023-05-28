@@ -40,4 +40,10 @@ To enhance user experience and streamline the renting process, we have employed 
 
 
 # Schemas
-![Screenshot](schemas.neo4j.png)
+### Neo4j
+![neo4j](https://github.com/FrederikBA/DatabaseExam/assets/61831295/ad05f93d-1a16-4c32-9449-4b1243ed701f)
+
+
+### MSSQL
+<img width="507" alt="MSSQL" src="https://github.com/FrederikBA/DatabaseExam/assets/61831295/d061f4a3-131b-4b74-a9dc-8524d8c1120a">
+
