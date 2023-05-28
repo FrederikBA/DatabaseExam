@@ -1,3 +1,8 @@
+# BockBluster
+# Grp name & Emails 
+
+# Folder structure? (Schemas has db models) (data has the csv file) osv osv
+
 <h1 align="center">Client/Server with FastAPI and React</h1>
 <p>
 </p>
