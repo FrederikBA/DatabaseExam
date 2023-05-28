@@ -128,9 +128,9 @@ def get_redis_nodes():
     return "fisk"
     
 @app.post("/nodesimilarity")
-def populate_sql_db():
+def populate_graph_projection():
     return populate_service.create_and_write_node_similarity()
 
-@app.post("/getnodesim")
-def populate_sql_db():
+@app.get("/getnodesim")
+def get_node_similarity():
     return recommendation_service.node_similarity()
