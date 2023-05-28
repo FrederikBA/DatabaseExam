@@ -1,0 +1,1 @@
+HGETALL cart:1
