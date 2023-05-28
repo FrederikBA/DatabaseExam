@@ -68,23 +68,33 @@ def get_member_id(user_id):
 def register_user(register_dto):
     connection = db_connector.get_sql_db('BockBluster')
     cursor = connection.cursor()
-
     query = f'''
     BEGIN TRANSACTION;
     BEGIN TRY
-    DECLARE @member_id VARCHAR(255);
-
-    SELECT @member_id = '{str(uuid.uuid4())}';
-
-    INSERT INTO member (member_id, first_name, last_name, join_date)
-    VALUES (@member_id, '{register_dto.first_name}', '{register_dto.last_name}', GETDATE());
-
-    INSERT INTO user_login (member_id, username, password)
-    VALUES (@member_id, '{register_dto.username}', '{register_dto.password}');
-    COMMIT;
+        DECLARE @member_id VARCHAR(255);
+        DECLARE @username VARCHAR(255);
+        
+        SELECT @member_id = '{str(uuid.uuid4())}';
+        SELECT @username = '{register_dto.username}';
+        
+        IF NOT EXISTS (SELECT 1 FROM user_login WHERE username = @username)
+        BEGIN
+            INSERT INTO member (member_id, first_name, last_name, join_date)
+            VALUES (@member_id, '{register_dto.first_name}', '{register_dto.last_name}', GETDATE());
+            
+            INSERT INTO user_login (member_id, username, password)
+            VALUES (@member_id, @username, '{register_dto.password}');
+            
+            COMMIT;
+        END
+        ELSE
+        BEGIN
+            RAISERROR('Username already exists.', 16, 1);
+            ROLLBACK TRANSACTION;
+        END
     END TRY
     BEGIN CATCH
-    ROLLBACK TRANSACTION;
+        ROLLBACK TRANSACTION;
     END CATCH;
     '''
 
@@ -93,4 +103,4 @@ def register_user(register_dto):
 
     cursor.close()
     connection.close()
-    return "User has been created"
+    return "Din bruger er oprettet!"

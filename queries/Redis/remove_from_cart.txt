@@ -1,0 +1,1 @@
+HDEL cart:1 movie_id tt0848228 rental_duration 7
