@@ -10,7 +10,6 @@ def add_to_cart(item):
     r.hset(key, item.movie_id, rental_duration)
     return {'message': 'Item added to cart'}
 
-
 def remove_from_cart(item):
     """ We are using Redis HDEL for easy and atomic removal of specific cart items. """
     key = f"cart:{item.user_id}"
