@@ -127,4 +127,7 @@ def get_redis_nodes():
     print(rc.get_nodes())
     return "fisk"
     
+@app.post("/nodesimilarity")
+def populate_sql_db():
+    return populate_service.create_and_write_node_similarity()
 
