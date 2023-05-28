@@ -37,3 +37,7 @@ The application's backend is implemented in Python, utilizing the fastAPI framew
 Our MSSQL database is primarily responsible for managing user accounts, movie loans, and orders. On the other hand, our Neo4j database houses our comprehensive movie catalog, encompassing relevant details such as actors, directors, genres, and more.
 
 To enhance user experience and streamline the renting process, we have employed the Redis database to handle the cart feature on our website. Whenever a user wishes to rent a movie, the Redis database effectively manages their selection within the cart system.
+
+
+# Schemas
+![Screenshot](schemas.neo4j.png)
