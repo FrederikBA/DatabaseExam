@@ -2,10 +2,8 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import apiUtils from "../utils/apiUtils"
 
-
 const Login = ({ onLogin }) => {
   const [loginCredentials, setLoginCredentials] = useState({ username: "", password: "" });
-  const [loginError, setLoginError] = useState("");
 
   const navigate = useNavigate();
 
@@ -25,8 +23,11 @@ const Login = ({ onLogin }) => {
       navigate('/landing-page')
       onLogin()
     } catch (error) {
-      setLoginError(error.response.data.message)
     }
+  }
+
+  const toRegister = () => {
+    navigate('/register')
   }
 
   const onChange = (evt) => {
@@ -35,14 +36,16 @@ const Login = ({ onLogin }) => {
 
   return (
     <div className="center">
-      <p className="errorMessage">{loginError}</p>
       <form onChange={onChange} >
         <input className="loginInput" placeholder="Brugernavn" id="username" />
         <br></br>
         <input className="loginInput" type="password" placeholder="Adgangskode" id="password" />
         <br></br>
+        <br></br>
         <button className="loginButton" onClick={login}>Log ind</button>
+        <br></br>
       </form>
+      <button className="loginButton" onClick={toRegister}>Opret bruger</button>
     </div >
   )
 }

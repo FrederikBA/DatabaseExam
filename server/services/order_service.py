@@ -13,8 +13,8 @@ def create_order(order_dto: dtos.orderDTO):
     order_id = str(uuid.uuid4())
 
     query = f'''    
-    BEGIN TRY
-        BEGIN TRANSACTION;
+    BEGIN TRANSACTION
+        BEGIN TRY;
 
         DECLARE @order_id VARCHAR(255);
         DECLARE @loan_id VARCHAR(255);
@@ -35,17 +35,16 @@ def create_order(order_dto: dtos.orderDTO):
         '''
     
     query += '''
-        COMMIT TRANSACTION;
+    COMMIT TRANSACTION;
     END TRY
     BEGIN CATCH
-        ROLLBACK TRANSACTION;
+    ROLLBACK TRANSACTION;
     END CATCH;
     '''
     
     cursor.execute(query)
     connection.commit()
 
-    # Close the cursor and connection
     cursor.close()
     connection.close()
     return order_id

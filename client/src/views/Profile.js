@@ -35,6 +35,7 @@ const Profile = () => {
             setIsLoading(false)
         }
         getLoans()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const handleMovieClick = (movieId) => {

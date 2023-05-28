@@ -2,6 +2,7 @@ from jose import jwt
 from database import db_connector
 import os
 from datetime import datetime, timedelta
+import uuid
 
 sql_value = os.getenv("SQL_VALUE")
 
@@ -9,20 +10,15 @@ def get_user(username: str):
     connection = db_connector.get_sql_db('BockBluster')
     cursor = connection.cursor()
 
-    # Fetch user based on username
     cursor.execute(f"SELECT * FROM user_login WHERE username = {sql_value}", (username,))
     user = cursor.fetchone()
     
-    # Check if user exists
     if user:
-        # Extract the user ID
         user_id = user[0]
         
-        # Fetch member ID based on user ID
         cursor.execute(f"SELECT member_id FROM user_login WHERE user_id = {sql_value}", (user_id,))
         member_id = cursor.fetchone()[0]
         
-        # Close the database connection
         connection.close()
 
         user_dict = {
@@ -33,7 +29,6 @@ def get_user(username: str):
         }
         return user_dict
     else:
-        # Close the database connection
         connection.close()
         
         return None
@@ -68,3 +63,34 @@ def get_member_id(user_id):
         return member_id
     else:
         return "User ID not found"
+    
+
+def register_user(register_dto):
+    connection = db_connector.get_sql_db('BockBluster')
+    cursor = connection.cursor()
+
+    query = f'''
+    BEGIN TRANSACTION;
+    BEGIN TRY
+    DECLARE @member_id VARCHAR(255);
+
+    SELECT @member_id = '{str(uuid.uuid4())}';
+
+    INSERT INTO member (member_id, first_name, last_name, join_date)
+    VALUES (@member_id, '{register_dto.first_name}', '{register_dto.last_name}', GETDATE());
+
+    INSERT INTO user_login (member_id, username, password)
+    VALUES (@member_id, '{register_dto.username}', '{register_dto.password}');
+    COMMIT;
+    END TRY
+    BEGIN CATCH
+    ROLLBACK TRANSACTION;
+    END CATCH;
+    '''
+
+    cursor.execute(query)
+    connection.commit()
+
+    cursor.close()
+    connection.close()
+    return "User has been created"

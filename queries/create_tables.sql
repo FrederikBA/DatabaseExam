@@ -8,7 +8,7 @@ CREATE TABLE member (
 );
 
 CREATE TABLE user_login (
-  user_id INT PRIMARY KEY,
+  user_id INT IDENTITY(1,1) PRIMARY KEY,
   member_id VARCHAR(255),
   username VARCHAR(255),
   password VARCHAR(255),
@@ -24,7 +24,7 @@ CREATE TABLE orders (
 
 CREATE TABLE loan (
   loan_id VARCHAR(255) PRIMARY KEY,
-  order_id VARCHAR(255),
+  order_id VARCHAR(255),  
   movie_id VARCHAR(255),
   loan_date DATE,
   return_date DATE,

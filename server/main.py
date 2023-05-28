@@ -136,3 +136,7 @@ def get_node_similarity(movie_ids: str):
     movie_ids = movie_ids.split(",")
     print(movie_ids)
     return recommendation_service.recommend_movies(movie_ids)
+
+@app.post('/register')
+def register_user(registerDTO: dtos.registerDTO):
+    return login_service.register_user(registerDTO)

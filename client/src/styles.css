@@ -100,10 +100,11 @@ ul.header li a:hover:not(.active) {
 
 .loginInput {
   margin-top: 5px;
-  width: 50%;
+  width: 20%;
   padding: 6px 10px;
   margin: 8px 0;
   box-sizing: border-box;
+  border-radius: 10px;
 }
 
 .loginButton {
@@ -116,6 +117,15 @@ ul.header li a:hover:not(.active) {
   font-size: 14px;
   font-weight: bold;
   cursor: pointer;
+}
+
+.registerInput {
+  margin-top: 5px;
+  width: 20%;
+  padding: 6px 10px;
+  margin: 8px 0;
+  box-sizing: border-box;
+  border-radius: 10px;
 }
 
 .loginButton:hover {

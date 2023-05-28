@@ -31,56 +31,6 @@ def get_unique_strings(list_of_lists):
                 unique_strings.add(item)
     return list(unique_strings)
 
-
-def populate_prices_sql():
-    df = get_fresh_df()
-    prices = []
-    count = 0
-
-    for index, row in df.iterrows():
-        count += 1
-        price = {"price_id": count, 'price': row['price']}
-        prices.append(price)
-
-    #Get connection
-    connection = db_connector.get_sql_db('BockBluster')
-
-    # Insert dictionaries into the table
-    cursor = connection.cursor()
-    for price in prices:
-        cursor.execute(f"INSERT INTO price (price_id, price) VALUES ({sql_value}, {sql_value})", (price['price_id'], price['price']))
-
-    # Commit the changes and close the connection
-    connection.commit()
-    connection.close()
-
-def populate_movies_sql():
-    df = get_fresh_df()
-    df = df[['id', 'title', 'release year', 'rating', 'Poster']]
-
-    movies = []
-
-    for i in range(len(df['release year'])):
-        df.at[i, 'release year'] = ''.join(filter(str.isdigit, str(df.at[i, 'release year'])))
-
-    count = 0
-    for index, row in df.iterrows():
-        count += 1
-        year_date = datetime.strptime(row['release year'], '%Y').year
-        movie = {"id": row['id'],'price_id': count, 'title': row['title'], 'release_year': year_date, 'rating': float(row['rating']), 'poster': row['Poster']}
-        movies.append(movie)
-
-    connection = db_connector.get_sql_db("BockBluster")
-
-    # Insert dictionaries into the table
-    cursor = connection.cursor()
-    for dictionary in movies:
-        cursor.execute(f"INSERT INTO movie (movie_id, price_id, title, release_year, rating, poster) VALUES ({sql_value}, {sql_value}, {sql_value}, {sql_value}, {sql_value}, {sql_value})", (dictionary['id'], dictionary['price_id'], dictionary['title'], dictionary['release_year'], dictionary['rating'], dictionary['poster']))
-
-    # Commit the changes and close the connection
-    connection.commit()
-    connection.close()
-
 def populate_members_sql():
     current_datetime = datetime.now()
 
@@ -130,19 +80,16 @@ def populate_users_sql():
     connection.close()
 
     users = [{
-        "user_id": 1,
         "member_id": member_ids[0],
         "username": "user1",
         "password": "123"
     },
     {
-        "user_id": 2,
         "member_id": member_ids[1],
         "username": "user2",
         "password": "123"
     },
     {
-        "user_id": 3,
         "member_id": member_ids[2],
         "username": "user3",
         "password": "123"
@@ -154,7 +101,7 @@ def populate_users_sql():
     # Insert dictionaries into the table
     cursor = connection.cursor()
     for user in users:
-        cursor.execute(f"INSERT INTO user_login (user_id, member_id, username, password) VALUES ({sql_value},{sql_value},{sql_value},{sql_value})", (user['user_id'], user['member_id'], user['username'], user['password']))
+        cursor.execute(f"INSERT INTO user_login (member_id, username, password) VALUES ({sql_value},{sql_value},{sql_value})", (user['member_id'], user['username'], user['password']))
 
     # Commit the changes and close the connection
     connection.commit()
@@ -163,13 +110,6 @@ def populate_users_sql():
 
 
 def populate_sql():
-
-    #Prices
-    #populate_prices_sql()
-
-    #Movies
-    #populate_movies_sql()
-
     #Members
     populate_members_sql()
 

@@ -19,3 +19,9 @@ class priceDTO(BaseModel):
 class sortDTO(BaseModel):
     sort_value: str
     sort_order: str
+
+class registerDTO(BaseModel):
+    first_name: str
+    last_name: str
+    username: str
+    password: str

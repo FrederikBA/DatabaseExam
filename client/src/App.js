@@ -7,6 +7,7 @@ import Frontpage from './views/Frontpage';
 import LandingPage from "./views/LandingPage";
 import MovieSearch from "./views/MovieSearch";
 import Login from "./views/Login";
+import Register from "./views/Register";
 import OrderConfirmation from "./views/OrderConfirmation";
 import Profile from "./views/Profile";
 
@@ -27,6 +28,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Frontpage />} />
         <Route path="/login" element={<Login onLogin={() => setIsLoggedIn(true)} />} />
+        <Route path="/register" element={<Register />} />
         <Route path="/landing-page" element={<LandingPage />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/search" element={<MovieSearch />} />
