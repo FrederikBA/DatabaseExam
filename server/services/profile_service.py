@@ -1,4 +1,5 @@
 from database import db_connector
+from services import recommendation_service
 import os
 
 sql_value = os.getenv("SQL_VALUE")
@@ -53,4 +54,10 @@ def get_user_loans(member_id):
             }
             movies.append(movie)
 
-    return movies
+    # Recommended movies
+    recommended_movies = recommendation_service.recommend_movies(movie_ids)
+
+
+    viewModel = {"loans": movies, "recommendations": recommended_movies}
+
+    return viewModel

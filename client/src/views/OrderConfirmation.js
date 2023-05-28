@@ -1,7 +1,7 @@
 const OrderConfirmation = () => {
     return (
-        <div>
-            <h1>Thank you for your order</h1>
+        <div className="center">
+            <h1>Thank you for your order!</h1>
         </div>
     )
 }

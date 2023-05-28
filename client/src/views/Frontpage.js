@@ -11,7 +11,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const Movies = () => {
     const [movies, setMovies] = useState([]);
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
     const [currentPage, setCurrentPage] = useState(1);
 
     const moviesPerPage = 50

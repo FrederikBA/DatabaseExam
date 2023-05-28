@@ -131,6 +131,8 @@ def get_redis_nodes():
 def populate_graph_projection():
     return populate_service.create_and_write_node_similarity()
 
-@app.get("/getnodesim")
-def get_node_similarity():
-    return recommendation_service.node_similarity()
+@app.get("/recommendations/")
+def get_node_similarity(movie_ids: str):
+    movie_ids = movie_ids.split(",")
+    print(movie_ids)
+    return recommendation_service.recommend_movies(movie_ids)

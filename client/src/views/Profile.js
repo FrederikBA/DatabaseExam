@@ -1,12 +1,18 @@
 import { useState, useEffect } from "react"
 import apiUtils from "../utils/apiUtils"
-import uuid from "react-uuid"
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+import Posters from '../components/Posters';
 
 const Profile = () => {
 
     const URL = apiUtils.getUrl()
     const [movies, setMovies] = useState([]);
+    const [movieIds, setMovieIds] = useState([]);
+    const [recommendedMovies, setRecommendedMovies] = useState([]);
     const [hoveredMovieId, setHoveredMovieId] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         const getLoans = async () => {
@@ -15,13 +21,15 @@ const Profile = () => {
                     member_id: localStorage.getItem('memberId')
                 }
             });
-            const sorted = response.data.sort((a, b) => {
+            const sorted = response.data.loans.sort((a, b) => {
                 const dateA = new Date(a.loan_date);
                 const dateB = new Date(b.loan_date);
                 return dateB - dateA;
             });
 
             setMovies(sorted);
+            setRecommendedMovies(response.data.recommendations)
+            setIsLoading(false)
         }
         getLoans()
     }, []);
@@ -49,8 +57,22 @@ const Profile = () => {
         return formattedDate;
     }
 
+    // Toast
+    const rentNotifySuccess = () => {
+        toast.success('Din film er tilføjet til kurven', { position: toast.POSITION.BOTTOM_RIGHT });
+    };
+
+    const rentNotifyError = () => {
+        toast.error('Der opstod en fejl, din film blev ikke tilføjet', { position: toast.POSITION.BOTTOM_RIGHT });
+    };
+
+    const rentNotifyLogin = () => {
+        toast.error('Du skal logge ind for at leje en film', { position: toast.POSITION.BOTTOM_RIGHT });
+    };
+
     return (
         <div className='container mt-5'>
+            <h3>Dine film</h3>
             <div className="row row-cols-5">
                 {movies.map((movie) => (
                     <div key={movie.loan_id} className="col mb-4 poster" onMouseEnter={() => handleMouseEnter(movie.loan_id)}
@@ -70,6 +92,9 @@ const Profile = () => {
                     </div>
                 ))}
             </div>
+            <h3>Mere som dette</h3>
+            <Posters movies={recommendedMovies} isLoading={isLoading} rentNotifySuccess={rentNotifySuccess} rentNotifyError={rentNotifyError} rentNotifyLogin={rentNotifyLogin} />
+            <ToastContainer />
         </div>
     )
 }
