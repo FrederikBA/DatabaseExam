@@ -1,3 +1,8 @@
+# BockBluster
+# Grp name & Emails 
+
+# Folder structure? (Schemas has db models) (data has the csv file) osv osv
+
 <h1 align="center">Client/Server with FastAPI and React</h1>
 <p>
 </p>
@@ -37,3 +42,13 @@ The application's backend is implemented in Python, utilizing the fastAPI framew
 Our MSSQL database is primarily responsible for managing user accounts, movie loans, and orders. On the other hand, our Neo4j database houses our comprehensive movie catalog, encompassing relevant details such as actors, directors, genres, and more.
 
 To enhance user experience and streamline the renting process, we have employed the Redis database to handle the cart feature on our website. Whenever a user wishes to rent a movie, the Redis database effectively manages their selection within the cart system.
+
+
+# Schemas
+### Neo4j
+![neo4j](https://github.com/FrederikBA/DatabaseExam/assets/61831295/ad05f93d-1a16-4c32-9449-4b1243ed701f)
+
+
+### MSSQL
+<img width="507" alt="MSSQL" src="https://github.com/FrederikBA/DatabaseExam/assets/61831295/d061f4a3-131b-4b74-a9dc-8524d8c1120a">
+
