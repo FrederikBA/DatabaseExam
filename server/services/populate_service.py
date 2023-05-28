@@ -296,9 +296,10 @@ def populate_graphdb():
 
 
 
-def run_queries():
+def create_and_write_node_similarity():
+
     # Connect to the Neo4j database
-    graph = Graph(f"bolt://localhost:7687", auth=("neo4j", "your_password"))
+    graph = db_connector.get_graph_db()
 
     # First query
     graph.run("""

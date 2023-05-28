@@ -5,7 +5,7 @@ from fastapi.encoders import jsonable_encoder
 from fastapi.security import OAuth2PasswordBearer
 
 #Classes
-from services import movie_service, populate_service, login_service, cart_service, order_service, profile_service
+from services import movie_service, populate_service, login_service, cart_service, order_service, profile_service, recommendation_service
 from models import dtos, entities
 from database import db_connector
 
@@ -131,3 +131,6 @@ def get_redis_nodes():
 def populate_sql_db():
     return populate_service.create_and_write_node_similarity()
 
+@app.post("/getnodesim")
+def populate_sql_db():
+    return recommendation_service.node_similarity()
