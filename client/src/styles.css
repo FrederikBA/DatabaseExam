@@ -424,3 +424,20 @@ ul.header li a:hover:not(.active) {
 .expiration {
   color: #d9534f;
 }
+
+.orderConfirmationButton {
+  width: 20%;
+  margin: 10px;
+  background-color: #ffe13f;
+  padding: 10px 20px;
+  margin-top: 50px;
+  border: none;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.orderConfirmationButton:hover {
+  transform: scale(1.0225);
+}

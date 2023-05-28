@@ -19,7 +19,7 @@ def recommend_movies(movie_ids):
     for m in result:
         movie = {
             "title": m[0],
-            "id": m[1],
+            "movie_id": m[1],
             "release_year": m[2],
             "poster": m[3],
             "price": m[4],

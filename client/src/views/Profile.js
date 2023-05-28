@@ -9,8 +9,9 @@ const Profile = () => {
 
     const URL = apiUtils.getUrl()
     const [movies, setMovies] = useState([]);
-    const [movieIds, setMovieIds] = useState([]);
     const [recommendedMovies, setRecommendedMovies] = useState([]);
+    const [messages, setMessages] = useState([]);
+    const [amount, setAmount] = useState(0);
     const [hoveredMovieId, setHoveredMovieId] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
 
@@ -29,6 +30,8 @@ const Profile = () => {
 
             setMovies(sorted);
             setRecommendedMovies(response.data.recommendations)
+            setMessages(response.data.messages)
+            setAmount(response.data.total)
             setIsLoading(false)
         }
         getLoans()
@@ -70,31 +73,36 @@ const Profile = () => {
         toast.error('Du skal logge ind for at leje en film', { position: toast.POSITION.BOTTOM_RIGHT });
     };
 
+    console.log(movies.length);
+
     return (
         <div className='container mt-5'>
-            <h3>Dine film</h3>
-            <div className="row row-cols-5">
-                {movies.map((movie) => (
-                    <div key={movie.loan_id} className="col mb-4 poster" onMouseEnter={() => handleMouseEnter(movie.loan_id)}
-                        onMouseLeave={handleMouseLeave}>
-                        <img src={movie.poster} className="card-img-top" alt={movie.title} />
-                        {hoveredMovieId === movie.loan_id ? (
-                            <>
-                                <button onClick={() => handleMovieClick()} className="btn stream-movie">Stream film</button>
-                            </>
-                        ) : null}
+            {!amount > 0 ? <h3 className="center">{messages[2]}</h3> : <div>
+                <h3>{messages[0]}</h3>
 
-                        <div className="card-body center">
-                            <p className="card-title">{movie.title} ({movie.release_year})</p>
-                            <div className="poster-text">Lejet den: {formatDate(movie.loan_date)}</div>
-                            <div className="poster-text">Udløber den: {formatDate(movie.return_date)}</div>
+                <div className="row row-cols-5">
+                    {movies.map((movie) => (
+                        <div key={movie.loan_id} className="col mb-4 poster" onMouseEnter={() => handleMouseEnter(movie.loan_id)}
+                            onMouseLeave={handleMouseLeave}>
+                            <img src={movie.poster} className="card-img-top" alt={movie.title} />
+                            {hoveredMovieId === movie.loan_id ? (
+                                <>
+                                    <button onClick={() => handleMovieClick()} className="btn stream-movie">Stream film</button>
+                                </>
+                            ) : null}
+
+                            <div className="card-body center">
+                                <p className="card-title">{movie.title} ({movie.release_year})</p>
+                                <div className="poster-text">Lejet den: {formatDate(movie.loan_date)}</div>
+                                <div className="poster-text">Udløber den: {formatDate(movie.return_date)}</div>
+                            </div>
                         </div>
-                    </div>
-                ))}
-            </div>
-            <h3>Mere som dette</h3>
-            <Posters movies={recommendedMovies} isLoading={isLoading} rentNotifySuccess={rentNotifySuccess} rentNotifyError={rentNotifyError} rentNotifyLogin={rentNotifyLogin} />
-            <ToastContainer />
+                    ))}
+                </div>
+                <h3>{messages[1]}</h3>
+                <Posters movies={recommendedMovies} isLoading={isLoading} rentNotifySuccess={rentNotifySuccess} rentNotifyError={rentNotifyError} rentNotifyLogin={rentNotifyLogin} />
+                <ToastContainer />
+            </div>}
         </div>
     )
 }

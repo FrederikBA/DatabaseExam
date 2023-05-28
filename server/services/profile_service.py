@@ -57,7 +57,6 @@ def get_user_loans(member_id):
     # Recommended movies
     recommended_movies = recommendation_service.recommend_movies(movie_ids)
 
-
-    viewModel = {"loans": movies, "recommendations": recommended_movies}
+    viewModel = {"total": len(movies), "messages": ['Dine film', 'Mere som dette', 'Du har ingen film'], "loans": movies, "recommendations": recommended_movies}
 
     return viewModel
