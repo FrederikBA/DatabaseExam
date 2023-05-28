@@ -1,3 +1,5 @@
+// Search for movies by their title name
+
    MATCH (m:Movie)
     WHERE m.Title =~ "(?i).*{title}.*"
     OPTIONAL MATCH (m)<-[r:`STARRED_IN`]-(actor:Actor)

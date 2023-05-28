@@ -1,3 +1,5 @@
+// Get the details of the movie when clicking on a movie poster from the front page
+
 MATCH (m:Movie {Id: $movieId})
     OPTIONAL MATCH (m)<-[r:`STARRED_IN`]-(actor:Actor)
     OPTIONAL MATCH (m)<-[:INSTRUCTED]-(director:Director)

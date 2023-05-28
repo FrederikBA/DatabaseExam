@@ -1,3 +1,5 @@
+// Get all the movies for our front page movie catalog
+
 MATCH (m:Movie)
     OPTIONAL MATCH (m)<-[r:`STARRED_IN`]-(actor:Actor)
     OPTIONAL MATCH (m)<-[:INSTRUCTED]-(director:Director)

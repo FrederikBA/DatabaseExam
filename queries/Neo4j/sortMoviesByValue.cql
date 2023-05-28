@@ -1,3 +1,5 @@
+// Sort the price, release year, runtime
+
 OPTIONAL MATCH (m)<-[r:`STARRED_IN`]-(actor:Actor)
     OPTIONAL MATCH (m)<-[:INSTRUCTED]-(director:Director)
     OPTIONAL MATCH (m)-[:HAS]->(genre:Genre)

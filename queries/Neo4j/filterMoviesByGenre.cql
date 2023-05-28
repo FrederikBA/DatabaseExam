@@ -1,4 +1,5 @@
 // Used to filter the movies by genre
+
  MATCH (m:Movie)-[:HAS]->(g:Genre)
     WHERE g.Genre = '{genre}'
     OPTIONAL MATCH (m)<-[r:`STARRED_IN`]-(actor:Actor)
