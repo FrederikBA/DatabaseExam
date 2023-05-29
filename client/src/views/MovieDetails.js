@@ -78,7 +78,7 @@ const MovieDetails = () => {
           </ul>
         </div>
         <div className="movie-publishers">
-          <h3 className="details-title">Filmen er udgivet i samarbejde med</h3>
+          <h3 className="details-title">Filmen er udgivet af</h3>
           <ul className="details-list">
             {movie.publishers.map((publisher) => (
               <li key={publisher}>{publisher}</li>
