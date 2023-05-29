@@ -34,26 +34,27 @@ const MovieDetails = () => {
       <div className="movie-poster">
         <img src={movie.poster} alt="Movie Poster" />
       </div>
+      <br></br>
       <div className="movie-info">
         <div>
-          <h3>Rating</h3>
+          <h3 className="details-title">Bedømmelse</h3>
           <span className="details-rating">
             <img className="star" src={star} alt="Rating Star" />
             {movie.rating}
           </span>
         </div>
         <div>
-          <h3>Runtime</h3>
+          <h3 className="details-title">Filmlængde</h3>
           <span className="details-rating">
             {movie.runtime} minutes
           </span>
         </div>
         <div className="movie-summary">
-          <h3>Summary</h3>
+          <h3 className="details-title">Resumé</h3>
           <p>{movie.summary}</p>
         </div>
         <div>
-          <h3>Actors</h3>
+          <h3 className="details-title">Skuespillere</h3>
           <ul>
             {movie.actors.map((actor) => (
               <li key={actor}>{actor}</li>
@@ -61,7 +62,7 @@ const MovieDetails = () => {
           </ul>
         </div>
         <div className="movie-directors">
-          <h3>Directors</h3>
+          <h3 className="details-title">Instruktøre</h3>
           <ul>
             {movie.directors.map((director) => (
               <li key={director}>{director}</li>
@@ -69,7 +70,7 @@ const MovieDetails = () => {
           </ul>
         </div>
         <div className="movie-genres">
-          <h3>Genres</h3>
+          <h3 className="details-title">Genre</h3>
           <ul>
             {movie.genres.map((genre) => (
               <li key={genre}>{genre}</li>
@@ -77,7 +78,7 @@ const MovieDetails = () => {
           </ul>
         </div>
         <div className="movie-publishers">
-          <h3>Publishers</h3>
+          <h3 className="details-title">Filmen er udgivet i samarbejde med</h3>
           <ul className="details-list">
             {movie.publishers.map((publisher) => (
               <li key={publisher}>{publisher}</li>

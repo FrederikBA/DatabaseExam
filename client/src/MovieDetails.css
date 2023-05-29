@@ -9,7 +9,7 @@
   font-size: 24px;
   font-weight: bold;
   margin-bottom: 10px;
-  color: white;
+  color: #ffe13f !important;
 }
 
 .movie-info {
@@ -55,4 +55,8 @@
 
 ul {
   list-style: none;
+}
+
+.details-title {
+  color: #ffe13f !important;
 }

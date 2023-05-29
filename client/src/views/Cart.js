@@ -110,7 +110,7 @@ const Cart = () => {
                 <div className="checkout-total-price">I alt: <strong>{totalPrice} kr</strong></div>
                 <br></br>
                 <br></br>
-                <button onClick={purchase} className="btn btn-primary checkout-button">Lej film</button>
+                <button onClick={purchase} className="loginButton checkout-button">Lej film</button>
             </div>
                 : <div className="center"><h1>Kurven er tom</h1></div>}
         </div>

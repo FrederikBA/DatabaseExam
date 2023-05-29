@@ -9,12 +9,13 @@ import MovieSearch from "./views/MovieSearch";
 import Login from "./views/Login";
 import Register from "./views/Register";
 import OrderConfirmation from "./views/OrderConfirmation";
+import MovieDetails from "./views/MovieDetails";
 import Profile from "./views/Profile";
+import Cart from "./views/Cart";
+
 
 //Components
 import Header from './components/Header';
-import MovieDetails from "./components/MovieDetails";
-import Cart from "./components/Cart";
 import Posters from "./components/Posters";
 
 
