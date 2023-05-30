@@ -2,8 +2,6 @@
 ### Gruppe Frederik Andersen, Julius Madsen, Janus Rasmussen
 ### Email cph-jr270@cphbusiness.dk
 
-### Folder structure? (Schemas has db models) (data has the csv file) osv osv
-
 <h1 align="center">Client/Server with FastAPI and React</h1>
 <p>
 </p>
