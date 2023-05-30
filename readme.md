@@ -17,6 +17,7 @@ Stuff
 ### Populate the database(s):
 #### .env file
 1. Create a .env file in the root of /server with the following:
+<img width="349" alt="env" src="https://github.com/FrederikBA/DatabaseExam/assets/61831295/7ea71e71-ea53-4690-8a21-469b55698ee9">
 
 
 
