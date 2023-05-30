@@ -1,19 +1,5 @@
-<h1 align="center">Client/Server with FastAPI and React</h1>
-<p>
-</p>
-
 ## Dependencies
-```sh
-pip install fastapi
-```
-
-```sh
-pip install uvicorn
-```
-
-```sh
-pip install pydantic
-```
+Stuff
 
 ## Usage
 
