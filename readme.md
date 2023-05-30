@@ -1,5 +1,5 @@
 ## Dependencies
-Stuff
+pip install requirements.txt
 
 ## Usage
 
