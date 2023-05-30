@@ -1,5 +1,3 @@
-<h1 align="center">BockBluster</h1>
-
 # Project solution
 We have developed an application that offers the capability to rent movies. This site provides a collection of 1000 movies, allowing users to browse, search, and access detailed information about each film. Additionally, registered users can log in and proceed to rent a movie of their choice.
 
