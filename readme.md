@@ -1,6 +1,9 @@
 ## Dependencies
-pip install requirements.txt
-
+```bash
+conda create -n database_exam python=3.10.11 -y
+conda activate database_exam
+pip install -r requirements.txt
+```
 ## Usage
 
 ### Server:
