@@ -1,6 +1,4 @@
 # BockBluster
-### Frederik Andersen, Julius Madsen, Janus Rasmussen
-### cph-fa116@cphbusiness.dk, cph-jm352@cphbusiness.dk, cph-jr270@cphbusiness.dk
 
 <h1 align="center">Client/Server with FastAPI and React</h1>
 <p>
