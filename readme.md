@@ -14,6 +14,24 @@ Stuff
 2. Install dependencies: `npm install`
 3. Run the client: `npm start`
 
+### Populate the database(s):
+#### .env file
+1. Create a .env file in the root of /server with the following:
+
+
+
+#### SQL
+1. Create database 'BockBluster'
+1. Run query: queries/SQL/create_table.sql
+2. In Postman run the request on POST: http://localhost:8000/populatesql
+
+#### Neo4j
+1. Create DB 'BockBluster' with password 12345678 on version 5.3.0
+2. Install plugins: APOC, Graph Data Science Library, Neosemantics(n10s)
+3. In Postman run the request on POST: http://localhost:8000/populategraph
+4. In Postman run the request on POST: http://localhost:8000/nodesimilarity
+
+
 # Project solution
 We have developed an application that offers the capability to rent movies. This site provides a collection of 1000 movies, allowing users to browse, search, and access detailed information about each film. Additionally, registered users can log in and proceed to rent a movie of their choice.
 
