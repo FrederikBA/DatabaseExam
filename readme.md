@@ -53,5 +53,8 @@ To enhance user experience and streamline the renting process, we have employed 
 
 
 ### MSSQL
+![DBDiagram](https://github.com/FrederikBA/DatabaseExam/assets/61831295/ef837404-1078-4ab7-9aa1-1c1756adf004)
+
+
 <img width="507" alt="MSSQL" src="https://github.com/FrederikBA/DatabaseExam/assets/61831295/d061f4a3-131b-4b74-a9dc-8524d8c1120a">
 
